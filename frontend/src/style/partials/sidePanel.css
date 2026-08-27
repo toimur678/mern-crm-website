@@ -1,0 +1,10 @@
+.sidePanel {
+  border-right: 1px solid var(--border-color-light);
+  background: var(--bg-surface);
+  border-radius: var(--radius-card);
+}
+
+.sidePanelContent {
+  transition: all var(--transition-base);
+  margin-top: 0;
+}

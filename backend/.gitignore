@@ -1,0 +1,27 @@
+node_modules/
+*.zip
+.DS_Store
+.idea
+notes.md
+.env.local
+.env
+
+# Catch-all for environment files (e.g. temp.env, .env.development)
+.env.*
+*.env
+
+# Keys and certificates
+*.pem
+*.key
+*.cert
+*.crt
+
+# Secrets directory
+secrets/
+
+*.pdf
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

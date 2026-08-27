@@ -1,0 +1,92 @@
+/* ─── Header ─── */
+.notification::-webkit-scrollbar {
+  width: 4px;
+  height: 60px;
+}
+.notification::-webkit-scrollbar-thumb {
+  background: var(--color-primary-light);
+  border-radius: 4px;
+}
+
+.headerIcon {
+  position: relative;
+}
+
+.headerIcon.ant-avatar {
+  float: right;
+  margin-left: 10px;
+  margin-top: 15px;
+  color: var(--text-secondary);
+  background: transparent;
+}
+.headerIcon.ant-avatar :hover {
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+.headerIcon .last {
+  margin-right: 30px;
+}
+
+/* ─── Profile Dropdown ─── */
+.profileDropdown {
+  display: flex;
+  min-width: 200px;
+}
+.profileDropdownInfo {
+  float: left;
+  display: inline;
+  padding-left: 15px;
+}
+
+.profileDropdownInfo p {
+  margin: 0;
+}
+
+/* ─── User Pill (top right) ─── */
+.user-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-surface);
+  padding: 6px 16px 6px 6px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  border: 1px solid var(--border-color-light);
+}
+
+.user-pill:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.user-pill .user-name {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}
+
+/* ─── Page Title ─── */
+.page-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.page-breadcrumb {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.page-breadcrumb span {
+  text-transform: capitalize;
+}

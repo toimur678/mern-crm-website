@@ -1,0 +1,150 @@
+/* ─── Ant Design Layout ─── */
+.ant-layout {
+  background: transparent !important;
+}
+
+.site-layout .site-layout-background {
+  background: var(--bg-surface);
+}
+
+[data-theme='dark'] .site-layout .site-layout-background {
+  background: #141414;
+}
+
+/* ─── Dropdown Menu ─── */
+.headerIcon .ant-dropdown-menu {
+  border-radius: var(--radius-lg);
+  background: none;
+  padding: 0;
+  box-shadow: none;
+}
+.headerIcon .ant-dropdown-menu-item:hover,
+.headerIcon .ant-dropdown-menu-item.ant-dropdown-menu-item-active {
+  background: none;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+/* ─── Login Form ─── */
+.login-form button[type='submit'] {
+  margin-bottom: 16px;
+}
+.login-form-forgot {
+  float: right;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+  transition: color var(--transition-fast);
+}
+
+.login-form-forgot:hover {
+  color: var(--color-primary-dark);
+}
+
+.login-form-button {
+  width: 100%;
+  height: 48px !important;
+  border-radius: var(--radius-md) !important;
+  font-size: var(--font-size-md) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  background: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3) !important;
+  transition: all var(--transition-base) !important;
+}
+
+.login-form-button:hover {
+  background: var(--color-primary-dark) !important;
+  border-color: var(--color-primary-dark) !important;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+/* ─── Typography ─── */
+.ant-table-thead > tr > th {
+  font-weight: var(--font-weight-semibold);
+}
+.ant-typography strong {
+  font-weight: var(--font-weight-bold);
+}
+
+h1 {
+  font-weight: var(--font-weight-bold) !important;
+  color: var(--text-primary);
+}
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--font-weight-semibold) !important;
+  color: var(--text-primary);
+}
+
+/* ─── Menu ─── */
+.ant-menu-inline {
+  padding-bottom: 70px;
+}
+
+/* ─── Tabs ─── */
+.tabContent .ant-tabs-right > .ant-tabs-content-holder,
+.tabContent .ant-tabs-right > div > .ant-tabs-content-holder {
+  border-right: none;
+}
+
+.tabContent .ant-tabs .ant-tabs-tab + .ant-tabs-tab {
+  margin: 0;
+}
+
+.ant-select-show-search:where(.css-dev-only-do-not-override-2q8sxy).ant-select:not(
+    .ant-select-customize-input
+  )
+  .ant-select-selector {
+  cursor: pointer;
+}
+
+.ant-menu-item {
+  height: 36px !important;
+}
+
+/* ─── Form Labels ─── */
+.ant-form-item-label > label {
+  font-weight: var(--font-weight-medium) !important;
+  font-size: var(--font-size-sm) !important;
+  color: var(--text-secondary) !important;
+}
+
+/* ─── Divider ─── */
+.ant-divider {
+  border-color: var(--border-color-light) !important;
+}
+
+/* ─── Card ─── */
+.ant-card {
+  border-radius: var(--radius-card) !important;
+  border: 1px solid var(--border-color-light) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+@media (max-width: 768px) {
+  .tabContent .ant-tabs-right > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane {
+    padding-right: 0;
+    margin-top: 30px;
+  }
+  .tabContent .ant-tabs {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
