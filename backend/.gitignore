@@ -1,4 +1,5 @@
 node_modules/
+admin/
 *.zip
 .DS_Store
 .idea
