@@ -1,22 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { Tag, Row, Col } from 'antd';
 import useLanguage from '@/locale/useLanguage';
-
 import { useMoney } from '@/settings';
-
 import { request } from '@/request';
 import useFetch from '@/hooks/useFetch';
 import useOnFetch from '@/hooks/useOnFetch';
-
-import RecentTable from './components/RecentTable';
-
-import SummaryCard from './components/SummaryCard';
-import PreviewCard from './components/PreviewCard';
-import CustomerPreviewCard from './components/CustomerPreviewCard';
-
 import { selectMoneyFormat } from '@/redux/settings/selectors';
 import { useSelector } from 'react-redux';
+
+import './dashboard.css';
+
+import WelcomeBanner from './components/WelcomeBanner';
+import SummaryCard from './components/SummaryCard';
+import TotalRevenueCard from './components/TotalRevenueCard';
+import ProfileReport from './components/ProfileReport';
+import OrderStatistics from './components/OrderStatistics';
+import IncomeAreaChart from './components/IncomeAreaChart';
+import TransactionsList from './components/TransactionsList';
+import RecentTable from './components/RecentTable';
 
 export default function DashboardModule() {
   const translate = useLanguage();
@@ -67,19 +68,16 @@ export default function DashboardModule() {
       title: translate('Client'),
       dataIndex: ['client', 'name'],
     },
-
     {
       title: translate('Total'),
       dataIndex: 'total',
-      onCell: () => {
-        return {
-          style: {
-            textAlign: 'right',
-            whiteSpace: 'nowrap',
-            direction: 'ltr',
-          },
-        };
-      },
+      onCell: () => ({
+        style: {
+          textAlign: 'right',
+          whiteSpace: 'nowrap',
+          direction: 'ltr',
+        },
+      }),
       render: (total, record) => moneyFormatter({ amount: total, currency_code: record.currency }),
     },
     {
@@ -88,131 +86,113 @@ export default function DashboardModule() {
     },
   ];
 
-  const entityData = [
-    {
-      result: invoiceResult,
-      isLoading: invoiceLoading,
-      entity: 'invoice',
-      title: translate('Invoices'),
-    },
-    {
-      result: quoteResult,
-      isLoading: quoteLoading,
-      entity: 'quote',
-      title: translate('quote'),
-    },
-  ];
-
-  const statisticCards = entityData.map((data, index) => {
-    const { result, entity, isLoading, title } = data;
-
-    return (
-      <PreviewCard
-        key={index}
-        title={title}
-        isLoading={isLoading}
-        entity={entity}
-        statistics={
-          !isLoading &&
-          result?.performance?.map((item) => ({
-            tag: item?.status,
-            color: 'blue',
-            value: item?.percentage,
-          }))
-        }
-      />
-    );
-  });
-
-  if (money_format_settings) {
-    return (
-      <div className="animate-fade-in-up">
-        {/* Summary cards */}
-        <Row gutter={[24, 24]} className="stagger-children">
-          <SummaryCard
-            title={translate('Invoices')}
-            prefix={translate('This month')}
-            isLoading={invoiceLoading}
-            data={invoiceResult?.total}
-          />
-          <SummaryCard
-            title={translate('Quote')}
-            prefix={translate('This month')}
-            isLoading={quoteLoading}
-            data={quoteResult?.total}
-          />
-          <SummaryCard
-            title={translate('paid')}
-            prefix={translate('This month')}
-            isLoading={paymentLoading}
-            data={paymentResult?.total}
-          />
-          <SummaryCard
-            title={translate('Unpaid')}
-            prefix={translate('Not Paid')}
-            isLoading={invoiceLoading}
-            data={invoiceResult?.total_undue}
-          />
-        </Row>
-
-        <div className="space30"></div>
-
-        {/* Charts row */}
-        <Row gutter={[24, 24]}>
-          <Col className="gutter-row w-full" sm={{ span: 24 }} md={{ span: 24 }} lg={{ span: 18 }}>
-            <div className="whiteBox shadow" style={{ minHeight: 458 }}>
-              <Row className="pad20" gutter={[0, 0]}>
-                {statisticCards}
-              </Row>
-            </div>
-          </Col>
-          <Col className="gutter-row w-full" sm={{ span: 24 }} md={{ span: 24 }} lg={{ span: 6 }}>
-            <CustomerPreviewCard
-              isLoading={clientLoading}
-              activeCustomer={clientResult?.active}
-              newCustomer={clientResult?.new}
-            />
-          </Col>
-        </Row>
-
-        <div className="space30"></div>
-
-        {/* Recent tables */}
-        <Row gutter={[24, 24]}>
-          <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
-            <div className="whiteBox shadow pad20" style={{ height: '100%' }}>
-              <h3 style={{
-                color: 'var(--text-primary)',
-                marginBottom: '8px',
-                padding: '0 20px 16px',
-                fontSize: 'var(--font-size-lg)',
-                fontWeight: 'var(--font-weight-bold)',
-              }}>
-                {translate('Recent Invoices')}
-              </h3>
-
-              <RecentTable entity={'invoice'} dataTableColumns={dataTableColumns} />
-            </div>
-          </Col>
-
-          <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
-            <div className="whiteBox shadow pad20" style={{ height: '100%' }}>
-              <h3 style={{
-                color: 'var(--text-primary)',
-                marginBottom: '8px',
-                padding: '0 20px 16px',
-                fontSize: 'var(--font-size-lg)',
-                fontWeight: 'var(--font-weight-bold)',
-              }}>
-                {translate('Recent Quotes')}
-              </h3>
-              <RecentTable entity={'quote'} dataTableColumns={dataTableColumns} />
-            </div>
-          </Col>
-        </Row>
-      </div>
-    );
-  } else {
+  if (!money_format_settings) {
     return <></>;
   }
+
+  return (
+    <div className="animate-fade-in-up">
+      <div className="dashboard-grid-container">
+        
+        {/* ─── Row 1 ─── */}
+        <div className="grid-area-welcome">
+          <WelcomeBanner />
+        </div>
+        <div className="grid-area-stat1">
+          <SummaryCard
+            title={translate('Profit')}
+            isLoading={invoiceLoading}
+            data={invoiceResult?.total}
+            growth="+72.80%"
+            growthDirection="up"
+          />
+        </div>
+        <div className="grid-area-stat2">
+          <SummaryCard
+            title={translate('Sales')}
+            isLoading={quoteLoading}
+            data={quoteResult?.total}
+            growth="+28.42%"
+            growthDirection="up"
+          />
+        </div>
+
+        {/* ─── Row 2 ─── */}
+        <div className="grid-area-revenue">
+          <TotalRevenueCard />
+        </div>
+        <div className="grid-area-stat3">
+          <SummaryCard
+            title={translate('Payments')}
+            isLoading={paymentLoading}
+            data={paymentResult?.total}
+            growth="-14.82%"
+            growthDirection="down"
+          />
+        </div>
+        <div className="grid-area-stat4">
+          <SummaryCard
+            title={translate('Transactions')}
+            isLoading={invoiceLoading}
+            data={invoiceResult?.total_undue}
+            growth="+28.14%"
+            growthDirection="up"
+          />
+        </div>
+
+        {/* ─── Row 3 ─── */}
+        <div className="grid-area-order">
+          <OrderStatistics />
+        </div>
+        <div className="grid-area-income">
+          <IncomeAreaChart />
+        </div>
+        <div className="grid-area-profile">
+          <ProfileReport />
+        </div>
+
+        {/* ─── Row 4 ─── */}
+        <div className="grid-area-transactions">
+          <TransactionsList />
+        </div>
+
+        {/* ─── Row 5: Recent Tables ─── */}
+        <div style={{ gridColumn: 'span 6' }}>
+          <div className="crm-dashboard-card" style={{ height: '100%' }}>
+            <h3
+              style={{
+                color: 'var(--text-primary)',
+                marginBottom: '8px',
+                padding: '0 0 16px',
+                fontSize: 'var(--font-size-lg)',
+                fontWeight: 'var(--font-weight-bold)',
+                marginTop: 0,
+              }}
+            >
+              {translate('Recent Invoices')}
+            </h3>
+            <RecentTable entity={'invoice'} dataTableColumns={dataTableColumns} />
+          </div>
+        </div>
+
+        <div style={{ gridColumn: 'span 6' }}>
+          <div className="crm-dashboard-card" style={{ height: '100%' }}>
+            <h3
+              style={{
+                color: 'var(--text-primary)',
+                marginBottom: '8px',
+                padding: '0 0 16px',
+                fontSize: 'var(--font-size-lg)',
+                fontWeight: 'var(--font-weight-bold)',
+                marginTop: 0,
+              }}
+            >
+              {translate('Recent Quotes')}
+            </h3>
+            <RecentTable entity={'quote'} dataTableColumns={dataTableColumns} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

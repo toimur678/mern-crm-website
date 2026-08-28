@@ -118,7 +118,7 @@ export default function PreviewCard({
       md={{ span: 12 }}
       lg={{ span: 12 }}
     >
-      <div style={{ padding: '24px' }}>
+      <div className="crm-dashboard-card" style={{ padding: '24px', height: '100%' }}>
         <h3
           style={{
             color: 'var(--text-primary)',

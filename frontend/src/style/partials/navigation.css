@@ -10,7 +10,7 @@
   background: var(--bg-surface);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  border: 1px solid var(--border-color-light);
+  border: none;
   width: var(--sidebar-width);
 }
 
@@ -55,7 +55,7 @@
 .nav-icon-btn.active {
   background: var(--color-primary);
   color: #fff;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 12px rgba(105, 108, 255, 0.3);
 }
 
 .nav-icon-btn.active:hover {

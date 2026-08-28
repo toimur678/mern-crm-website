@@ -95,7 +95,7 @@ function Sidebar({ collapsible, isMobile = false }) {
         backgroundColor: 'var(--bg-surface)',
         display: 'flex',
         flexDirection: 'column',
-        border: '1px solid var(--border-color-light)',
+        border: 'none',
       }}
       theme={'light'}
     >
@@ -122,7 +122,7 @@ function Sidebar({ collapsible, isMobile = false }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 4px 12px rgba(91, 106, 191, 0.25)',
+              boxShadow: '0 4px 12px rgba(105, 108, 255, 0.25)',
               transition: 'all var(--transition-base)',
             }}
           >

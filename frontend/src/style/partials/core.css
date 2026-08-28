@@ -18,15 +18,21 @@
   width: 100%;
   min-height: 100px;
   overflow: hidden;
-  transition: all var(--transition-base);
+  transition: all var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
   border-radius: var(--radius-card);
-  border: 1px solid var(--border-color-light);
+  border: none;
+  box-shadow: var(--shadow-card);
+}
+
+.whiteBox:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 /* ─── Card Shadow ─── */
 .shadow {
   box-shadow: var(--shadow-card);
-  border: 1px solid var(--border-color-light);
+  border: none;
 }
 .shadow:hover {
   box-shadow: var(--shadow-md);

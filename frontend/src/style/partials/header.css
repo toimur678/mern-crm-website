@@ -55,7 +55,7 @@
   box-shadow: var(--shadow-sm);
   cursor: pointer;
   transition: all var(--transition-base);
-  border: 1px solid var(--border-color-light);
+  border: none;
 }
 
 .user-pill:hover {

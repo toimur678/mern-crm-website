@@ -12,7 +12,7 @@ export default function CustomerPreviewCard({
   return (
     <Row className="gutter-row">
       <div
-        className="whiteBox shadow"
+        className="crm-dashboard-card"
         style={{
           height: 458,
           display: 'flex',

@@ -1,42 +1,36 @@
-/* ─── Dashboard Theme ─── */
-/* Wave pattern background, card enhancements, dashboard-specific styles */
+/* ─── Dashboard Theme — Sneat Inspired ─── */
+/* Clean elevation-based design, no wave patterns, no borders */
 
-/* SVG wave pattern overlay on body */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='1440' height='900' viewBox='0 0 1440 900' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M-100 400C100 350 300 300 500 350C700 400 900 500 1100 450C1300 400 1500 300 1600 350' stroke='%23cbd5e1' stroke-width='1' fill='none' opacity='0.4'/%3E%3Cpath d='M-100 450C100 400 300 350 500 400C700 450 900 550 1100 500C1300 450 1500 350 1600 400' stroke='%23cbd5e1' stroke-width='1' fill='none' opacity='0.3'/%3E%3Cpath d='M-100 500C100 450 300 400 500 450C700 500 900 600 1100 550C1300 500 1500 400 1600 450' stroke='%23cbd5e1' stroke-width='1' fill='none' opacity='0.25'/%3E%3Cpath d='M-100 550C100 500 300 450 500 500C700 550 900 650 1100 600C1300 550 1500 450 1600 500' stroke='%23cbd5e1' stroke-width='1' fill='none' opacity='0.2'/%3E%3Ccircle cx='200' cy='200' r='200' stroke='%23cbd5e1' stroke-width='0.5' fill='none' opacity='0.15'/%3E%3Ccircle cx='200' cy='200' r='280' stroke='%23cbd5e1' stroke-width='0.5' fill='none' opacity='0.12'/%3E%3Ccircle cx='200' cy='200' r='360' stroke='%23cbd5e1' stroke-width='0.5' fill='none' opacity='0.09'/%3E%3Ccircle cx='200' cy='200' r='440' stroke='%23cbd5e1' stroke-width='0.5' fill='none' opacity='0.06'/%3E%3C/svg%3E");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.7;
+:root {
+  --bg-body: #f5f5f9;
+  --bg-surface: #ffffff;
+  --color-primary: #696cff;
+  --color-success: #71dd37;
+  --color-danger: #ff3e1d;
+  --radius-card: 10px;
+  --shadow-card: 0 2px 6px 0 rgba(67, 89, 113, 0.12);
+  --shadow-md: 0 4px 12px 0 rgba(67, 89, 113, 0.15);
 }
 
-/* Ensure main content is above the wave pattern */
-#root {
-  position: relative;
-  z-index: 1;
+body {
+  background-color: var(--bg-body) !important;
 }
 
 /* ─── Dashboard Card Styles ─── */
-.dashboard-card {
+.dashboard-card,
+.crm-dashboard-card {
   background: var(--bg-surface);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
   padding: var(--space-lg);
-  transition: box-shadow var(--transition-base), transform var(--transition-base);
-  border: 1px solid var(--border-color-light);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  border: none;
 }
 
-.dashboard-card:hover {
+.dashboard-card:hover,
+.crm-dashboard-card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 /* ─── Summary Stat Card ─── */
@@ -48,31 +42,14 @@ body::before {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  transition: all var(--transition-base);
-  border: 1px solid var(--border-color-light);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  border: none;
   position: relative;
   overflow: hidden;
 }
 
-.stat-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
-  border-radius: var(--radius-card) var(--radius-card) 0 0;
-  opacity: 0;
-  transition: opacity var(--transition-base);
-}
-
-.stat-card:hover::before {
-  opacity: 1;
-}
-
 .stat-card:hover {
-  box-shadow: var(--shadow-diffused);
+  box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
 
@@ -80,8 +57,7 @@ body::before {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  text-transform: capitalize;
 }
 
 .stat-card-value {
@@ -95,14 +71,26 @@ body::before {
   color: var(--text-tertiary);
 }
 
+/* ─── Growth Indicators ─── */
+.growth-positive {
+  color: var(--color-success);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.growth-negative {
+  color: var(--color-danger);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
 /* ─── Progress Bar Overrides ─── */
 .ant-progress-bg {
-  background: linear-gradient(90deg, #34C77B, #5FE09D) !important;
   border-radius: 100px !important;
 }
 
 .ant-progress-inner {
-  background-color: #E8F0FE !important;
+  background-color: var(--bg-muted) !important;
   border-radius: 100px !important;
 }
 
@@ -120,35 +108,7 @@ body::before {
   background: var(--bg-muted);
 }
 
-/* ─── Risk/Warning Indicators ─── */
-.risk-indicator {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
-  position: relative;
-}
-
-.risk-indicator svg {
-  width: 40px;
-  height: 40px;
-  transform: rotate(-90deg);
-}
-
-.risk-indicator .value {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 10px;
-  font-weight: 700;
-}
-
-/* ─── Tab Navigation (matching reference) ─── */
+/* ─── Tab Navigation (Sneat pill style) ─── */
 .dashboard-tabs {
   display: flex;
   gap: 4px;
@@ -178,8 +138,8 @@ body::before {
 }
 
 .dashboard-tab.active {
-  background: var(--bg-surface);
-  color: var(--text-primary);
+  background: var(--color-primary);
+  color: #ffffff;
   box-shadow: var(--shadow-xs);
   font-weight: var(--font-weight-semibold);
 }
@@ -239,7 +199,7 @@ body::before {
 
 .section-subtitle {
   font-size: var(--font-size-sm);
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
   margin: 0;
 }
 
@@ -293,11 +253,6 @@ body::before {
   }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
 .animate-fade-in-up {
   animation: fadeInUp 0.3s ease forwards;
 }
@@ -347,7 +302,7 @@ body::before {
   border-color: var(--color-primary) !important;
   border-radius: var(--radius-md) !important;
   font-weight: var(--font-weight-semibold) !important;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3) !important;
+  box-shadow: 0 2px 6px rgba(105, 108, 255, 0.3) !important;
   transition: all var(--transition-base) !important;
   height: auto !important;
   padding: 8px 24px !important;
@@ -356,7 +311,7 @@ body::before {
 .ant-btn-primary:hover {
   background: var(--color-primary-dark) !important;
   border-color: var(--color-primary-dark) !important;
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4) !important;
+  box-shadow: 0 4px 12px rgba(105, 108, 255, 0.4) !important;
   transform: translateY(-1px);
 }
 
@@ -386,7 +341,7 @@ body::before {
 .ant-input-affix-wrapper:hover,
 .ant-select-selector:hover,
 .ant-picker:hover {
-  border-color: var(--color-primary-light) !important;
+  border-color: var(--color-primary) !important;
 }
 
 .ant-input:focus,
@@ -395,13 +350,14 @@ body::before {
 .ant-input-affix-wrapper-focused,
 .ant-select-focused .ant-select-selector {
   border-color: var(--color-primary) !important;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+  box-shadow: 0 0 0 3px rgba(105, 108, 255, 0.1) !important;
 }
 
 /* ─── Modal Overrides ─── */
 .ant-modal-content {
   border-radius: var(--radius-xl) !important;
   overflow: hidden;
+  box-shadow: var(--shadow-elevated) !important;
 }
 
 .ant-modal-header {
@@ -424,4 +380,41 @@ body::before {
 
 .ant-dropdown-menu-item:hover {
   background: var(--bg-muted) !important;
+}
+
+/* ─── Pagination ─── */
+.ant-pagination-item {
+  border-radius: var(--radius-sm) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ant-pagination-item-active {
+  border-color: var(--color-primary) !important;
+}
+
+.ant-pagination-item-active a {
+  color: var(--color-primary) !important;
+}
+
+/* ─── Tooltip ─── */
+.ant-tooltip-inner {
+  border-radius: var(--radius-sm) !important;
+  font-size: var(--font-size-sm) !important;
+}
+
+/* ─── Breadcrumb ─── */
+.ant-breadcrumb {
+  font-size: var(--font-size-sm) !important;
+  color: var(--text-tertiary) !important;
+}
+
+/* ─── Drawer ─── */
+.ant-drawer-content {
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg) !important;
+}
+
+/* ─── Ensure main content is above any background */
+#root {
+  position: relative;
+  z-index: 1;
 }
