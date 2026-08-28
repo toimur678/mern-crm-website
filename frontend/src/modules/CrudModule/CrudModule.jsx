@@ -1,6 +1,6 @@
 import { useLayoutEffect, useEffect, useState } from 'react';
 import { Row, Col, Button } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+
 
 import CreateForm from '@/components/CreateForm';
 import UpdateForm from '@/components/UpdateForm';
@@ -17,6 +17,8 @@ import { crud } from '@/redux/crud/actions';
 import { useCrudContext } from '@/context/crud';
 
 import { CrudLayout } from '@/layout';
+import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 function SidePanelTopContent({ config, formElements, withUpload }) {
   const translate = useLanguage();
@@ -57,7 +59,7 @@ function SidePanelTopContent({ config, formElements, withUpload }) {
           <Button
             onClick={removeItem}
             type="text"
-            icon={<DeleteOutlined />}
+            icon={<Icon component={TrashIcon} />}
             size="small"
             style={{ float: 'right', marginLeft: '5px', marginTop: '10px' }}
           >
@@ -66,7 +68,7 @@ function SidePanelTopContent({ config, formElements, withUpload }) {
           <Button
             onClick={editItem}
             type="text"
-            icon={<EditOutlined />}
+            icon={<Icon component={PencilIcon} />}
             size="small"
             style={{ float: 'right', marginLeft: '0px', marginTop: '10px' }}
           >
@@ -100,7 +102,7 @@ function FixHeaderPanel({ config }) {
         <SearchItem config={config} />
       </Col>
       <Col className="gutter-row" span={3}>
-        <Button onClick={addNewItem} block={true} icon={<PlusOutlined />}></Button>
+        <Button onClick={addNewItem} block={true} icon={<Icon component={PlusIcon} />}></Button>
       </Col>
     </Row>
   );

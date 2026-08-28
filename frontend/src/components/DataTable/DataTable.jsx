@@ -1,17 +1,10 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import {
-  EyeOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  EllipsisOutlined,
-  RedoOutlined,
-  ArrowRightOutlined,
-  ArrowLeftOutlined,
-} from '@ant-design/icons';
-import { Dropdown, Table, Button, Input } from 'antd';
-import { PageHeader } from '@ant-design/pro-layout';
+
+import { Dropdown, Button, Input } from 'antd';
+import CustomTable from '@/components/CustomTable';
+import PageHeader from '@/components/PageHeader';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { crud } from '@/redux/crud/actions';
@@ -23,6 +16,8 @@ import { useMoney, useDate } from '@/settings';
 import { generate as uniqueId } from 'shortid';
 
 import { useCrudContext } from '@/context/crud';
+import { EyeIcon, PencilIcon, TrashIcon, EllipsisHorizontalIcon, ArrowPathIcon, ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 function AddNewItem({ config }) {
   const { crudContextAction } = useCrudContext();
@@ -52,12 +47,12 @@ export default function DataTable({ config, extra = [] }) {
     {
       label: translate('Show'),
       key: 'read',
-      icon: <EyeOutlined />,
+      icon: <Icon component={EyeIcon} />,
     },
     {
       label: translate('Edit'),
       key: 'edit',
-      icon: <EditOutlined />,
+      icon: <Icon component={PencilIcon} />,
     },
     ...extra,
     {
@@ -67,7 +62,7 @@ export default function DataTable({ config, extra = [] }) {
     {
       label: translate('Delete'),
       key: 'delete',
-      icon: <DeleteOutlined />,
+      icon: <Icon component={TrashIcon} />,
     },
   ];
 
@@ -144,7 +139,7 @@ export default function DataTable({ config, extra = [] }) {
           }}
           trigger={['click']}
         >
-          <EllipsisOutlined
+          <Icon component={EllipsisHorizontalIcon}
             style={{ cursor: 'pointer', fontSize: '24px' }}
             onClick={(e) => e.preventDefault()}
           />
@@ -186,7 +181,7 @@ export default function DataTable({ config, extra = [] }) {
     <>
       <PageHeader
         onBack={() => window.history.back()}
-        backIcon={<ArrowLeftOutlined />}
+        backIcon={<Icon component={ArrowLeftIcon} />}
         title={DATATABLE_TITLE}
         ghost={false}
         extra={[
@@ -196,18 +191,15 @@ export default function DataTable({ config, extra = [] }) {
             placeholder={translate('search')}
             allowClear
           />,
-          <Button onClick={handelDataTableLoad} key={`${uniqueId()}`} icon={<RedoOutlined />}>
+          <Button onClick={handelDataTableLoad} key={`${uniqueId()}`} icon={<Icon component={ArrowPathIcon} />}>
             {translate('Refresh')}
           </Button>,
 
           <AddNewItem key={`${uniqueId()}`} config={config} />,
         ]}
-        style={{
-          padding: '20px 0px',
-        }}
       ></PageHeader>
 
-      <Table
+      <CustomTable
         columns={dataTableColumns}
         rowKey={(item) => item._id}
         dataSource={dataSource}

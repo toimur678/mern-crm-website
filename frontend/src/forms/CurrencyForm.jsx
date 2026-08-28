@@ -1,6 +1,8 @@
 import React from 'react';
 import { Switch, Form, Input } from 'antd';
-import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
+import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
+
 
 export default function CurrencyForm({ isUpdateForm = false }) {
   return (
@@ -82,7 +84,7 @@ export default function CurrencyForm({ isUpdateForm = false }) {
         }}
         valuePropName="checked"
       >
-        <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} />
+        <Switch checkedChildren={<Icon component={CheckIcon} />} unCheckedChildren={<Icon component={XMarkIcon} />} />
       </Form.Item>
     </>
   );

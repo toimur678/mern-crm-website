@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
 import { Form, Input, InputNumber, Button, Select, Divider, Row, Col } from 'antd';
 
-import { PlusOutlined } from '@ant-design/icons';
+
 
 import { DatePicker } from 'antd';
 
@@ -18,6 +18,8 @@ import useLanguage from '@/locale/useLanguage';
 import calculate from '@/utils/calculate';
 import { useSelector } from 'react-redux';
 import SelectAsync from '@/components/SelectAsync';
+import { PlusIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function QuoteForm({ subTotal = 0, current = null }) {
   const { last_quote_number } = useSelector(selectFinanceSettings);
@@ -203,7 +205,7 @@ function LoadQuoteForm({ subTotal = 0, current = null }) {
                 type="dashed"
                 onClick={() => add()}
                 block
-                icon={<PlusOutlined />}
+                icon={<Icon component={PlusIcon} />}
                 ref={addField}
               >
                 {translate('Add field')}
@@ -217,7 +219,7 @@ function LoadQuoteForm({ subTotal = 0, current = null }) {
         <Row gutter={[12, -5]}>
           <Col className="gutter-row" span={5}>
             <Form.Item>
-              <Button type="primary" htmlType="submit" icon={<PlusOutlined />} block>
+              <Button type="primary" htmlType="submit" icon={<Icon component={PlusIcon} />} block>
                 {translate('Save')}
               </Button>
             </Form.Item>

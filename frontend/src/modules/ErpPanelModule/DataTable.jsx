@@ -1,17 +1,8 @@
 import { useEffect } from 'react';
-import {
-  EyeOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  FilePdfOutlined,
-  RedoOutlined,
-  PlusOutlined,
-  EllipsisOutlined,
-  ArrowRightOutlined,
-  ArrowLeftOutlined,
-} from '@ant-design/icons';
-import { Dropdown, Table, Button } from 'antd';
-import { PageHeader } from '@ant-design/pro-layout';
+
+import { Dropdown, Button } from 'antd';
+import CustomTable from '@/components/CustomTable';
+import PageHeader from '@/components/PageHeader';
 
 import AutoCompleteAsync from '@/components/AutoCompleteAsync';
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,6 +13,8 @@ import { useErpContext } from '@/context/erp';
 import { useNavigate } from 'react-router-dom';
 
 import { DOWNLOAD_BASE_URL } from '@/config/serverApiConfig';
+import { EyeIcon, PencilIcon, TrashIcon, DocumentIcon, ArrowPathIcon, PlusIcon, EllipsisHorizontalIcon, ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 function AddNewItem({ config }) {
   const navigate = useNavigate();
@@ -32,7 +25,7 @@ function AddNewItem({ config }) {
   };
 
   return (
-    <Button onClick={handleClick} type="primary" icon={<PlusOutlined />}>
+    <Button onClick={handleClick} type="primary" icon={<Icon component={PlusIcon} />}>
       {ADD_NEW_ENTITY}
     </Button>
   );
@@ -55,17 +48,17 @@ export default function DataTable({ config, extra = [] }) {
     {
       label: translate('Show'),
       key: 'read',
-      icon: <EyeOutlined />,
+      icon: <Icon component={EyeIcon} />,
     },
     {
       label: translate('Edit'),
       key: 'edit',
-      icon: <EditOutlined />,
+      icon: <Icon component={PencilIcon} />,
     },
     {
       label: translate('Download'),
       key: 'download',
-      icon: <FilePdfOutlined />,
+      icon: <Icon component={DocumentIcon} />,
     },
     ...extra,
     {
@@ -75,7 +68,7 @@ export default function DataTable({ config, extra = [] }) {
     {
       label: translate('Delete'),
       key: 'delete',
-      icon: <DeleteOutlined />,
+      icon: <Icon component={TrashIcon} />,
     },
   ];
 
@@ -139,7 +132,7 @@ export default function DataTable({ config, extra = [] }) {
           }}
           trigger={['click']}
         >
-          <EllipsisOutlined
+          <Icon component={EllipsisHorizontalIcon}
             style={{ cursor: 'pointer', fontSize: '24px' }}
             onClick={(e) => e.preventDefault()}
           />
@@ -176,9 +169,8 @@ export default function DataTable({ config, extra = [] }) {
     <>
       <PageHeader
         title={DATATABLE_TITLE}
-        ghost={true}
         onBack={() => window.history.back()}
-        backIcon={<ArrowLeftOutlined />}
+        backIcon={<Icon component={ArrowLeftIcon} />}
         extra={[
           <AutoCompleteAsync
             key="search-auto-complete"
@@ -190,18 +182,15 @@ export default function DataTable({ config, extra = [] }) {
             // withRedirect
             // urlToRedirect={'/customer'}
           />,
-          <Button onClick={handelDataTableLoad} key="refresh-button" icon={<RedoOutlined />}>
+          <Button onClick={handelDataTableLoad} key="refresh-button" icon={<Icon component={ArrowPathIcon} />}>
             {translate('Refresh')}
           </Button>,
 
           !disableAdd && <AddNewItem config={config} key="add-new-item" />,
         ]}
-        style={{
-          padding: '20px 0px',
-        }}
       ></PageHeader>
 
-      <Table
+      <CustomTable
         columns={dataTableColumns}
         rowKey={(item) => item._id}
         dataSource={dataSource}

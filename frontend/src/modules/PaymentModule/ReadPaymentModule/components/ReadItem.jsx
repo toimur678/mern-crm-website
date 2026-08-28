@@ -1,14 +1,8 @@
 import { useState, useEffect } from 'react';
 
 import { Button, Row, Col, Descriptions, Statistic, Tag, Divider, Typography } from 'antd';
-import { PageHeader } from '@ant-design/pro-layout';
-import {
-  EditOutlined,
-  FilePdfOutlined,
-  CloseCircleOutlined,
-  MailOutlined,
-  ExportOutlined,
-} from '@ant-design/icons';
+import PageHeader from '@/components/PageHeader';
+
 
 import { useSelector, useDispatch } from 'react-redux';
 import { erp } from '@/redux/erp/actions';
@@ -23,6 +17,8 @@ import { useMoney } from '@/settings';
 
 import useMail from '@/hooks/useMail';
 import { useNavigate } from 'react-router-dom';
+import { PencilIcon, DocumentIcon, XCircleIcon, EnvelopeIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function ReadItem({ config, selectedItem }) {
   const translate = useLanguage();
@@ -85,7 +81,7 @@ export default function ReadItem({ config, selectedItem }) {
             onClick={() => {
               navigate(`/${entity.toLowerCase()}`);
             }}
-            icon={<CloseCircleOutlined />}
+            icon={<Icon component={XCircleIcon} />}
           >
             {translate('Close')}
           </Button>,
@@ -97,7 +93,7 @@ export default function ReadItem({ config, selectedItem }) {
                 '_blank'
               );
             }}
-            icon={<FilePdfOutlined />}
+            icon={<Icon component={DocumentIcon} />}
           >
             {translate('Download PDF')}
           </Button>,
@@ -107,7 +103,7 @@ export default function ReadItem({ config, selectedItem }) {
             onClick={() => {
               send(currentErp._id);
             }}
-            icon={<MailOutlined />}
+            icon={<Icon component={EnvelopeIcon} />}
           >
             {translate('Send by email')}
           </Button>,
@@ -124,7 +120,7 @@ export default function ReadItem({ config, selectedItem }) {
               navigate(`/${entity.toLowerCase()}/update/${currentErp._id}`);
             }}
             type="primary"
-            icon={<EditOutlined />}
+            icon={<Icon component={PencilIcon} />}
           >
             {translate('Edit')}
           </Button>,
@@ -176,7 +172,7 @@ export default function ReadItem({ config, selectedItem }) {
           <Typography.Title level={5}>{translate('Payment Information')} :</Typography.Title>
         </Col>
         <Col sm={24} md={12} style={{ textAlign: 'right' }}>
-          <Button icon={<ExportOutlined />}>{translate('Show invoice')}</Button>
+          <Button icon={<Icon component={ArrowTopRightOnSquareIcon} />}>{translate('Show invoice')}</Button>
         </Col>
       </Row>
       <div

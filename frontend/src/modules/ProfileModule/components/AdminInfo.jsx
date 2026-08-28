@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useProfileContext } from '@/context/profileContext';
 import { generate as uniqueId } from 'shortid';
-import { EditOutlined, LockOutlined, LogoutOutlined } from '@ant-design/icons';
+
 import { Avatar, Button, Col, Descriptions, Divider, Row } from 'antd';
-import { PageHeader } from '@ant-design/pro-layout';
+import PageHeader from '@/components/PageHeader';
 import { useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,8 @@ import { selectCurrentAdmin } from '@/redux/auth/selectors';
 
 import useLanguage from '@/locale/useLanguage';
 import { FILE_BASE_URL } from '@/config/serverApiConfig';
+import { PencilIcon, LockClosedIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 const AdminInfo = ({ config }) => {
   const translate = useLanguage();
@@ -34,13 +36,13 @@ const AdminInfo = ({ config }) => {
               updatePanel.open();
             }}
             type="primary"
-            icon={<EditOutlined />}
+            icon={<Icon component={PencilIcon} />}
           >
             {translate('Edit')}
           </Button>,
           <Button
             key={`${uniqueId()}`}
-            icon={<LockOutlined />}
+            icon={<Icon component={LockClosedIcon} />}
             onClick={() => {
               modal.open();
             }}
@@ -85,7 +87,7 @@ const AdminInfo = ({ config }) => {
       <Divider />
       <Button
         key={`${uniqueId()}`}
-        icon={<LogoutOutlined />}
+        icon={<Icon component={ArrowRightOnRectangleIcon} />}
         className="right"
         onClick={() => navigate('/logout')}
       >

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Form, Divider } from 'antd';
 import dayjs from 'dayjs';
 import { Button, Tag } from 'antd';
-import { PageHeader } from '@ant-design/pro-layout';
+import PageHeader from '@/components/PageHeader';
 
 import { useSelector, useDispatch } from 'react-redux';
 import useLanguage from '@/locale/useLanguage';
@@ -13,11 +13,13 @@ import { generate as uniqueId } from 'shortid';
 import { selectUpdatedItem } from '@/redux/erp/selectors';
 import Loading from '@/components/Loading';
 
-import { CloseCircleOutlined, PlusOutlined } from '@ant-design/icons';
+
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { settingsAction } from '@/redux/settings/actions';
 // import { StatusTag } from '@/components/Tag';
+import { XCircleIcon, PlusIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 function SaveForm({ form, translate }) {
   const handelClick = () => {
@@ -25,7 +27,7 @@ function SaveForm({ form, translate }) {
   };
 
   return (
-    <Button onClick={handelClick} type="primary" icon={<PlusOutlined />}>
+    <Button onClick={handelClick} type="primary" icon={<Icon component={PlusIcon} />}>
       {translate('update')}
     </Button>
   );
@@ -155,7 +157,7 @@ export default function UpdateItem({ config, UpdateForm }) {
             onClick={() => {
               navigate(`/${entity.toLowerCase()}`);
             }}
-            icon={<CloseCircleOutlined />}
+            icon={<Icon component={XCircleIcon} />}
           >
             {translate('Cancel')}
           </Button>,

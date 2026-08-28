@@ -1,8 +1,10 @@
 import { Button, Form, message, Upload } from 'antd';
 
-import { UploadOutlined } from '@ant-design/icons';
+
 
 import useLanguage from '@/locale/useLanguage';
+import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function AppSettingForm() {
   const translate = useLanguage();
@@ -31,7 +33,7 @@ export default function AppSettingForm() {
           accept="image/png, image/jpeg"
           maxCount={1}
         >
-          <Button icon={<UploadOutlined />}>{translate('click_to_upload')}</Button>
+          <Button icon={<Icon component={ArrowUpTrayIcon} />}>{translate('click_to_upload')}</Button>
         </Upload>
       </Form.Item>
     </>

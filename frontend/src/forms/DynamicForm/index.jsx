@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { DatePicker, Input, Form, Select, InputNumber, Switch, Tag } from 'antd';
 
-import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
+
 import useLanguage from '@/locale/useLanguage';
 import { useMoney, useDate } from '@/settings';
 import AutoCompleteAsync from '@/components/AutoCompleteAsync';
@@ -9,6 +9,8 @@ import SelectAsync from '@/components/SelectAsync';
 import { generate as uniqueId } from 'shortid';
 
 import { countryList } from '@/utils/countryList';
+import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function DynamicForm({ fields, isUpdateForm = false }) {
   const [feedback, setFeedback] = useState();
@@ -305,8 +307,8 @@ function FormElement({ field, feedback, setFeedback }) {
     phone: <Input style={{ width: '100%' }} placeholder="+1 123 456 789" />,
     boolean: (
       <Switch
-        checkedChildren={<CheckOutlined />}
-        unCheckedChildren={<CloseOutlined />}
+        checkedChildren={<Icon component={CheckIcon} />}
+        unCheckedChildren={<Icon component={XMarkIcon} />}
         defaultValue={true}
       />
     ),

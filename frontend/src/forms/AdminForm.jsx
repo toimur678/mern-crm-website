@@ -1,8 +1,10 @@
 import { Form, Input, Select } from 'antd';
-import { UploadOutlined, CloseOutlined, CheckOutlined } from '@ant-design/icons';
+
 import { message, Upload, Button, Switch } from 'antd';
 
 import useLanguage from '@/locale/useLanguage';
+import { ArrowUpTrayIcon, XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 const beforeUpload = (file) => {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -108,7 +110,7 @@ export default function AdminForm({ isUpdateForm = false, isForAdminOwner = fals
         valuePropName={'checked'}
         initialValue={true}
       >
-        <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} />
+        <Switch checkedChildren={<Icon component={CheckIcon} />} unCheckedChildren={<Icon component={XMarkIcon} />} />
       </Form.Item>
 
       {/* <Form.Item
@@ -118,7 +120,7 @@ export default function AdminForm({ isUpdateForm = false, isForAdminOwner = fals
         getValueFromEvent={(e) => e.fileList}
       >
         <Upload beforeUpload={beforeUpload}>
-          <Button icon={<UploadOutlined />}>{translate('click_to_upload')}</Button>
+          <Button icon={<Icon component={ArrowUpTrayIcon} />}>{translate('click_to_upload')}</Button>
         </Upload>
       </Form.Item> */}
     </>

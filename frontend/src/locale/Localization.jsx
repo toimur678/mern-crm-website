@@ -40,6 +40,35 @@ export default function Localization({ children }) {
             borderRadius: 10,
             headerBg: '#f5f5f9',
           },
+          Descriptions: {
+            labelBg: 'transparent',
+            titleColor: '#435971',
+            colorTextSecondary: '#566a7f',
+          },
+          Statistic: {
+            titleFontSize: 13,
+            contentFontSize: 24,
+            titleColor: '#a1acb8',
+          },
+          Tag: {
+            borderRadiusSM: 4,
+            lineHeight: 1.5,
+          },
+          Result: {
+            iconFontSize: 72,
+            titleFontSize: 24,
+            subtitleFontSize: 15,
+          },
+          Dropdown: {
+            borderRadiusLG: 8,
+            paddingBlock: 8,
+          },
+          Pagination: {
+            borderRadius: 8,
+            itemActiveBg: '#696cff',
+            colorPrimary: '#ffffff',
+            colorPrimaryHover: '#ffffff',
+          },
         },
       }}
     >

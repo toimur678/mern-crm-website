@@ -1,8 +1,8 @@
 import { useProfileContext } from '@/context/profileContext';
 import { generate as uniqueId } from 'shortid';
-import { CloseCircleOutlined, SaveOutlined } from '@ant-design/icons';
+
 import { Button, Col, Form, Row } from 'antd';
-import { PageHeader } from '@ant-design/pro-layout';
+import PageHeader from '@/components/PageHeader';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfileAdminForm from './ProfileAdminForm';
@@ -12,6 +12,8 @@ import { updateProfile } from '@/redux/auth/actions';
 import { selectCurrentAdmin } from '@/redux/auth/selectors';
 
 import useLanguage from '@/locale/useLanguage';
+import { XCircleIcon, CheckIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 const UpdateAdmin = ({ config }) => {
   const translate = useLanguage();
@@ -50,7 +52,7 @@ const UpdateAdmin = ({ config }) => {
           <Button
             onClick={() => updatePanel.close()}
             key={`${uniqueId()}`}
-            icon={<CloseCircleOutlined />}
+            icon={<Icon component={XCircleIcon} />}
           >
             {translate('Close')}
           </Button>,
@@ -61,7 +63,7 @@ const UpdateAdmin = ({ config }) => {
               updatePanel.close();
             }}
             type="primary"
-            icon={<SaveOutlined />}
+            icon={<Icon component={CheckIcon} />}
             htmlType="submit"
           >
             {translate('Save')}

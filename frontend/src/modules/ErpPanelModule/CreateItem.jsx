@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { Button, Tag, Form, Divider } from 'antd';
-import { PageHeader } from '@ant-design/pro-layout';
+import PageHeader from '@/components/PageHeader';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -15,14 +15,11 @@ import calculate from '@/utils/calculate';
 import { generate as uniqueId } from 'shortid';
 
 import Loading from '@/components/Loading';
-import {
-  ArrowLeftOutlined,
-  ArrowRightOutlined,
-  CloseCircleOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+
 
 import { useNavigate } from 'react-router-dom';
+import { ArrowLeftIcon, ArrowRightIcon, XCircleIcon, PlusIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 function SaveForm({ form }) {
   const translate = useLanguage();
@@ -31,7 +28,7 @@ function SaveForm({ form }) {
   };
 
   return (
-    <Button onClick={handelClick} type="primary" icon={<PlusOutlined />}>
+    <Button onClick={handelClick} type="primary" icon={<Icon component={PlusIcon} />}>
       {translate('Save')}
     </Button>
   );
@@ -109,7 +106,7 @@ export default function CreateItem({ config, CreateForm }) {
         onBack={() => {
           navigate(`/${entity.toLowerCase()}`);
         }}
-        backIcon={<ArrowLeftOutlined />}
+        backIcon={<Icon component={ArrowLeftIcon} />}
         title={translate('New')}
         ghost={false}
         tags={<Tag>{translate('Draft')}</Tag>}
@@ -118,7 +115,7 @@ export default function CreateItem({ config, CreateForm }) {
           <Button
             key={`${uniqueId()}`}
             onClick={() => navigate(`/${entity.toLowerCase()}`)}
-            icon={<CloseCircleOutlined />}
+            icon={<Icon component={XCircleIcon} />}
           >
             {translate('Cancel')}
           </Button>,

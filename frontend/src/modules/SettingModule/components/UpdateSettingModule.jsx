@@ -1,8 +1,10 @@
 // import { generate as uniqueId } from 'shortid';
-// import { SyncOutlined } from '@ant-design/icons';
+// 
 import { Divider } from 'antd';
-import { PageHeader } from '@ant-design/pro-layout';
+import PageHeader from '@/components/PageHeader';
 import UpdateSettingForm from './UpdateSettingForm';
+import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function UpdateSettingModule({
   config,

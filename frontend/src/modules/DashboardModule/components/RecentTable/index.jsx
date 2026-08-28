@@ -1,14 +1,17 @@
-import { Dropdown, Table } from 'antd';
+import { Dropdown } from 'antd';
+import CustomTable from '@/components/CustomTable';
 
 import { request } from '@/request';
 import useFetch from '@/hooks/useFetch';
 
-import { EllipsisOutlined, EyeOutlined, EditOutlined, FilePdfOutlined } from '@ant-design/icons';
+
 import { useDispatch } from 'react-redux';
 import { erp } from '@/redux/erp/actions';
 import useLanguage from '@/locale/useLanguage';
 import { useNavigate } from 'react-router-dom';
 import { DOWNLOAD_BASE_URL } from '@/config/serverApiConfig';
+import { EllipsisHorizontalIcon, EyeIcon, PencilIcon, DocumentIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function RecentTable({ ...props }) {
   const translate = useLanguage();
@@ -18,17 +21,17 @@ export default function RecentTable({ ...props }) {
     {
       label: translate('Show'),
       key: 'read',
-      icon: <EyeOutlined />,
+      icon: <Icon component={EyeIcon} />,
     },
     {
       label: translate('Edit'),
       key: 'edit',
-      icon: <EditOutlined />,
+      icon: <Icon component={PencilIcon} />,
     },
     {
       label: translate('Download'),
       key: 'download',
-      icon: <FilePdfOutlined />,
+      icon: <Icon component={DocumentIcon} />,
     },
   ];
 
@@ -75,7 +78,7 @@ export default function RecentTable({ ...props }) {
           }}
           trigger={['click']}
         >
-          <EllipsisOutlined
+          <Icon component={EllipsisHorizontalIcon}
             style={{ cursor: 'pointer', fontSize: '24px' }}
             onClick={(e) => e.preventDefault()}
           />
@@ -94,7 +97,7 @@ export default function RecentTable({ ...props }) {
   };
 
   return (
-    <Table
+    <CustomTable
       columns={dataTableColumns}
       rowKey={(item) => item._id}
       dataSource={isSuccess && firstFiveItems()}

@@ -1,7 +1,9 @@
 import React from 'react';
 import { Switch, Form, Input } from 'antd';
-import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
+
 import useLanguage from '@/locale/useLanguage';
+import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function PaymentModeForm({ isUpdateForm = false }) {
   const translate = useLanguage();
@@ -41,7 +43,7 @@ export default function PaymentModeForm({ isUpdateForm = false }) {
         valuePropName="checked"
         initialValue={true}
       >
-        <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} />
+        <Switch checkedChildren={<Icon component={CheckIcon} />} unCheckedChildren={<Icon component={XMarkIcon} />} />
       </Form.Item>
       <Form.Item
         label={translate('Default Mode')}
@@ -53,7 +55,7 @@ export default function PaymentModeForm({ isUpdateForm = false }) {
         }}
         valuePropName="checked"
       >
-        <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} />
+        <Switch checkedChildren={<Icon component={CheckIcon} />} unCheckedChildren={<Icon component={XMarkIcon} />} />
       </Form.Item>
     </>
   );

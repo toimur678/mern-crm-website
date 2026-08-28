@@ -1,5 +1,7 @@
 import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
+
 
 const ContentLoader = () => {
   return (
@@ -14,7 +16,7 @@ const ContentLoader = () => {
     >
       <Spin
         indicator={
-          <LoadingOutlined
+          <Icon component={ArrowPathIcon}
             style={{
               fontSize: 36,
               color: 'var(--color-primary)',

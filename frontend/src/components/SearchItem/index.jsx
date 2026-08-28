@@ -4,12 +4,14 @@ import useDebounce from '@/hooks/useDebounce';
 
 import { Select, Empty } from 'antd';
 
-import { SearchOutlined } from '@ant-design/icons';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { crud } from '@/redux/crud/actions';
 
 import { useCrudContext } from '@/context/crud';
 import { selectSearchedItems } from '@/redux/crud/selectors';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 function SearchItemComponent({ config, onRerender }) {
   let { entity, searchConfig } = config;
@@ -95,7 +97,7 @@ function SearchItemComponent({ config, onRerender }) {
       loading={isLoading}
       showSearch
       allowClear
-      placeholder={<SearchOutlined style={{ float: 'right', padding: '8px 0' }} />}
+      placeholder={<Icon component={MagnifyingGlassIcon} style={{ float: 'right', padding: '8px 0' }} />}
       defaultActiveFirstOption={false}
       filterOption={false}
       notFoundContent={searching ? '... Searching' : <Empty />}

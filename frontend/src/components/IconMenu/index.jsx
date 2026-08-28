@@ -1,15 +1,6 @@
-import {
-  DesktopOutlined,
-  SettingOutlined,
-  CustomerServiceOutlined,
-  FileTextOutlined,
-  FileSyncOutlined,
-  DashboardOutlined,
-  TeamOutlined,
-  UserOutlined,
-  CreditCardOutlined,
-  BankOutlined,
-} from '@ant-design/icons';
+import { ComputerDesktopIcon, Cog6ToothIcon, PhoneIcon, DocumentTextIcon, ArrowPathRoundedSquareIcon, Squares2X2Icon, UsersIcon, UserIcon, CreditCardIcon, BuildingLibraryIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
+
 
 export const IconMenu = ({ name }) => {
   const elements = {

@@ -1,7 +1,9 @@
 import { Statistic, Progress, Divider, Spin } from 'antd';
-import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+
 import useLanguage from '@/locale/useLanguage';
 import { UsersIcon } from '@heroicons/react/24/outline';
+import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function CustomerPreviewCard({
   isLoading = false,
@@ -126,9 +128,9 @@ export default function CustomerPreviewCard({
                 }}
                 prefix={
                   activeCustomer > 0 ? (
-                    <ArrowUpOutlined />
+                    <Icon component={ArrowUpIcon} />
                   ) : activeCustomer < 0 ? (
-                    <ArrowDownOutlined />
+                    <Icon component={ArrowDownIcon} />
                   ) : null
                 }
                 suffix="%"

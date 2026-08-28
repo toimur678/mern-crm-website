@@ -1,6 +1,8 @@
 import { Form, Input, InputNumber, Select, Switch } from 'antd';
-import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
+
 import useLanguage from '@/locale/useLanguage';
+import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 const formItems = [
   {
@@ -41,7 +43,7 @@ export default function SettingForm() {
             {item.valueType === 'string' && <Input autoComplete="off" />}
             {item.valueType === 'number' && <InputNumber min={0} style={{ width: '100%' }} />}
             {item.valueType === 'boolean' && (
-              <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} />
+              <Switch checkedChildren={<Icon component={CheckIcon} />} unCheckedChildren={<Icon component={XMarkIcon} />} />
             )}
             {item.valueType === 'array' && (
               <Select

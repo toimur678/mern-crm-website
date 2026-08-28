@@ -1,8 +1,10 @@
-import { UploadOutlined } from '@ant-design/icons';
+
 import { message, Upload, Form, Button } from 'antd';
 import useLanguage from '@/locale/useLanguage';
 
 // import photo from '@/style/images/photo.png';
+import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 const beforeUpload = (file) => {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -25,7 +27,7 @@ export default function UploadImg() {
       getValueFromEvent={(e) => e.fileList}
     >
       <Upload beforeUpload={beforeUpload}>
-        <Button icon={<UploadOutlined />}>Click to Upload</Button>
+        <Button icon={<Icon component={ArrowUpTrayIcon} />}>Click to Upload</Button>
       </Upload>
     </Form.Item>
   );

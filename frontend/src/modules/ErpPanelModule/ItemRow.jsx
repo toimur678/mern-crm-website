@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Form, Input, InputNumber, Row, Col } from 'antd';
 
-import { DeleteOutlined } from '@ant-design/icons';
+
 import { useMoney, useDate } from '@/settings';
 import calculate from '@/utils/calculate';
+import { TrashIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function ItemRow({ field, remove, current = null }) {
   const [totalState, setTotal] = useState(undefined);
@@ -112,7 +114,7 @@ export default function ItemRow({ field, remove, current = null }) {
       </Col>
 
       <div style={{ position: 'absolute', right: '-20px', top: ' 5px' }}>
-        <DeleteOutlined onClick={() => remove(field.name)} />
+        <Icon component={TrashIcon} onClick={() => remove(field.name)} />
       </div>
     </Row>
   );

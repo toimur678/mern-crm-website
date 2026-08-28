@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { useCrudContext } from '@/context/crud';
 import { useAppContext } from '@/context/appContext';
 import { Grid, Layout, Drawer } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
+
 import CollapseBox from '../CollapseBox';
+import { Bars3Icon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 const { useBreakpoint } = Grid;
 const { Sider } = Layout;

@@ -1,7 +1,9 @@
 import { ErpLayout } from '@/layout';
 import ErpPanel from '@/modules/ErpPanelModule';
 import useLanguage from '@/locale/useLanguage';
-import { CreditCardOutlined } from '@ant-design/icons';
+import { CreditCardIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
+
 
 export default function InvoiceDataTableModule({ config }) {
   const translate = useLanguage();
@@ -13,7 +15,7 @@ export default function InvoiceDataTableModule({ config }) {
           {
             label: translate('Record Payment'),
             key: 'recordPayment',
-            icon: <CreditCardOutlined />,
+            icon: <Icon component={CreditCardIcon} />,
           },
         ]}
       ></ErpPanel>

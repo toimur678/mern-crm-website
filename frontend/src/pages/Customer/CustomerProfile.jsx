@@ -3,11 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { request } from '@/request';
 import useLanguage from '@/locale/useLanguage';
 import { Avatar, Spin } from 'antd';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+
 import Card from '@/components/Card';
 import TabsContent from '@/components/TabsContent/TabsContent';
 import ProgressBar from '@/components/ProgressBar';
 import { DocumentTextIcon, CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function CustomerProfile() {
   const { id } = useParams();
@@ -154,7 +156,7 @@ export default function CustomerProfile() {
         onClick={() => navigate(-1)} 
         style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', color: 'var(--text-secondary)' }}
       >
-        <ArrowLeftOutlined />
+        <Icon component={ArrowLeftIcon} />
         <span>Back to Clients</span>
       </div>
 

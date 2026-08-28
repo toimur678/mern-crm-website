@@ -1,10 +1,12 @@
 import React from 'react';
 import { Spin } from 'antd';
+import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
-import { LoadingOutlined } from '@ant-design/icons';
+
 
 const PageLoader = () => {
-  const antIcon = <LoadingOutlined style={{ fontSize: 64 }} spin />;
+  const antIcon = <Icon component={ArrowPathIcon} style={{ fontSize: 64 }} spin />;
   return (
     <div className="centerAbsolute">
       <Spin indicator={antIcon}></Spin>

@@ -2,14 +2,8 @@ import { useState, useEffect } from 'react';
 import { Divider } from 'antd';
 
 import { Button, Row, Col, Descriptions, Statistic, Tag } from 'antd';
-import { PageHeader } from '@ant-design/pro-layout';
-import {
-  EditOutlined,
-  FilePdfOutlined,
-  CloseCircleOutlined,
-  RetweetOutlined,
-  MailOutlined,
-} from '@ant-design/icons';
+import PageHeader from '@/components/PageHeader';
+
 
 import { useSelector, useDispatch } from 'react-redux';
 import useLanguage from '@/locale/useLanguage';
@@ -23,6 +17,8 @@ import { DOWNLOAD_BASE_URL } from '@/config/serverApiConfig';
 import { useMoney, useDate } from '@/settings';
 import useMail from '@/hooks/useMail';
 import { useNavigate } from 'react-router-dom';
+import { PencilIcon, DocumentIcon, XCircleIcon, ArrowsRightLeftIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 const Item = ({ item, currentErp }) => {
   const { moneyFormatter } = useMoney();
@@ -145,7 +141,7 @@ export default function ReadItem({ config, selectedItem }) {
             onClick={() => {
               navigate(`/${entity.toLowerCase()}`);
             }}
-            icon={<CloseCircleOutlined />}
+            icon={<Icon component={XCircleIcon} />}
           >
             {translate('Close')}
           </Button>,
@@ -157,7 +153,7 @@ export default function ReadItem({ config, selectedItem }) {
                 '_blank'
               );
             }}
-            icon={<FilePdfOutlined />}
+            icon={<Icon component={DocumentIcon} />}
           >
             {translate('Download PDF')}
           </Button>,
@@ -167,7 +163,7 @@ export default function ReadItem({ config, selectedItem }) {
             onClick={() => {
               send(currentErp._id);
             }}
-            icon={<MailOutlined />}
+            icon={<Icon component={EnvelopeIcon} />}
           >
             {translate('Send by Email')}
           </Button>,
@@ -176,7 +172,7 @@ export default function ReadItem({ config, selectedItem }) {
             onClick={() => {
               dispatch(erp.convert({ entity, id: currentErp._id }));
             }}
-            icon={<RetweetOutlined />}
+            icon={<Icon component={ArrowsRightLeftIcon} />}
             style={{ display: entity === 'quote' ? 'inline-block' : 'none' }}
           >
             {translate('Convert to Invoice')}
@@ -194,7 +190,7 @@ export default function ReadItem({ config, selectedItem }) {
               navigate(`/${entity.toLowerCase()}/update/${currentErp._id}`);
             }}
             type="primary"
-            icon={<EditOutlined />}
+            icon={<Icon component={PencilIcon} />}
           >
             {translate('Edit')}
           </Button>,

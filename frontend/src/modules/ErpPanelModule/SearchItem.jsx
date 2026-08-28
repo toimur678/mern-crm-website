@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 
 import { AutoComplete, Input } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { erp } from '@/redux/erp/actions';
 
@@ -9,6 +9,8 @@ import { useErpContext } from '@/context/erp';
 import { selectSearchedItems } from '@/redux/erp/selectors';
 
 import { Empty } from 'antd';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function Search({ config }) {
   let { entity, searchConfig } = config;
@@ -90,7 +92,7 @@ export default function Search({ config }) {
       allowClear={true}
       placeholder="Your Search here"
     >
-      <Input suffix={<SearchOutlined />} />
+      <Input suffix={<Icon component={MagnifyingGlassIcon} />} />
     </AutoComplete>
   );
 }

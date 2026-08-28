@@ -1,10 +1,4 @@
-import {
-  SettingOutlined,
-  CreditCardOutlined,
-  DollarOutlined,
-  FileImageOutlined,
-  TrophyOutlined,
-} from '@ant-design/icons';
+
 
 import TabsContent from '@/components/TabsContent/TabsContent';
 
@@ -16,6 +10,8 @@ import MoneyFormatSettings from './MoneyFormatSettings';
 
 import useLanguage from '@/locale/useLanguage';
 import { useParams } from 'react-router-dom';
+import { Cog6ToothIcon, CreditCardIcon, CurrencyDollarIcon, PhotoIcon, TrophyIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function Settings() {
   const translate = useLanguage();
@@ -24,31 +20,31 @@ export default function Settings() {
     {
       key: 'general_settings',
       label: translate('General Settings'),
-      icon: <SettingOutlined />,
+      icon: <Icon component={Cog6ToothIcon} />,
       children: <GeneralSettings />,
     },
     {
       key: 'company_settings',
       label: translate('Company Settings'),
-      icon: <TrophyOutlined />,
+      icon: <Icon component={TrophyIcon} />,
       children: <CompanySettings />,
     },
     {
       key: 'company_logo',
       label: translate('Company Logo'),
-      icon: <FileImageOutlined />,
+      icon: <Icon component={PhotoIcon} />,
       children: <CompanyLogoSettings />,
     },
     {
       key: 'currency_settings',
       label: translate('Currency Settings'),
-      icon: <DollarOutlined />,
+      icon: <Icon component={CurrencyDollarIcon} />,
       children: <MoneyFormatSettings />,
     },
     {
       key: 'finance_settings',
       label: translate('Finance Settings'),
-      icon: <CreditCardOutlined />,
+      icon: <Icon component={CreditCardIcon} />,
       children: <FinanceSettings />,
     },
   ];

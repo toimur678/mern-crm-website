@@ -1,10 +1,12 @@
 import { Switch, Form, Input, Button, Space, Select } from 'antd';
-import { CloseOutlined, CheckOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+
 import { useSelector } from 'react-redux';
 import { selectCurrentItem } from '@/redux/crud/selectors';
 import { useState } from 'react';
 
 import useLanguage from '@/locale/useLanguage';
+import { XMarkIcon, CheckIcon, MinusCircleIcon, PlusIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export function SelectType() {
   const translate = useLanguage();
@@ -40,12 +42,12 @@ export function SelectType() {
                 <Input />
               </Form.Item>
 
-              <MinusCircleOutlined onClick={() => remove(field.name)} />
+              <Icon component={MinusCircleIcon} onClick={() => remove(field.name)} />
             </Space>
           ))}
 
           <Form.Item>
-            <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+            <Button type="dashed" onClick={() => add()} block icon={<Icon component={PlusIcon} />}>
               Add Select Options
             </Button>
           </Form.Item>
@@ -178,8 +180,8 @@ export default function AdvancedSettingsForm({ isUpdateForm = false }) {
       >
         <Switch
           disabled={result ? result.isCoreSetting : false}
-          checkedChildren={<CheckOutlined />}
-          unCheckedChildren={<CloseOutlined />}
+          checkedChildren={<Icon component={CheckIcon} />}
+          unCheckedChildren={<Icon component={XMarkIcon} />}
         />
       </Form.Item>
     </>

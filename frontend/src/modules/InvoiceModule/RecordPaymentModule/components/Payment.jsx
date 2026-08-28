@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
 import { Button, Row, Col, Descriptions, Tag, Divider } from 'antd';
-import { PageHeader } from '@ant-design/pro-layout';
-import { FileTextOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import PageHeader from '@/components/PageHeader';
+
 
 import { generate as uniqueId } from 'shortid';
 
@@ -12,6 +12,8 @@ import RecordPayment from './RecordPayment';
 import useLanguage from '@/locale/useLanguage';
 
 import { useNavigate } from 'react-router-dom';
+import { DocumentTextIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function Payment({ config, currentItem }) {
   const translate = useLanguage();
@@ -65,14 +67,14 @@ export default function Payment({ config, currentItem }) {
                 onClick={() => {
                   navigate(`/${entity.toLowerCase()}`);
                 }}
-                icon={<CloseCircleOutlined />}
+                icon={<Icon component={XCircleIcon} />}
               >
                 {translate('Cancel')}
               </Button>,
               <Button
                 key={`${uniqueId()}`}
                 onClick={() => navigate(`/invoice/read/${currentErp._id}`)}
-                icon={<FileTextOutlined />}
+                icon={<Icon component={DocumentTextIcon} />}
               >
                 {translate('Show Invoice')}
               </Button>,

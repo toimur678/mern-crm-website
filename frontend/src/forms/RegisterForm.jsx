@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Form, Input, Select } from 'antd';
-import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+
 
 import useLanguage from '@/locale/useLanguage';
 import { countryList } from '@/utils/countryList';
+import { UserIcon, LockClosedIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function RegisterForm({ userLocation }) {
   const translate = useLanguage();
@@ -19,7 +21,7 @@ export default function RegisterForm({ userLocation }) {
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} size="large" />
+        <Input prefix={<Icon component={UserIcon} className="site-form-item-icon" />} size="large" />
       </Form.Item>
       <Form.Item
         name="email"
@@ -34,7 +36,7 @@ export default function RegisterForm({ userLocation }) {
         ]}
       >
         <Input
-          prefix={<MailOutlined className="site-form-item-icon" />}
+          prefix={<Icon component={EnvelopeIcon} className="site-form-item-icon" />}
           type="email"
           size="large"
         />
@@ -48,7 +50,7 @@ export default function RegisterForm({ userLocation }) {
           },
         ]}
       >
-        <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} size="large" />
+        <Input.Password prefix={<Icon component={LockClosedIcon} className="site-form-item-icon" />} size="large" />
       </Form.Item>
       {/* <Form.Item
         name="confirm_password"
@@ -68,7 +70,7 @@ export default function RegisterForm({ userLocation }) {
         ]}
         hasFeedback
       >
-        <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} size="large" />
+        <Input.Password prefix={<Icon component={LockClosedIcon} className="site-form-item-icon" />} size="large" />
       </Form.Item> */}
       <Form.Item
         label={translate('country')}

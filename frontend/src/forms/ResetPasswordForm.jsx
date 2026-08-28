@@ -1,8 +1,10 @@
 import React from 'react';
 import { Form, Input } from 'antd';
-import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+
 
 import useLanguage from '@/locale/useLanguage';
+import { UserIcon, LockClosedIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function ResetPasswordForm() {
   return (
@@ -16,7 +18,7 @@ export default function ResetPasswordForm() {
         ]}
       >
         <Input.Password
-          prefix={<LockOutlined className="site-form-item-icon" />}
+          prefix={<Icon component={LockClosedIcon} className="site-form-item-icon" />}
           placeholder="Password"
           size="large"
         />
@@ -39,7 +41,7 @@ export default function ResetPasswordForm() {
         hasFeedback
       >
         <Input.Password
-          prefix={<LockOutlined className="site-form-item-icon" />}
+          prefix={<Icon component={LockClosedIcon} className="site-form-item-icon" />}
           placeholder="Confirm password"
           size="large"
         />

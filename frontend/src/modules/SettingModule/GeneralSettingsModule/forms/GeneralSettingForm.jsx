@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Form, Select, Switch } from 'antd';
-import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
+
 
 import useLanguage from '@/locale/useLanguage';
+import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function GeneralSettingForm() {
   const translate = useLanguage();

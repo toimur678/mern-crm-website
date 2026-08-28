@@ -1,9 +1,11 @@
 import dayjs from 'dayjs';
 import { Switch, Tag } from 'antd';
-import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
+
 import { countryList } from '@/utils/countryList';
 import { generate as uniqueId } from 'shortid';
 import color from '@/utils/color';
+import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export const dataForRead = ({ fields, translate }) => {
   let columns = [];
@@ -41,8 +43,8 @@ export function dataForTable({ fields, translate, moneyFormatter, dateFormat }) 
         render: (_, record) => (
           <Switch
             checked={record[key]}
-            checkedChildren={<CheckOutlined />}
-            unCheckedChildren={<CloseOutlined />}
+            checkedChildren={<Icon component={CheckIcon} />}
+            unCheckedChildren={<Icon component={XMarkIcon} />}
           />
         ),
       },

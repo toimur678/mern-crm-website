@@ -1,6 +1,8 @@
 import React from 'react';
-import { DeleteOutlined } from '@ant-design/icons';
+
 import { Button } from 'antd';
+import { TrashIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 const Notifications = () => {
   const [notifications, setNotifications] = React.useState([
@@ -22,7 +24,7 @@ const Notifications = () => {
       <div className="pad20">
         <p className="strong">Notifications</p>
         <Button type="text" shape="circle" className="del-notif">
-          <DeleteOutlined />
+          <Icon component={TrashIcon} />
         </Button>
       </div>
       <div className="line"></div>
@@ -38,7 +40,7 @@ const Notifications = () => {
               shape="circle"
               onClick={() => deleteNotification(notification.id)}
             >
-              <DeleteOutlined />
+              <Icon component={TrashIcon} />
             </Button>
           </div>
         ))}
