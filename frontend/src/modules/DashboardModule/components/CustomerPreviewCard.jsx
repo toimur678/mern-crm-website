@@ -1,4 +1,4 @@
-import { Statistic, Progress, Divider, Row, Spin } from 'antd';
+import { Statistic, Progress, Divider, Spin } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import useLanguage from '@/locale/useLanguage';
 import { UsersIcon } from '@heroicons/react/24/outline';
@@ -10,13 +10,14 @@ export default function CustomerPreviewCard({
 }) {
   const translate = useLanguage();
   return (
-    <Row className="gutter-row">
+    <div className="gutter-row" style={{ display: 'flex', flexWrap: 'wrap' }}>
       <div
         className="crm-dashboard-card"
         style={{
           height: 458,
           display: 'flex',
           flexDirection: 'column',
+          width: '100%',
         }}
       >
         <div
@@ -136,6 +137,6 @@ export default function CustomerPreviewCard({
           )}
         </div>
       </div>
-    </Row>
+    </div>
   );
 }

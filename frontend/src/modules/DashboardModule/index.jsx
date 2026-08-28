@@ -8,11 +8,13 @@ import useOnFetch from '@/hooks/useOnFetch';
 import { selectMoneyFormat } from '@/redux/settings/selectors';
 import { useSelector } from 'react-redux';
 
+import '../../style/partials/dashboard-theme.css';
 import './dashboard.css';
 
 import WelcomeBanner from './components/WelcomeBanner';
 import SummaryCard from './components/SummaryCard';
-import TotalRevenueCard from './components/TotalRevenueCard';
+import RevenueChart from './components/RevenueChart';
+import GrowthRadial from './components/GrowthRadial';
 import ProfileReport from './components/ProfileReport';
 import OrderStatistics from './components/OrderStatistics';
 import IncomeAreaChart from './components/IncomeAreaChart';
@@ -119,7 +121,21 @@ export default function DashboardModule() {
 
         {/* ─── Row 2 ─── */}
         <div className="grid-area-revenue">
-          <TotalRevenueCard />
+          <div className="total-revenue-card" style={{ 
+            display: 'flex', 
+            backgroundColor: 'var(--bg-surface)', 
+            borderRadius: 'var(--radius-card)', 
+            boxShadow: 'var(--shadow-card)',
+            height: '100%',
+            overflow: 'hidden'
+          }}>
+            <div className="total-revenue-left">
+              <RevenueChart />
+            </div>
+            <div className="total-revenue-right">
+              <GrowthRadial />
+            </div>
+          </div>
         </div>
         <div className="grid-area-stat3">
           <SummaryCard

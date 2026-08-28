@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Col, Progress, Spin } from 'antd';
+import { Progress, Spin } from 'antd';
 import useLanguage from '@/locale/useLanguage';
 
 const colours = {
@@ -111,12 +111,9 @@ export default function PreviewCard({
   }, [statistics, entity]);
 
   return (
-    <Col
+    <div
       className="gutter-row"
-      xs={{ span: 24 }}
-      sm={{ span: 24 }}
-      md={{ span: 12 }}
-      lg={{ span: 12 }}
+      style={{ width: '100%' }}
     >
       <div className="crm-dashboard-card" style={{ padding: '24px', height: '100%' }}>
         <h3
@@ -147,6 +144,6 @@ export default function PreviewCard({
           </div>
         )}
       </div>
-    </Col>
+    </div>
   );
 }

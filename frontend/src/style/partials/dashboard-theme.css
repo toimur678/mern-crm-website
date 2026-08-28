@@ -19,12 +19,36 @@ body {
 /* ─── Dashboard Card Styles ─── */
 .dashboard-card,
 .crm-dashboard-card {
-  background: var(--bg-surface);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
+  background: var(--bg-surface) !important;
+  border-radius: var(--radius-card) !important;
+  box-shadow: var(--shadow-card) !important;
   padding: var(--space-lg);
   transition: transform var(--transition-base), box-shadow var(--transition-base);
-  border: none;
+  border: none !important;
+}
+
+/* ─── Dashboard Grid Layout ─── */
+.dashboard-grid-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+
+.grid-area-welcome { grid-column: span 8; }
+.grid-area-stat1 { grid-column: span 2; }
+.grid-area-stat2 { grid-column: span 2; }
+.grid-area-revenue { grid-column: span 8; }
+.grid-area-stat3 { grid-column: span 2; }
+.grid-area-stat4 { grid-column: span 2; }
+.grid-area-order { grid-column: span 4; }
+.grid-area-income { grid-column: span 4; }
+.grid-area-profile { grid-column: span 4; }
+.grid-area-transactions { grid-column: span 12; }
+
+@media (max-width: 1200px) {
+  .dashboard-grid-container > div {
+    grid-column: span 12 !important;
+  }
 }
 
 .dashboard-card:hover,

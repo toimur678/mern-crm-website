@@ -24,6 +24,13 @@
   box-shadow: var(--shadow-card);
 }
 
+.crm-dashboard-card {
+  background: var(--bg-surface) !important;
+  border-radius: var(--radius-card) !important;
+  box-shadow: var(--shadow-card) !important;
+  border: none !important;
+}
+
 .whiteBox:hover {
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
