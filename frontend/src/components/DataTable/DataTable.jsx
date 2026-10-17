@@ -1,213 +1,81 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-
-import { Dropdown, Button, Input } from 'antd';
-import CustomTable from '@/components/CustomTable';
-import PageHeader from '@/components/PageHeader';
-
+import { Dropdown, Button, Input, Table, Avatar } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { crud } from '@/redux/crud/actions';
 import { selectListItems } from '@/redux/crud/selectors';
-import useLanguage from '@/locale/useLanguage';
+import { useCrudContext } from '@/context/crud';
 import { dataForTable } from '@/utils/dataStructure';
 import { useMoney, useDate } from '@/settings';
-
-import { generate as uniqueId } from 'shortid';
-
-import { useCrudContext } from '@/context/crud';
-import { EyeIcon, PencilIcon, TrashIcon, EllipsisHorizontalIcon, ArrowPathIcon, ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import useLanguage from '@/locale/useLanguage';
+import PageHeader from '@/components/PageHeader';
 import Icon from '@/components/Icon';
+import { EyeIcon, PencilIcon, TrashIcon, EllipsisHorizontalIcon, ArrowPathIcon, PlusIcon, MagnifyingGlassIcon, UsersIcon } from '@heroicons/react/24/outline';
 
-function AddNewItem({ config }) {
-  const { crudContextAction } = useCrudContext();
-  const { collapsedBox, panel } = crudContextAction;
-  const { ADD_NEW_ENTITY } = config;
-
-  const handelClick = () => {
-    panel.open();
-    collapsedBox.close();
-  };
-
-  return (
-    <Button onClick={handelClick} type="primary">
-      {ADD_NEW_ENTITY}
-    </Button>
-  );
-}
 export default function DataTable({ config, extra = [] }) {
-  let { entity, dataTableColumns, DATATABLE_TITLE, fields, searchConfig } = config;
+  const { entity, fields, searchConfig, DATATABLE_TITLE, ADD_NEW_ENTITY } = config;
   const { crudContextAction } = useCrudContext();
   const { panel, collapsedBox, modal, readBox, editBox, advancedBox } = crudContextAction;
   const translate = useLanguage();
   const { moneyFormatter } = useMoney();
   const { dateFormat } = useDate();
-
-  const items = [
-    {
-      label: translate('Show'),
-      key: 'read',
-      icon: <Icon component={EyeIcon} />,
-    },
-    {
-      label: translate('Edit'),
-      key: 'edit',
-      icon: <Icon component={PencilIcon} />,
-    },
-    ...extra,
-    {
-      type: 'divider',
-    },
-
-    {
-      label: translate('Delete'),
-      key: 'delete',
-      icon: <Icon component={TrashIcon} />,
-    },
-  ];
-
-  const navigate = useNavigate();
-
-  const handleRead = (record) => {
-    if (entity === 'client') {
-      navigate(`/customer/read/${record._id}`);
-    } else {
-      dispatch(crud.currentItem({ data: record }));
-      panel.open();
-      collapsedBox.open();
-      readBox.open();
-    }
-  };
-  function handleEdit(record) {
-    dispatch(crud.currentItem({ data: record }));
-    dispatch(crud.currentAction({ actionType: 'update', data: record }));
-    editBox.open();
-    panel.open();
-    collapsedBox.open();
-  }
-  function handleDelete(record) {
-    dispatch(crud.currentAction({ actionType: 'delete', data: record }));
-    modal.open();
-  }
-
-  function handleUpdatePassword(record) {
-    dispatch(crud.currentItem({ data: record }));
-    dispatch(crud.currentAction({ actionType: 'update', data: record }));
-    advancedBox.open();
-    panel.open();
-    collapsedBox.open();
-  }
-
-  let dispatchColumns = [];
-  if (fields) {
-    dispatchColumns = [...dataForTable({ fields, translate, moneyFormatter, dateFormat })];
-  } else {
-    dispatchColumns = [...dataTableColumns];
-  }
-
-  dataTableColumns = [
-    ...dispatchColumns,
-    {
-      title: '',
-      key: 'action',
-      fixed: 'right',
-      render: (_, record) => (
-        <Dropdown
-          menu={{
-            items,
-            onClick: ({ key }) => {
-              switch (key) {
-                case 'read':
-                  handleRead(record);
-                  break;
-                case 'edit':
-                  handleEdit(record);
-                  break;
-
-                case 'delete':
-                  handleDelete(record);
-                  break;
-                case 'updatePassword':
-                  handleUpdatePassword(record);
-                  break;
-
-                default:
-                  break;
-              }
-              // else if (key === '2')handleCloseTask
-            },
-          }}
-          trigger={['click']}
-        >
-          <Icon component={EllipsisHorizontalIcon}
-            style={{ cursor: 'pointer', fontSize: '24px' }}
-            onClick={(e) => e.preventDefault()}
-          />
-        </Dropdown>
-      ),
-    },
-  ];
-
-  const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
-
-  const { pagination, items: dataSource } = listResult;
-
   const dispatch = useDispatch();
-
-  const handelDataTableLoad = useCallback((pagination) => {
-    const options = { page: pagination.current || 1, items: pagination.pageSize || 10 };
-    dispatch(crud.list({ entity, options }));
-  }, []);
-
-  const filterTable = (e) => {
-    const value = e.target.value;
-    const options = { q: value, fields: searchConfig?.searchFields || '' };
-    dispatch(crud.list({ entity, options }));
-  };
-
-  const dispatcher = () => {
-    dispatch(crud.list({ entity }));
-  };
+  const navigate = useNavigate();
+  const [search, setSearch] = useState('');
+  const { result, isLoading } = useSelector(selectListItems);
+  const { pagination = {}, items = [] } = result;
+  const mutationSucceeded = useSelector((state) => state.crud.create.isSuccess || state.crud.update.isSuccess || state.crud.delete.isSuccess);
+  const searchFields = searchConfig?.searchFields || 'name';
+  const load = (page = 1, pageSize = pagination.pageSize || 10) => dispatch(crud.list({ entity, options: { page, items: pageSize, ...(search.trim() ? { q: search.trim(), fields: searchFields } : {}) } }));
 
   useEffect(() => {
-    const controller = new AbortController();
-    dispatcher();
-    return () => {
-      controller.abort();
-    };
-  }, []);
+    const timer = setTimeout(() => load(), search ? 300 : 0);
+    return () => clearTimeout(timer);
+  }, [entity, search]);
 
-  return (
-    <>
-      <PageHeader
-        onBack={() => window.history.back()}
-        backIcon={<Icon component={ArrowLeftIcon} />}
-        title={DATATABLE_TITLE}
-        ghost={false}
-        extra={[
-          <Input
-            key={`searchFilterDataTable}`}
-            onChange={filterTable}
-            placeholder={translate('search')}
-            allowClear
-          />,
-          <Button onClick={handelDataTableLoad} key={`${uniqueId()}`} icon={<Icon component={ArrowPathIcon} />}>
-            {translate('Refresh')}
-          </Button>,
+  useEffect(() => { if (mutationSucceeded) load(); }, [mutationSucceeded]);
 
-          <AddNewItem key={`${uniqueId()}`} config={config} />,
-        ]}
-      ></PageHeader>
+  const addNew = () => { collapsedBox.close(); panel.open(); };
+  const read = (record) => {
+    if (entity === 'client') navigate(`/customer/read/${record._id}`);
+    else { dispatch(crud.currentItem({ data: record })); panel.open(); collapsedBox.open(); readBox.open(); }
+  };
+  const edit = (record) => {
+    dispatch(crud.currentItem({ data: record }));
+    dispatch(crud.currentAction({ actionType: 'update', data: record }));
+    editBox.open(); panel.open(); collapsedBox.open();
+  };
+  const remove = (record) => { dispatch(crud.currentAction({ actionType: 'delete', data: record })); modal.open(); };
+  const baseColumns = fields ? dataForTable({ fields, translate, moneyFormatter, dateFormat }) : config.dataTableColumns;
+  const columns = baseColumns.map((column) => entity === 'client' && (Array.isArray(column.dataIndex) ? column.dataIndex.join('.') : column.dataIndex) === 'name' ? {
+    ...column, title: 'Customer', width: 250,
+    render: (name, record) => <button className="record-customer-link" onClick={() => read(record)}><Avatar shape="square" size={36}>{(name || '?').slice(0, 2).toUpperCase()}</Avatar><span><strong>{name || 'Unnamed customer'}</strong><small>Customer account</small></span></button>,
+  } : { ...column, render: column.render || ((value) => value ?? '—') });
+  columns.push({
+    title: '', key: 'actions', width: 60, align: 'right',
+    render: (_, record) => <Dropdown trigger={['click']} menu={{ items: [
+      { key: 'read', label: 'View details', icon: <Icon component={EyeIcon} /> },
+      { key: 'edit', label: 'Edit details', icon: <Icon component={PencilIcon} /> },
+      ...extra, { type: 'divider' }, { key: 'delete', label: 'Delete', danger: true, icon: <Icon component={TrashIcon} /> },
+    ], onClick: ({ key }) => {
+      if (key === 'read') read(record);
+      if (key === 'edit') edit(record);
+      if (key === 'delete') remove(record);
+      if (key === 'updatePassword') { dispatch(crud.currentItem({ data: record })); dispatch(crud.currentAction({ actionType: 'update', data: record })); advancedBox.open(); panel.open(); collapsedBox.open(); }
+    } }}><Button type="text" aria-label={`Actions for ${record.name || 'record'}`} icon={<Icon component={EllipsisHorizontalIcon} />} /></Dropdown>,
+  });
 
-      <CustomTable
-        columns={dataTableColumns}
-        rowKey={(item) => item._id}
-        dataSource={dataSource}
-        pagination={pagination}
-        loading={listIsLoading}
-        onChange={handelDataTableLoad}
-        scroll={{ x: true }}
-      />
-    </>
-  );
+  return <>
+    <PageHeader title={DATATABLE_TITLE} description={config.PAGE_DESCRIPTION || 'A clear view of the people and details behind your business.'} extra={[<Button key="add" type="primary" onClick={addNew} icon={<Icon component={PlusIcon} />}>{ADD_NEW_ENTITY}</Button>]} />
+    <section className="record-table-card" aria-label={DATATABLE_TITLE}>
+      <div className="record-table-toolbar">
+        <div className="record-list-label">{entity === 'client' ? 'All customers' : DATATABLE_TITLE}<span className="record-count">{pagination.total || 0}</span></div>
+        <div className="record-table-controls">
+          <Input value={search} onChange={(event) => setSearch(event.target.value)} prefix={<Icon component={MagnifyingGlassIcon} />} placeholder={entity === 'client' ? 'Search name, email or phone…' : 'Search records…'} aria-label="Search records" allowClear />
+          <Button onClick={() => load(pagination.current)} loading={isLoading} aria-label="Refresh records" icon={<Icon component={ArrowPathIcon} />} />
+        </div>
+      </div>
+      <Table columns={columns} rowKey="_id" dataSource={items} loading={isLoading} onChange={(page) => load(page.current, page.pageSize)} scroll={{ x: 750 }} pagination={{ ...pagination, showSizeChanger: false, showTotal: (total, range) => `${range[0]}–${range[1]} of ${total} records` }} locale={{ emptyText: <div className="record-empty"><Icon component={UsersIcon} /><h3>{search ? 'No matching records' : 'Your next connection starts here'}</h3><p>{search ? 'Try another name, email or phone number.' : 'Add your first record to keep every detail in one place.'}</p>{!search && <Button type="primary" onClick={addNew}>{ADD_NEW_ENTITY}</Button>}</div> }} />
+    </section>
+  </>;
 }

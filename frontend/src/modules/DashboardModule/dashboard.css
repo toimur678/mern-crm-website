@@ -1,123 +1,897 @@
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 24px;
-}
-
-/* Responsive Grid */
-@media (max-width: 1200px) {
-  .dashboard-grid > div {
-    grid-column: span 12 !important;
-  }
-}
-
-.welcome-banner {
-  background: linear-gradient(135deg, #696cff 0%, #8592ff 100%);
-  border-radius: var(--radius-card, 10px);
-  padding: 24px;
-  min-height: 180px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.nexus-dashboard {
   position: relative;
-  overflow: hidden;
+  color: #182c2a;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1600px;
 }
-
-.welcome-banner h2 {
-  color: #ffffff;
-  margin-top: 0;
+.nexus-dashboard * {
+  box-sizing: border-box;
+}
+.nexus-dashboard h1,
+.nexus-dashboard h2,
+.nexus-dashboard p {
+  margin: 0;
+}
+.nexus-dashboard a {
+  color: #087f70;
+}
+.nexus-dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+.nexus-dashboard-header > div {
+  min-width: 0;
+}
+.nexus-eyebrow {
+  display: block;
+  color: #62756e;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  font-weight: 650;
   margin-bottom: 8px;
 }
-
-.welcome-banner p {
-  color: rgba(255, 255, 255, 0.85);
-  margin-top: 0;
-  margin-bottom: 20px;
+.nexus-dashboard h1 {
+  font-size: clamp(25px, 2.3vw, 32px);
+  line-height: 1.25;
+  font-weight: 650;
+  letter-spacing: -1px;
+  color: #182c2a;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
-
-.welcome-banner .welcome-btn {
-  color: #ffffff;
-  background-color: transparent;
-  border: 1px solid #ffffff;
-  border-radius: 4px;
-  padding: 8px 16px;
-  cursor: pointer;
-  transition: all 0.3s;
+.nexus-dashboard-header p {
+  color: #62756e;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 8px;
 }
-
-.welcome-banner .welcome-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.chart-card {
-  background-color: var(--bg-surface, #ffffff);
-  box-shadow: var(--shadow-card, 0 2px 6px 0 rgba(67,89,113,0.12));
-  border-radius: var(--radius-card, 10px);
-  padding: 24px;
-  border: none;
-}
-
-.stat-growth {
-  display: flex;
+.nexus-dashboard .nexus-new-invoice {
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-weight: 500;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  color: #fff;
+  background: #087f70;
+  border-radius: 7px;
+  transition:
+    transform 140ms cubic-bezier(0.23, 1, 0.32, 1),
+    background-color 140ms ease;
+  font-size: 12px;
+  height: 40px;
+  padding-inline: 17px;
+  font-weight: 550;
+  box-shadow: none;
 }
-
-.stat-growth.positive {
-  color: var(--color-success, #71dd37);
-}
-
-.stat-growth.negative {
-  color: var(--color-danger, #ff3e1d);
-}
-
-.transaction-item {
+.nexus-dashboard-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border-color-light, #eeeef0);
-  transition: background-color 0.2s;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 19px;
 }
-
-.transaction-item:hover {
-  background-color: rgba(67, 89, 113, 0.04);
+.nexus-today {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #62756e;
+  font-size: 12px;
 }
-
-.transaction-amount.positive {
-  color: var(--color-success, #71dd37);
-  font-weight: 500;
+.nexus-today .anticon {
+  font-size: 14px;
 }
-
-.transaction-amount.negative {
-  color: var(--color-danger, #ff3e1d);
-  font-weight: 500;
+.nexus-dashboard-filters {
+  display: flex;
+  align-items: center;
+  gap: 9px;
 }
-
-.total-revenue-card {
-  flex-direction: row;
+.nexus-filter-label {
+  color: #62756e;
+  font-size: 11px;
+  margin-right: 4px;
 }
-.total-revenue-left {
-  flex: 0 0 65%;
-  border-right: 1px solid var(--border-color-light);
+.nexus-dashboard .ant-select-selector,
+.nexus-dashboard .ant-btn-default {
+  border-color: #e3eae7 !important;
+  box-shadow: none !important;
 }
-.total-revenue-right {
-  flex: 0 0 35%;
+.nexus-dashboard .ant-select {
+  font-size: 11px;
+}
+.nexus-dashboard .ant-btn {
+  border-radius: 7px;
+  transition:
+    transform 140ms cubic-bezier(0.23, 1, 0.32, 1),
+    background-color 140ms ease;
+}
+.nexus-dashboard .ant-btn:active,
+.nexus-dashboard .nexus-new-invoice:active {
+  transform: scale(0.97);
+}
+.nexus-panel {
+  background: #fff;
+  border: 1px solid #e3eae7;
+  border-radius: 12px;
+  min-width: 0;
+  overflow: hidden;
+}
+.nexus-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+.nexus-metric {
+  padding: 19px 20px 17px;
+}
+.nexus-metric-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #62756e;
+  font-size: 11px;
+  font-weight: 550;
+  margin-bottom: 12px;
+}
+.nexus-metric-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 31px;
+  width: 31px;
+  border-radius: 8px;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.nexus-metric-icon.is-teal {
+  color: #087f70;
+  background: #eaf5ef;
+}
+.nexus-metric-icon.is-sage {
+  color: #688d80;
+  background: #f0f5f1;
+}
+.nexus-metric-icon.is-amber {
+  color: #bd8a35;
+  background: #fcf4e8;
+}
+.nexus-metric-icon.is-blue {
+  color: #6484a6;
+  background: #eef3f8;
+}
+.nexus-metric-value {
+  color: #182c2a;
+  font-size: clamp(22px, 2.1vw, 29px);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.8px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.nexus-metric p {
+  color: #62756e;
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 8px;
+}
+.nexus-metric .ant-skeleton {
+  margin-top: 18px;
+}
+.nexus-dashboard-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(280px, 1fr);
+  gap: 22px;
+  margin-bottom: 22px;
+}
+.nexus-panel-heading {
+  padding: 22px 23px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+.nexus-panel-heading h2 {
+  color: #182c2a;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.2px;
+}
+.nexus-panel-heading p {
+  color: #62756e;
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 3px;
+}
+.nexus-panel-heading .ant-select {
+  min-width: 123px;
+}
+.nexus-chart-totals {
+  padding: 23px 23px 7px;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+.nexus-chart-totals > div {
+  min-width: 0;
+}
+.nexus-chart-totals > div > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #62756e;
+  font-size: 11px;
+}
+.nexus-chart-totals strong {
+  display: block;
+  color: #182c2a;
+  font-size: 21px;
+  font-weight: 600;
+  margin-top: 5px;
+  letter-spacing: -0.6px;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+.nexus-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.nexus-dot.is-teal {
+  background: #087f70;
+}
+.nexus-dot.is-sage {
+  background: #afc6bf;
+}
+.nexus-dot.is-amber {
+  background: #e8ba6b;
+}
+.nexus-dot.is-light {
+  background: #e1e8e3;
+}
+.nexus-currency-label {
+  margin-left: auto;
+  color: #62756e;
+  font-size: 10px;
+  border: 1px solid #edf1ef;
+  border-radius: 5px;
+  padding: 3px 6px;
+}
+.nexus-chart {
+  padding: 0 12px 8px 8px;
+  min-height: 268px;
+}
+.nexus-dashboard .apexcharts-tooltip {
+  border: 1px solid #e3eae7 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 5px 18px #182c2a0d !important;
+}
+.nexus-subtle-icon {
+  color: #93a49d;
+  font-size: 18px;
+  padding-top: 2px;
+}
+.nexus-health-donut {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 151px;
+  height: 151px;
+  margin: 26px auto 20px;
+  border-radius: 50%;
+}
+.nexus-health-donut > div {
+  width: 124px;
+  height: 124px;
+  background: #fff;
+  border-radius: 50%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.nexus-health-donut strong {
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -1.5px;
+  font-variant-numeric: tabular-nums;
+}
+.nexus-health-donut strong span {
+  font-size: 20px;
+  margin-left: 1px;
+}
+.nexus-health-donut > div > span {
+  font-size: 10px;
+  color: #62756e;
+  margin-top: 4px;
+}
+.nexus-health-legend {
+  padding: 0 24px;
+  margin: 0 0 20px;
+  display: grid;
+  gap: 11px;
+}
+.nexus-health-legend > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11px;
+}
+.nexus-health-legend dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #62756e;
+}
+.nexus-health-legend dd {
+  margin: 0;
+  color: #182c2a;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.nexus-dashboard .nexus-panel-footer-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #edf1ef;
+  color: #087f70;
+  font-size: 11px;
+  font-weight: 550;
+  padding: 14px 24px;
+}
+.nexus-view-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  white-space: nowrap;
+  padding-top: 3px;
+  font-weight: 550;
+}
+.nexus-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e3eae7;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+.nexus-table-wrap {
+  position: relative;
+  overflow-x: auto;
+  width: 100%;
+  margin-top: 22px;
+}
+.nexus-invoice-table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+.nexus-invoice-table th {
+  color: #62756e;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 10px 10px;
+  background: #fafcfb;
+  border-top: 1px solid #edf1ef;
+  border-bottom: 1px solid #edf1ef;
+}
+.nexus-invoice-table th:first-child,
+.nexus-invoice-table td:first-child {
+  padding-left: 23px;
+}
+.nexus-invoice-table th:last-child,
+.nexus-invoice-table td:last-child {
+  padding-right: 23px;
+}
+.nexus-invoice-table td {
+  padding: 14px 10px;
+  border-bottom: 1px solid #f0f3f1;
+  font-size: 11px;
+}
+.nexus-invoice-table tr:last-child td {
+  border-bottom: 0;
+}
+.nexus-client-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 145px;
+}
+.nexus-client-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 31px;
+  height: 31px;
+  background: #edf4ef;
+  color: #526e60;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.nexus-client-cell > div {
+  min-width: 0;
+}
+.nexus-client-cell a {
+  display: block;
+  color: #314641;
+  font-size: 12px;
+  font-weight: 550;
+  max-width: 175px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nexus-client-cell > div > span {
+  display: block;
+  color: #62756e;
+  font-size: 10px;
+  margin-top: 3px;
+}
+.nexus-date-cell {
+  color: #62756e;
+}
+.nexus-amount-cell {
+  color: #314641;
+  font-weight: 550;
+  font-variant-numeric: tabular-nums;
+}
+.nexus-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 5px;
+  padding: 4px 7px;
+  font-size: 10px;
+  line-height: 1.25;
+}
+.nexus-status i {
+  width: 4px;
+  height: 4px;
+  background: currentColor;
+  border-radius: 50%;
+}
+.nexus-status.is-paid {
+  color: #077567;
+  background: #eaf5ef;
+}
+.nexus-status.is-overdue {
+  color: #a74838;
+  background: #fcf0ec;
+}
+.nexus-status.is-partial {
+  color: #806023;
+  background: #fcf5e7;
+}
+.nexus-status.is-unpaid {
+  color: #5c7068;
+  background: #f0f3f1;
+}
+.nexus-status.is-paid i {
+  background: #087f70;
+}
+.nexus-status.is-overdue i {
+  background: #bc6152;
+}
+.nexus-status.is-partial i {
+  background: #a7813b;
+}
+.nexus-status.is-unpaid i {
+  background: #70817e;
+}
+.nexus-row-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  color: #81908c !important;
+  border-radius: 5px;
+}
+.nexus-payment-list {
+  list-style: none;
+  padding: 6px 23px 0;
+  margin: 13px 0 0;
+}
+.nexus-payment-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 0;
+  border-bottom: 1px solid #f0f3f1;
+}
+.nexus-payment-list li:last-child {
+  border-bottom: 0;
+}
+.nexus-payment-icon {
+  background: #edf5ef;
+  color: #087f70;
+  height: 31px;
+  width: 31px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.nexus-payment-info {
+  flex: 1;
+  min-width: 0;
+}
+.nexus-payment-info a {
+  display: block;
+  color: #314641;
+  font-size: 12px;
+  font-weight: 550;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nexus-payment-info > span {
+  display: block;
+  color: #62756e;
+  font-size: 10px;
+  margin-top: 4px;
+}
+.nexus-payment-list strong {
+  color: #087f70;
+  font-weight: 600;
+  font-size: 12px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.nexus-payment-note {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #62756e;
+  font-size: 10px;
+  border-top: 1px solid #edf1ef;
+  padding: 15px 23px;
+  margin-top: 2px;
+}
+.nexus-payment-note .nexus-dot {
+  width: 5px;
+  height: 5px;
+}
+.nexus-dashboard-footnote {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  color: #62756e;
+  font-size: 10px;
+  line-height: 1.7;
+  padding-bottom: 8px;
+}
+.nexus-dashboard-footnote > span:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.nexus-dashboard-footnote .nexus-dot {
+  width: 5px;
+  height: 5px;
+}
+.nexus-empty-state {
+  min-height: 260px;
+  padding: 40px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+.nexus-empty-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #edf5ef;
+  color: #087f70;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+.nexus-empty-state strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+.nexus-empty-state p {
+  color: #62756e;
+  font-size: 11px;
+  max-width: 270px;
+  line-height: 1.7;
+  margin-top: 7px;
+}
+.nexus-empty-state a {
+  font-size: 11px;
+  margin-top: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 550;
+}
+.nexus-content-skeleton {
+  padding: 26px;
+  min-height: 380px;
+}
+.nexus-dashboard-error {
+  text-align: center;
+  padding: 64px 24px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.nexus-dashboard-error h2 {
+  font-size: 19px;
+  font-weight: 600;
+}
+.nexus-dashboard-error p {
+  font-size: 13px;
+  color: #62756e;
+  margin: 10px 0 24px;
+  max-width: 440px;
+}
+.nexus-sr-only {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.nexus-dashboard a:focus-visible {
+  outline: 2px solid #087f70;
+  outline-offset: 4px;
 }
 
-@media (max-width: 992px) {
-  .total-revenue-card {
+@media (hover: hover) and (pointer: fine) {
+  .nexus-dashboard .nexus-new-invoice:hover {
+    background: #066c5f;
+    color: #fff;
+  }
+  .nexus-row-link:hover,
+  .nexus-icon-link:hover {
+    background: #f0f5f1;
+    color: #087f70 !important;
+  }
+  .nexus-client-cell a:hover,
+  .nexus-payment-info a:hover {
+    color: #087f70;
+  }
+  .nexus-panel-footer-link:hover {
+    background: #fafcfb;
+  }
+}
+@media (min-width: 1600px) {
+  .nexus-metric-value {
+    font-size: 32px;
+  }
+  .nexus-panel-heading h2 {
+    font-size: 16px;
+  }
+}
+@media (max-width: 1199px) {
+  .nexus-dashboard-content {
+    grid-template-columns: minmax(0, 1.55fr) minmax(270px, 1fr);
+    gap: 18px;
+  }
+  .nexus-metric-grid {
+    gap: 14px;
+  }
+  .nexus-metric {
+    padding-inline: 16px;
+  }
+  .nexus-invoice-table {
+    min-width: 550px;
+  }
+  .nexus-panel-heading {
+    padding-inline: 18px;
+  }
+  .nexus-payment-list {
+    padding-inline: 18px;
+  }
+}
+@media (max-width: 991px) {
+  .nexus-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .nexus-dashboard-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .nexus-metric-value {
+    font-size: 28px;
+  }
+  .nexus-invoice-health {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .nexus-invoice-health .nexus-panel-heading {
+    grid-column: 1 / -1;
+  }
+  .nexus-health-donut {
+    width: 130px;
+    height: 130px;
+    margin: 22px auto;
+  }
+  .nexus-health-donut > div {
+    width: 107px;
+    height: 107px;
+  }
+  .nexus-health-legend {
+    align-self: center;
+    margin: 0;
+    padding-left: 14px;
+    gap: 18px;
+  }
+  .nexus-panel-footer-link {
+    grid-column: 1 / -1;
+  }
+  .nexus-payment-info a,
+  .nexus-client-cell a,
+  .nexus-invoice-table td,
+  .nexus-payment-list strong {
+    font-size: 12px;
+  }
+  .nexus-payment-info > span,
+  .nexus-client-cell > div > span,
+  .nexus-invoice-table th {
+    font-size: 10px;
+  }
+  .nexus-status {
+    font-size: 10px;
+  }
+}
+@media (max-width: 575px) {
+  .nexus-dashboard-header {
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .nexus-dashboard h1 {
+    font-size: 24px;
+  }
+  .nexus-eyebrow {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+  .nexus-dashboard-header p {
+    font-size: 11px;
+    max-width: 235px;
+  }
+  .nexus-dashboard .nexus-new-invoice {
+    height: 35px;
+    font-size: 10px;
+    padding-inline: 10px;
+    margin-top: 19px;
+  }
+  .nexus-dashboard-toolbar {
+    gap: 12px;
+  }
+  .nexus-today {
+    font-size: 10px;
+  }
+  .nexus-filter-label {
+    display: none;
+  }
+  .nexus-metric-grid {
+    gap: 11px;
+    margin-bottom: 16px;
+  }
+  .nexus-metric {
+    padding: 14px;
+  }
+  .nexus-metric-top {
+    font-size: 10px;
+    gap: 4px;
+    margin-bottom: 9px;
+  }
+  .nexus-metric-icon {
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
+  }
+  .nexus-metric-value {
+    font-size: clamp(18px, 5.6vw, 23px);
+    letter-spacing: -0.7px;
+  }
+  .nexus-metric p {
+    font-size: 10px;
+    margin-top: 6px;
+  }
+  .nexus-panel-heading {
+    padding: 18px 16px 0;
+    gap: 10px;
+  }
+  .nexus-panel-heading h2 {
+    font-size: 14px;
+  }
+  .nexus-panel-heading p {
+    font-size: 10px;
+  }
+  .nexus-panel-heading .ant-select {
+    min-width: 111px;
+  }
+  .nexus-chart-totals {
+    padding: 20px 16px 5px;
+    gap: 20px;
+  }
+  .nexus-chart-totals strong {
+    font-size: 20px;
+  }
+  .nexus-currency-label {
+    display: none;
+  }
+  .nexus-dashboard-content {
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .nexus-invoice-table {
+    min-width: 560px;
+  }
+  .nexus-invoice-health {
+    grid-template-columns: 150px 1fr;
+  }
+  .nexus-health-legend {
+    padding-left: 4px;
+    padding-right: 16px;
+    font-size: 10px;
+  }
+  .nexus-health-donut {
+    width: 112px;
+    height: 112px;
+  }
+  .nexus-health-donut > div {
+    width: 92px;
+    height: 92px;
+  }
+  .nexus-health-donut strong {
+    font-size: 29px;
+  }
+  .nexus-payment-list {
+    padding-inline: 16px;
+  }
+  .nexus-payment-list strong {
+    font-size: 11px;
+  }
+  .nexus-dashboard-footnote {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
-  .total-revenue-left {
-    flex: 1 1 100%;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color-light);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nexus-dashboard .ant-btn,
+  .nexus-dashboard .nexus-new-invoice {
+    transition: none;
   }
-  .total-revenue-right {
-    flex: 1 1 100%;
+  .nexus-dashboard .ant-btn:active,
+  .nexus-dashboard .nexus-new-invoice:active {
+    transform: none;
   }
 }

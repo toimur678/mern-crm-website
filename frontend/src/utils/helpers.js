@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export function get(obj, key) {
   return key.split('.').reduce(function (o, x) {
     return o === undefined || o === null ? o : o[x];
@@ -5,8 +7,8 @@ export function get(obj, key) {
 }
 
 Object.byString = function (o, s) {
-  s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-  s = s.replace(/^\./, ''); // strip a leading dot
+  s = s.replace(/\[(\w+)\]/g, '.$1');
+  s = s.replace(/^\./, '');
   let a = s.split('.');
   for (let i = 0, n = a.length; i < n; ++i) {
     let k = a[i];
@@ -23,22 +25,15 @@ Object.byString = function (o, s) {
   return o;
 };
 
-/* 
- To check only if a property exists, without getting its value. It similar get function.
-*/
 export function has(obj, key) {
   return key.split('.').every(function (x) {
     if (typeof obj !== 'object' || obj === null || x in obj === false)
-      /// !x in obj or  x in obj === true *** if you find any bug
       return false;
     obj = obj[x];
     return true;
   });
 }
 
-/* 
- convert indexes to properties
-*/
 export function valueByString(obj, string, devider) {
   if (devider === undefined) {
     devider = '|';
@@ -51,9 +46,6 @@ export function valueByString(obj, string, devider) {
     .join(' ');
 }
 
-/*
- Submit multi-part form using ajax.
-*/
 export function toFormData(form) {
   let formData = new FormData();
   const elements = form.querySelectorAll('input, select, textarea');
@@ -77,9 +69,6 @@ export function toFormData(form) {
   return formData;
 }
 
-/*
- Format Date to display admin
-*/
 export function formatDate(param) {
   const date = new Date(param);
   let day = date.getDate().toString();
@@ -97,19 +86,10 @@ export const isDate = function ({ date, format = 'YYYY-MM-DD' }) {
   if (dayjs(date, format).isValid()) return true;
   return false;
 };
-/*
- Format Datetime to display admin
-*/
+
 export function formatDatetime(param) {
   let time = new Date(param).toLocaleTimeString();
   return formatDate(param) + ' ' + time;
 }
 
-/*
-  Regex to validate phone number format
-*/
 export const validatePhoneNumber = /^(?:[+\d()\-\s]+)$/;
-
-/*
- Set object value in html
-*/

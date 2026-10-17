@@ -22,12 +22,10 @@ export default function useTimeoutFn(fn, ms = 0) {
     timeout.current && clearTimeout(timeout.current);
   }, []);
 
-  // update ref when function changes
   useEffect(() => {
     callback.current = fn;
   }, [fn]);
 
-  // set on mount, clear on unmount
   useEffect(() => {
     set();
 

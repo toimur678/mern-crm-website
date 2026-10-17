@@ -14,21 +14,15 @@ export default function CreateForm({ config, formElements, withUpload = false })
   let { entity } = config;
   const dispatch = useDispatch();
   const { isLoading, isSuccess } = useSelector(selectCreatedItem);
-  const { crudContextAction } = useCrudContext();
+  const { state: { isPanelClose }, crudContextAction } = useCrudContext();
   const { panel, collapsedBox, readBox } = crudContextAction;
   const [form] = Form.useForm();
   const translate = useLanguage();
+  useEffect(() => { if (isPanelClose) form.resetFields(); }, [isPanelClose, form]);
   const onSubmit = (fieldsValue) => {
-    // Manually trim values before submission
-
     if (fieldsValue.file && withUpload) {
       fieldsValue.file = fieldsValue.file[0].originFileObj;
     }
-
-    // const trimmedValues = Object.keys(fieldsValue).reduce((acc, key) => {
-    //   acc[key] = typeof fieldsValue[key] === 'string' ? fieldsValue[key].trim() : fieldsValue[key];
-    //   return acc;
-    // }, {});
 
     dispatch(crud.create({ entity, jsonData: fieldsValue, withUpload }));
   };
@@ -40,17 +34,16 @@ export default function CreateForm({ config, formElements, withUpload = false })
       panel.open();
       form.resetFields();
       dispatch(crud.resetAction({ actionType: 'create' }));
-      dispatch(crud.list({ entity }));
     }
   }, [isSuccess]);
 
   return (
     <Loading isLoading={isLoading}>
-      <Form form={form} layout="vertical" onFinish={onSubmit}>
+      <Form form={form} disabled={isLoading} layout="vertical" onFinish={onSubmit}>
         {formElements}
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            {translate('Submit')}
+          <Button type="primary" htmlType="submit" loading={isLoading} block>
+            {config.ADD_NEW_ENTITY || translate('Save')}
           </Button>
         </Form.Item>
       </Form>

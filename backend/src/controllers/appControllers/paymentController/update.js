@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const Model = mongoose.model('Payment');
 const Invoice = mongoose.model('Invoice');
-const custom = require('@/controllers/pdfController');
 
 const { calculate } = require('@/helpers');
 
@@ -14,14 +13,14 @@ const update = async (req, res) => {
       message: `The Minimum Amount couldn't be 0`,
     });
   }
-  // Find document by id and updates with the required fields
+
   const previousPayment = await Model.findOne({
     _id: req.params.id,
     removed: false,
   });
 
   const { amount: previousAmount } = previousPayment;
-  const { id: invoiceId, total, discount, credit: previousCredit } = previousPayment.invoice;
+  const { total, discount, credit: previousCredit } = previousPayment.invoice;
 
   const { amount: currentAmount } = req.body;
 
@@ -59,11 +58,11 @@ const update = async (req, res) => {
     { _id: req.params.id, removed: false },
     { $set: updates },
     {
-      new: true, // return the new result instead of the old one
+      new: true,
     }
   ).exec();
 
-  const updateInvoice = await Invoice.findOneAndUpdate(
+  await Invoice.findOneAndUpdate(
     { _id: result.invoice._id.toString() },
     {
       $inc: { credit: changedAmount },
@@ -72,7 +71,7 @@ const update = async (req, res) => {
       },
     },
     {
-      new: true, // return the new result instead of the old one
+      new: true,
     }
   ).exec();
 

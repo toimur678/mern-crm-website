@@ -1,87 +1,73 @@
 import { useEffect } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { settingsAction } from '@/redux/settings/actions';
 import { selectSettings } from '@/redux/settings/selectors';
-
-import { Button, Form } from 'antd';
-import Loading from '@/components/Loading';
-import useLanguage from '@/locale/useLanguage';
-import { notification } from 'antd';
+import { Button, Form, notification } from 'antd';
+import { CheckIcon } from '@heroicons/react/24/outline';
+import Icon from '@/components/Icon';
 
 export default function UpdateSettingForm({ config, children, withUpload, uploadSettingKey }) {
-  let { entity, settingsCategory } = config;
+  const { entity, settingsCategory } = config;
   const dispatch = useDispatch();
   const { result, isLoading } = useSelector(selectSettings);
-  const translate = useLanguage();
   const [form] = Form.useForm();
-
-  const onSubmit = (fieldsValue) => {
-    console.log('🚀 ~ onSubmit ~ fieldsValue:', fieldsValue);
+  const current = result?.[settingsCategory];
+  useEffect(() => {
+    form.setFieldsValue(current || {});
+  }, [current, form]);
+  const onSubmit = (values) => {
     if (withUpload) {
-      if (fieldsValue.file) {
-        fieldsValue.file = fieldsValue.file[0].originFileObj;
-      } else {
-        notification.error({
-          message: translate('Please select a file to upload.'),
-        });
+      const file = values.file?.[0]?.originFileObj;
+      if (!file) {
+        notification.error({ message: 'Choose a logo to upload.' });
         return;
-      } 
+      }
       dispatch(
-        settingsAction.upload({ entity, settingKey: uploadSettingKey, jsonData: fieldsValue })
+        settingsAction.upload({
+          entity,
+          settingKey: uploadSettingKey,
+          jsonData: { ...values, file },
+        })
       );
     } else {
-      const settings = [];
-
-      for (const [key, value] of Object.entries(fieldsValue)) {
-        settings.push({ settingKey: key, settingValue: value });
-      }
-
+      const settings = Object.entries(values).map(([settingKey, settingValue]) => ({
+        settingKey,
+        settingValue,
+      }));
       dispatch(settingsAction.updateMany({ entity, jsonData: { settings } }));
     }
   };
-
-
-
-
-  useEffect(() => {
-    const current = result[settingsCategory];
-
-    form.setFieldsValue(current);
-  }, [result]);
-
   return (
-    <div>
-      <Loading isLoading={isLoading}>
-        <Form
-          form={form}
-          onFinish={onSubmit}
-          // onValuesChange={handleValuesChange}
-          labelCol={{ span: 10 }}
-          labelAlign="left"
-          wrapperCol={{ span: 16 }}
-        >
-          {children}
-          <Form.Item
-            style={{
-              display: 'inline-block',
-              paddingRight: '5px',
+    <Form
+      form={form}
+      onFinish={onSubmit}
+      layout="vertical"
+      className="settings-form"
+      requiredMark={false}
+      disabled={isLoading}
+    >
+      <div className="settings-form-body">{children}</div>
+      <footer className="settings-form-footer">
+        <span>Changes apply across your workspace.</span>
+        <div>
+          <Button
+            onClick={() => {
+              form.resetFields();
+              form.setFieldsValue(current || {});
             }}
           >
-            <Button type="primary" htmlType="submit">
-              {translate('Save')}
-            </Button>
-          </Form.Item>
-          <Form.Item
-            style={{
-              display: 'inline-block',
-              paddingLeft: '5px',
-            }}
+            Reset
+          </Button>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={isLoading}
+            icon={<Icon component={CheckIcon} />}
           >
-            {/* <Button onClick={() => console.log('Cancel clicked')}>{translate('Cancel')}</Button> */}
-          </Form.Item>
-        </Form>
-      </Loading>
-    </div>
+            Save changes
+          </Button>
+        </div>
+      </footer>
+    </Form>
   );
 }

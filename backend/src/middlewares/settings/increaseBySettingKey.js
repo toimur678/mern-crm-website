@@ -14,16 +14,14 @@ const increaseBySettingKey = async ({ settingKey }) => {
         $inc: { settingValue: 1 },
       },
       {
-        new: true, // return the new result instead of the old one
+        new: true,
         runValidators: true,
       }
     ).exec();
 
-    // If no results found, return document not found
     if (!result) {
       return null;
     } else {
-      // Return success resposne
       return result;
     }
   } catch {

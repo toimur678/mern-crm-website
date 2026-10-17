@@ -1,3 +1,4 @@
+/* eslint-env node */
 import path from 'path';
 
 import { defineConfig, loadEnv } from 'vite';
@@ -27,6 +28,8 @@ export default ({ mode }) => {
           changeOrigin: true,
           secure: false,
         },
+        '/download': { target: proxy_url, changeOrigin: true, secure: false },
+        '/public': { target: proxy_url, changeOrigin: true, secure: false },
       },
     },
   };

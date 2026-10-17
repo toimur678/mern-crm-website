@@ -2,12 +2,10 @@ const mongoose = require('mongoose');
 
 const Model = mongoose.model('Payment');
 const Invoice = mongoose.model('Invoice');
-const custom = require('@/controllers/pdfController');
 
 const { calculate } = require('@/helpers');
 
 const create = async (req, res) => {
-  // Creating a new document in the collection
   if (req.body.amount === 0) {
     return res.status(202).json({
       success: false,
@@ -51,10 +49,9 @@ const create = async (req, res) => {
       new: true,
     }
   ).exec();
-  // Returning successfull response
 
   const { _id: paymentId, amount } = result;
-  const { id: invoiceId, total, discount, credit } = currentInvoice;
+  const { total, discount, credit } = currentInvoice;
 
   let paymentStatus =
     calculate.sub(total, discount) === calculate.add(credit, amount)
@@ -63,7 +60,7 @@ const create = async (req, res) => {
       ? 'partially'
       : 'unpaid';
 
-  const invoiceUpdate = await Invoice.findOneAndUpdate(
+  await Invoice.findOneAndUpdate(
     { _id: req.body.invoice },
     {
       $push: { payment: paymentId.toString() },
@@ -71,7 +68,7 @@ const create = async (req, res) => {
       $set: { paymentStatus: paymentStatus },
     },
     {
-      new: true, // return the new result instead of the old one
+      new: true,
       runValidators: true,
     }
   ).exec();

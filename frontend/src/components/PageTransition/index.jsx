@@ -8,29 +8,24 @@ export default function PageTransition({ children }) {
   const prevPathRef = useRef(location.pathname);
 
   useEffect(() => {
-    // Only animate if path actually changed
     if (prevPathRef.current !== location.pathname) {
       prevPathRef.current = location.pathname;
 
-      // Start exit
       setTransitionClass('page-transition-exit');
 
       const exitTimer = setTimeout(() => {
-        // Swap content and start enter
         setDisplayChildren(children);
         setTransitionClass('page-transition-enter');
 
-        // Trigger reflow then apply enter-active
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             setTransitionClass('page-transition-enter-active');
           });
         });
-      }, 150); // Exit duration
+      }, 150);
 
       return () => clearTimeout(exitTimer);
     } else {
-      // Same path (initial mount or re-render), just update children
       setDisplayChildren(children);
     }
   }, [location.pathname, children]);

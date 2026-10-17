@@ -9,7 +9,6 @@ const login = async (req, res, { userModel }) => {
   const UserModel = mongoose.model(userModel);
   const { email, password } = req.body;
 
-  // validate
   const objectSchema = Joi.object({
     email: Joi.string()
       .email({ tlds: { allow: true } })
@@ -30,7 +29,6 @@ const login = async (req, res, { userModel }) => {
 
   const user = await UserModel.findOne({ email: email, removed: false });
 
-  // console.log(user);
   if (!user)
     return res.status(404).json({
       success: false,
@@ -47,7 +45,6 @@ const login = async (req, res, { userModel }) => {
       message: 'Your account is disabled, contact your account adminstrator',
     });
 
-  //  authUser if your has correct password
   authUser(req, res, {
     user,
     databasePassword,

@@ -1,249 +1,49 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Drawer, Layout, Tooltip } from 'antd';
-import { useAppContext } from '@/context/appContext';
-import useLanguage from '@/locale/useLanguage';
+import { useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { Avatar, Button, Drawer } from 'antd';
+import { useSelector } from 'react-redux';
+import { selectCurrentAdmin } from '@/redux/auth/selectors';
+import { Squares2X2Icon, UsersIcon, DocumentTextIcon, CreditCardIcon, Cog6ToothIcon, BanknotesIcon, ReceiptPercentIcon, Bars3Icon, ArrowUpRightIcon, ChevronUpDownIcon, Square3Stack3DIcon } from '@heroicons/react/24/outline';
 import useResponsive from '@/hooks/useResponsive';
 
-import {
-  HomeIcon,
-  UsersIcon,
-  DocumentTextIcon,
-  DocumentDuplicateIcon,
-  CreditCardIcon,
-  WalletIcon,
-  BanknotesIcon,
-  Cog6ToothIcon,
-  InformationCircleIcon,
-  Bars3Icon,
-  CubeTransparentIcon
-} from '@heroicons/react/24/outline';
+export const workspacePages = [
+  { label: 'Overview', path: '/', icon: Squares2X2Icon, end: true, keywords: 'dashboard home revenue' },
+  { label: 'Customers', path: '/customer', icon: UsersIcon, keywords: 'clients contacts people' },
+  { label: 'Invoices', path: '/invoice', icon: DocumentTextIcon, keywords: 'billing sales documents' },
+  { label: 'Payments', path: '/payment', icon: CreditCardIcon, end: true, keywords: 'transactions income' },
+  { label: 'Payment methods', path: '/payment/mode', icon: BanknotesIcon, keywords: 'bank cash transfer' },
+  { label: 'Taxes', path: '/taxes', icon: ReceiptPercentIcon, keywords: 'rates vat tax' },
+  { label: 'Settings', path: '/settings', icon: Cog6ToothIcon, keywords: 'company currency preferences' },
+];
 
-import {
-  HomeIcon as HomeIconSolid,
-  UsersIcon as UsersIconSolid,
-  DocumentTextIcon as DocumentTextIconSolid,
-  DocumentDuplicateIcon as DocumentDuplicateIconSolid,
-  CreditCardIcon as CreditCardIconSolid,
-  WalletIcon as WalletIconSolid,
-  BanknotesIcon as BanknotesIconSolid,
-  Cog6ToothIcon as Cog6ToothIconSolid,
-  InformationCircleIcon as InformationCircleIconSolid
-} from '@heroicons/react/24/solid';
+export function Brand() {
+  return <NavLink to="/" className="workspace-brand" aria-label="Nexus CRM home"><span className="brand-mark"><Square3Stack3DIcon /></span><span>nexus<span className="brand-dot">.</span></span><span className="brand-caption">CRM</span></NavLink>;
+}
 
-const { Sider } = Layout;
+function SidebarContent({ onNavigate }) {
+  const currentAdmin = useSelector(selectCurrentAdmin);
+  const company = useSelector(state => state.settings.result?.company_settings?.company_name);
+  const link = page => <NavLink key={page.path} to={page.path} end={page.end} onClick={onNavigate} className={({ isActive }) => `workspace-nav-link${isActive ? ' is-active' : ''}`}><page.icon /><span>{page.label}</span>{page.path === '/' && <span className="nav-active-dot" />}</NavLink>;
+  return <div className="sidebar-content">
+    <Brand />
+    <NavLink to="/settings" onClick={onNavigate} className="workspace-switcher"><span className="workspace-avatar">{(company || 'My workspace').slice(0, 1).toUpperCase()}</span><span><strong>{company || 'My workspace'}</strong><small>Business workspace</small></span><ChevronUpDownIcon /></NavLink>
+    <nav aria-label="Main navigation"><p className="nav-section-label">WORKSPACE</p>{workspacePages.slice(0, 4).map(link)}<p className="nav-section-label nav-section-finance">MANAGE</p>{workspacePages.slice(4, 6).map(link)}</nav>
+    <div className="sidebar-bottom">
+      <div className="sidebar-tip"><span className="tip-symbol">✦</span><strong>Good business starts<br />with great connections.</strong><p>Keep your customers close and your next steps clear.</p><NavLink to="/customer" onClick={onNavigate}>Your customers <ArrowUpRightIcon /></NavLink></div>
+      <nav aria-label="Workspace settings">{link(workspacePages[6])}</nav>
+      <NavLink to="/profile" onClick={onNavigate} className="sidebar-profile"><Avatar size={35} style={{ background: '#e6eee9', color: '#375d4f', fontWeight: 600 }}>{currentAdmin?.name?.[0] || 'A'}</Avatar><span><strong>{[currentAdmin?.name, currentAdmin?.surname].filter(Boolean).join(' ') || 'Your account'}</strong><small>Manage your profile</small></span><ChevronUpDownIcon /></NavLink>
+    </div>
+  </div>;
+}
 
 export default function Navigation() {
   const { isMobile } = useResponsive();
-  return isMobile ? <MobileSidebar /> : <Sidebar collapsible={false} />;
-}
-
-function Sidebar({ collapsible, isMobile = false }) {
-  let location = useLocation();
-  const { state: stateApp, appContextAction } = useAppContext();
-  const { isNavMenuClose } = stateApp;
-  const { navMenu } = appContextAction;
-  const [currentPath, setCurrentPath] = useState(location.pathname.slice(1));
-  const translate = useLanguage();
-  const navigate = useNavigate();
-
-  const items = [
-    { key: 'dashboard', icon: HomeIcon, activeIcon: HomeIconSolid, path: '/' },
-    { key: 'customer', icon: UsersIcon, activeIcon: UsersIconSolid, path: '/customer' },
-    { key: 'invoice', icon: DocumentTextIcon, activeIcon: DocumentTextIconSolid, path: '/invoice' },
-    { key: 'quote', icon: DocumentDuplicateIcon, activeIcon: DocumentDuplicateIconSolid, path: '/quote' },
-    { key: 'payment', icon: CreditCardIcon, activeIcon: CreditCardIconSolid, path: '/payment' },
-    { key: 'paymentMode', icon: WalletIcon, activeIcon: WalletIconSolid, path: '/payment/mode' },
-    { key: 'taxes', icon: BanknotesIcon, activeIcon: BanknotesIconSolid, path: '/taxes' },
-  ];
-
-  const bottomItems = [
-    { key: 'generalSettings', icon: Cog6ToothIcon, activeIcon: Cog6ToothIconSolid, path: '/settings' },
-  ];
-
-  useEffect(() => {
-    if (location) {
-      if (location.pathname === '/') {
-        setCurrentPath('dashboard');
-      } else {
-        const pathName = location.pathname.slice(1);
-        const found = [...items, ...bottomItems].find(i => pathName.startsWith(i.key));
-        if (found) setCurrentPath(found.key);
-        else setCurrentPath(pathName);
-      }
-    }
-  }, [location.pathname]);
-
-  const onCollapse = () => {
-    navMenu.collapse();
-  };
-
-  return (
-    <Sider
-      collapsible={collapsible}
-      collapsed={collapsible ? isNavMenuClose : collapsible}
-      onCollapse={onCollapse}
-      width={isMobile ? 256 : 80}
-      style={{
-        overflow: 'hidden',
-        height: 'calc(100vh - 48px)',
-        position: isMobile ? 'absolute' : 'sticky',
-        top: '24px',
-        margin: isMobile ? '0' : '24px 0 24px 24px',
-        borderRadius: 'var(--radius-card)',
-        boxShadow: 'var(--shadow-card)',
-        backgroundColor: 'var(--bg-surface)',
-        display: 'flex',
-        flexDirection: 'column',
-        border: 'none',
-      }}
-      theme={'light'}
-    >
-      <div
-        style={{ display: 'flex', flexDirection: 'column', height: '100%', alignItems: 'center', padding: '24px 0' }}
-      >
-        {/* Brand icon */}
-        <div
-          onClick={() => navigate('/')}
-          style={{
-            cursor: 'pointer',
-            marginBottom: '36px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <div
-            style={{
-              width: '44px',
-              height: '44px',
-              background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-light))',
-              borderRadius: '14px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 4px 12px rgba(105, 108, 255, 0.25)',
-              transition: 'all var(--transition-base)',
-            }}
-          >
-            <CubeTransparentIcon style={{ width: '24px', height: '24px', color: '#fff' }} />
-          </div>
-          {isMobile && <span style={{ fontWeight: 700, marginTop: '8px', color: 'var(--text-primary)' }}>Nexus</span>}
-        </div>
-
-        {/* Main nav items */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px', width: '100%', alignItems: 'center' }}>
-          {items.map((item) => {
-            const isActive = currentPath === item.key || (item.key === 'dashboard' && currentPath === '');
-            const IconComponent = isActive ? item.activeIcon : item.icon;
-            return (
-              <Tooltip placement="right" title={translate(item.key)} key={item.key}>
-                <div
-                  onClick={() => navigate(item.path)}
-                  className={`nav-icon-btn ${isActive ? 'active' : ''}`}
-                  style={{
-                    width: isMobile ? 'calc(100% - 24px)' : '48px',
-                    height: '48px',
-                    borderRadius: isMobile ? 'var(--radius-md)' : '50%',
-                    backgroundColor: isActive ? 'var(--color-primary)' : 'transparent',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: isMobile ? 'flex-start' : 'center',
-                    paddingLeft: isMobile ? '16px' : '0',
-                    cursor: 'pointer',
-                    color: isActive ? '#fff' : 'var(--text-secondary)',
-                    transition: 'all var(--transition-base)',
-                  }}
-                >
-                  <IconComponent style={{ width: '22px', height: '22px', flexShrink: 0 }} />
-                  {isMobile && (
-                    <span style={{
-                      marginLeft: '14px',
-                      fontWeight: isActive ? 600 : 500,
-                      fontSize: '14px',
-                      textTransform: 'capitalize',
-                    }}>
-                      {translate(item.key)}
-                    </span>
-                  )}
-                </div>
-              </Tooltip>
-            );
-          })}
-        </div>
-
-        {/* Bottom nav items */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%', alignItems: 'center', marginTop: 'auto', paddingTop: '16px' }}>
-          {bottomItems.map((item) => {
-            const isActive = currentPath === item.key;
-            const IconComponent = isActive ? item.activeIcon : item.icon;
-            return (
-              <Tooltip placement="right" title={translate(item.key)} key={item.key}>
-                <div
-                  onClick={() => navigate(item.path)}
-                  className={`nav-icon-btn ${isActive ? 'active' : ''}`}
-                  style={{
-                    width: isMobile ? 'calc(100% - 24px)' : '48px',
-                    height: '48px',
-                    borderRadius: isMobile ? 'var(--radius-md)' : '50%',
-                    backgroundColor: isActive ? 'var(--color-primary)' : 'transparent',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: isMobile ? 'flex-start' : 'center',
-                    paddingLeft: isMobile ? '16px' : '0',
-                    cursor: 'pointer',
-                    color: isActive ? '#fff' : 'var(--text-secondary)',
-                    transition: 'all var(--transition-base)',
-                  }}
-                >
-                  <IconComponent style={{ width: '22px', height: '22px', flexShrink: 0 }} />
-                  {isMobile && (
-                    <span style={{
-                      marginLeft: '14px',
-                      fontWeight: isActive ? 600 : 500,
-                      fontSize: '14px',
-                      textTransform: 'capitalize',
-                    }}>
-                      {translate(item.key)}
-                    </span>
-                  )}
-                </div>
-              </Tooltip>
-            );
-          })}
-        </div>
-      </div>
-    </Sider>
-  );
-}
-
-function MobileSidebar() {
-  const [visible, setVisible] = useState(false);
-  const showDrawer = () => setVisible(true);
-  const onClose = () => setVisible(false);
-
-  return (
-    <>
-      <Button
-        type="text"
-        size="large"
-        onClick={showDrawer}
-        className="mobile-sidebar-btn"
-        style={{ marginLeft: 25, zIndex: 1000 }}
-      >
-        <Bars3Icon style={{ width: 24, height: 24 }} />
-      </Button>
-      <Drawer
-        width={280}
-        placement={'left'}
-        closable={false}
-        onClose={onClose}
-        open={visible}
-        bodyStyle={{ padding: 0 }}
-        style={{ borderRadius: '0 var(--radius-card) var(--radius-card) 0' }}
-      >
-        <Sidebar collapsible={false} isMobile={true} />
-      </Drawer>
-    </>
-  );
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+  useEffect(() => setOpen(false), [location.pathname]);
+  if (!isMobile) return <aside className="workspace-sidebar"><SidebarContent /></aside>;
+  return <>
+    <Button type="text" className="mobile-nav-trigger" aria-label="Open navigation" aria-expanded={open} aria-controls={open ? 'mobile-navigation' : undefined} onClick={() => setOpen(true)} icon={<Bars3Icon />} />
+    <Drawer title="Workspace navigation" width={280} placement="left" open={open} onClose={() => setOpen(false)} styles={{ body: { padding: 0 } }} className="workspace-mobile-drawer"><div id="mobile-navigation"><SidebarContent onNavigate={() => setOpen(false)} /></div></Drawer>
+  </>;
 }

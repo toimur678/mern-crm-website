@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
 import Chart from 'react-apexcharts';
-import { Select } from 'antd';
 import { revenueData } from '../seedMockData';
 
 export default function RevenueChart() {
-  const [year, setYear] = useState('2025');
 
   const options = {
     chart: {

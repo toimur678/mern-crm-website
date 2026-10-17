@@ -21,16 +21,11 @@ exports.generatePdf = async (
   try {
     const { targetLocation } = info;
 
-    // if PDF already exists, then delete it and create a new PDF
     if (fs.existsSync(targetLocation)) {
       fs.unlinkSync(targetLocation);
     }
 
-    // render pdf html
-
     if (pugFiles.includes(modelName.toLowerCase())) {
-      // Compile Pug template
-
       const settings = await loadSettings();
       const selectedLang = settings['idurar_app_language'];
       const translate = useLanguage({ selectedLang });

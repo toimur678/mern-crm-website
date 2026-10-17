@@ -1,137 +1,18 @@
-import { useState, useEffect } from 'react';
-
-import { Button, Row, Col, Descriptions, Tag, Divider } from 'antd';
+import { Button } from 'antd';
 import PageHeader from '@/components/PageHeader';
-
-import { generate as uniqueId } from 'shortid';
-import { useMoney, useDate } from '@/settings';
+import { useMoney } from '@/settings';
 import { useNavigate } from 'react-router-dom';
-import useLanguage from '@/locale/useLanguage';
 import UpdatePayment from './UpdatePayment';
-import { tagColor } from '@/utils/statusTagColor';
-import { DocumentTextIcon, XCircleIcon } from '@heroicons/react/24/outline';
-import Icon from '@/components/Icon';
 
 export default function Payment({ config, currentItem }) {
-  const translate = useLanguage();
-  const { entity, ENTITY_NAME } = config;
-
-  const money = useMoney();
+  const payment = currentItem || {};
+  const invoice = payment.invoice || {};
+  const client = payment.client || invoice.client || {};
+  const { moneyFormatter } = useMoney();
   const navigate = useNavigate();
-
-  const [currentErp, setCurrentErp] = useState(currentItem);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    if (currentItem) {
-      const { invoice, _id, ...others } = currentItem;
-      setCurrentErp({ ...others, ...invoice, _id });
-    }
-    return () => controller.abort();
-  }, [currentItem]);
-
-  const [client, setClient] = useState({});
-
-  useEffect(() => {
-    if (currentErp?.client) {
-      setClient(currentErp.client);
-    }
-  }, [currentErp]);
-
-  return (
-    <>
-      <Row gutter={[12, 12]}>
-        <Col
-          className="gutter-row"
-          xs={{ span: 24 }}
-          sm={{ span: 24 }}
-          md={{ span: 24 }}
-          lg={{ span: 20, push: 2 }}
-        >
-          <PageHeader
-            onBack={() => navigate(`/${entity.toLowerCase()}`)}
-            title={`Update  ${ENTITY_NAME} # ${currentErp.number}/${currentErp.year || ''}`}
-            ghost={false}
-            tags={<span>{currentErp.paymentStatus}</span>}
-            // subTitle="This is cuurent erp page"
-            extra={[
-              <Button
-                key={`${uniqueId()}`}
-                onClick={() => {
-                  navigate(`/${entity.toLowerCase()}`);
-                }}
-                icon={<Icon component={XCircleIcon} />}
-              >
-                {translate('Cancel')}
-              </Button>,
-              <Button
-                key={`${uniqueId()}`}
-                onClick={() => navigate(`/invoice/read/${currentErp._id}`)}
-                icon={<Icon component={DocumentTextIcon} />}
-              >
-                {translate('Show invoice')}
-              </Button>,
-            ]}
-            style={{
-              padding: '20px 0px',
-            }}
-          ></PageHeader>
-          <Divider dashed />
-        </Col>
-      </Row>
-      <Row gutter={[12, 12]}>
-        <Col
-          className="gutter-row"
-          xs={{ span: 24, order: 2 }}
-          sm={{ span: 24, order: 2 }}
-          md={{ span: 10, order: 2, push: 2 }}
-          lg={{ span: 10, order: 2, push: 4 }}
-        >
-          <div className="space50"></div>
-          <Descriptions title={`${translate('Client')} : ${currentErp.client.name}`} column={1}>
-            <Descriptions.Item label={translate('email')}>{client.email}</Descriptions.Item>
-            <Descriptions.Item label={translate('Phone')}>{client.phone}</Descriptions.Item>
-            <Divider dashed />
-            <Descriptions.Item label={translate('Payment Status')}>
-              <span>{currentErp.paymentStatus}</span>
-            </Descriptions.Item>
-            <Descriptions.Item label={translate('SubTotal')}>
-              {money.moneyFormatter({
-                amount: currentErp.subTotal,
-                currency_code: currentErp.currency,
-              })}
-            </Descriptions.Item>
-            <Descriptions.Item label={translate('Total')}>
-              {money.moneyFormatter({
-                amount: currentErp.total,
-                currency_code: currentErp.currency,
-              })}
-            </Descriptions.Item>
-            <Descriptions.Item label="Discount">
-              {money.moneyFormatter({
-                amount: currentErp.discount,
-                currency_code: currentErp.currency,
-              })}
-            </Descriptions.Item>
-            <Descriptions.Item label="Balance">
-              {money.moneyFormatter({
-                amount: currentErp.credit,
-                currency_code: currentErp.currency,
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-        </Col>
-
-        <Col
-          className="gutter-row"
-          xs={{ span: 24, order: 1 }}
-          sm={{ span: 24, order: 1 }}
-          md={{ span: 12, order: 1 }}
-          lg={{ span: 10, order: 1, push: 2 }}
-        >
-          <UpdatePayment config={config} currentInvoice={currentErp} />
-        </Col>
-      </Row>
-    </>
-  );
+  const format = (amount) => moneyFormatter({ amount: amount || 0, currency_code: payment.currency || invoice.currency });
+  return <>
+    <PageHeader onBack={() => navigate(`/payment/read/${payment._id}`)} title={`Edit payment #${payment.number || ''}`} description={`Keep the payment details for ${client.name || 'this customer'} up to date.`} extra={invoice._id ? [<Button key="invoice" onClick={() => navigate(`/invoice/read/${invoice._id}`)}>View invoice</Button>] : []} />
+    <div className="record-two-columns"><section className="record-form-card"><h2 className="record-section-heading">Payment details</h2><p className="record-section-description">Update the amount, payment method or reference below.</p><UpdatePayment config={config} currentInvoice={payment} /></section><aside className="record-detail-card"><span className="record-eyebrow">Invoice summary</span><h2 className="record-section-heading">{client.name}</h2><div className="record-total-row"><span>Invoice total</span><strong>{format(invoice.total)}</strong></div><div className="record-total-row"><span>Total received</span><strong>{format(invoice.credit)}</strong></div><div className="record-total-row is-total"><span>This payment</span><strong>{format(payment.amount)}</strong></div></aside></div>
+  </>;
 }

@@ -1,50 +1,47 @@
-import useLanguage from '@/locale/useLanguage';
-import { Layout, Col } from 'antd';
 import AuthLayout from '@/layout/AuthLayout';
 import SideContent from './SideContent';
-import { CubeTransparentIcon } from '@heroicons/react/24/outline';
+import { Square3Stack3DIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 
-const { Content } = Layout;
+const descriptions = {
+  'Sign in': 'Welcome back. Let’s make today a productive one.',
+  'Forget Password': 'Enter your email and we’ll send you a link to reset your password.',
+  'Reset Password': 'Choose a new password to keep your workspace secure.',
+  'Check your email': 'Your next step is waiting in your inbox.',
+};
 
-const AuthModule = ({ authContent, AUTH_TITLE, isForRegistre = false }) => {
-  const translate = useLanguage();
+export default function AuthModule({ authContent, AUTH_TITLE }) {
+  const title =
+    AUTH_TITLE === 'Sign in'
+      ? 'Welcome back'
+      : AUTH_TITLE === 'Forget Password'
+        ? 'Forgot your password?'
+        : AUTH_TITLE;
   return (
     <AuthLayout sideContent={<SideContent />}>
       <div className="auth-form-container">
-        {/* Mobile-only logo */}
-        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 0 }} span={0}>
-          <div className="auth-mobile-logo">
-            <div style={{
-              width: '40px',
-              height: '40px',
-              background: 'var(--color-primary)',
-              borderRadius: '12px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <CubeTransparentIcon style={{ width: '22px', height: '22px', color: '#fff' }} />
-            </div>
-            <span style={{ fontWeight: 700, fontSize: '18px', color: 'var(--text-primary)' }}>Nexus</span>
-          </div>
-        </Col>
-
-        {/* Form header */}
+        <div className="auth-mobile-logo">
+          <span className="auth-brand-icon">
+            <Square3Stack3DIcon />
+          </span>
+          <span>
+            nexus.<span className="auth-brand-crm">CRM</span>
+          </span>
+        </div>
         <div className="auth-form-header">
-          <h1 className="auth-form-title">{translate(AUTH_TITLE)}</h1>
+          <span className="auth-eyebrow">YOUR WORKSPACE, CONNECTED</span>
+          <h1 className="auth-form-title">{title}</h1>
           <p className="auth-form-subtitle">
-            {AUTH_TITLE === 'Sign in'
-              ? translate('Enter your credentials to access your account')
-              : translate(AUTH_TITLE)
-            }
+            {descriptions[AUTH_TITLE] || 'Everything you need to keep your business moving.'}
           </p>
         </div>
-
-        {/* Form content */}
-        <div className="site-layout-content">{authContent}</div>
+        {authContent}
+        <div className="auth-security-note">
+          <LockClosedIcon /> A secure space for your business.
+        </div>
       </div>
+      <footer className="auth-footer">
+        Nexus CRM <span>Clarity for every working day.</span>
+      </footer>
     </AuthLayout>
   );
-};
-
-export default AuthModule;
+}

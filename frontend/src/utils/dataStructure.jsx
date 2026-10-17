@@ -7,7 +7,7 @@ import color from '@/utils/color';
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
 import Icon from '@/components/Icon';
 
-export const dataForRead = ({ fields, translate }) => {
+export const dataForRead = ({ fields }) => {
   let columns = [];
 
   Object.keys(fields).forEach((key) => {
@@ -43,6 +43,7 @@ export function dataForTable({ fields, translate, moneyFormatter, dateFormat }) 
         render: (_, record) => (
           <Switch
             checked={record[key]}
+            disabled
             checkedChildren={<Icon component={CheckIcon} />}
             unCheckedChildren={<Icon component={XMarkIcon} />}
           />
@@ -88,7 +89,7 @@ export function dataForTable({ fields, translate, moneyFormatter, dateFormat }) 
       color: {
         title: field.label ? translate(field.label) : translate(key),
         dataIndex: keyIndex,
-        render: (text, record) => {
+        render: (text) => {
           return (
             <Tag bordered={false} color={text}>
               {color.find((x) => x.value === text)?.label}
@@ -205,26 +206,4 @@ export function dataForTable({ fields, translate, moneyFormatter, dateFormat }) 
   });
 
   return columns;
-}
-
-function getRandomColor() {
-  const colors = [
-    'magenta',
-    'red',
-    'volcano',
-    'orange',
-    'gold',
-    'lime',
-    'green',
-    'cyan',
-    'blue',
-    'geekblue',
-    'purple',
-  ];
-
-  // Generate a random index between 0 and the length of the colors array
-  const randomIndex = Math.floor(Math.random() * colors.length);
-
-  // Return the color at the randomly generated index
-  return colors[randomIndex];
 }

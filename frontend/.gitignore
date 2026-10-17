@@ -1,34 +1,53 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
+# Dependencies
+node_modules/
+.pnp
 .pnp.js
 
-# testing
-/coverage
+# Production and build outputs
+dist/
+build/
+out/
+.cache/
+.vite/
+.eslintcache
 
-# production
-/dist
-
-# misc
-.DS_Store
-.env.local
+# Environment and secrets
 .env
+.env.*
+*.env
+.env.local
 .env.development.local
 .env.test.local
 .env.production.local
-
-# Catch-all for environment files (e.g. temp.env)
-.env.*
-*.env
-
-# Keys and certificates
 *.pem
 *.key
 *.cert
 *.crt
+secrets/
 
+# Testing and coverage
+coverage/
+.nyc_output/
+
+# Logs
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~

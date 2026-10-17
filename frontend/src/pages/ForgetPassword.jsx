@@ -1,76 +1,57 @@
-import { useNavigate } from 'react-router-dom';
-
-import { Form, Result, Button } from 'antd';
+import { Link } from 'react-router-dom';
+import { Form, Button } from 'antd';
+import { ArrowLeftIcon, EnvelopeOpenIcon } from '@heroicons/react/24/outline';
 import useOnFetch from '@/hooks/useOnFetch';
 import { request } from '@/request';
-
 import ForgetPasswordForm from '@/forms/ForgetPasswordForm';
-
-import useLanguage from '@/locale/useLanguage';
-
-import Loading from '@/components/Loading';
 import AuthModule from '@/modules/AuthModule';
 
-const ForgetPassword = () => {
-  const translate = useLanguage();
-
-  const navigate = useNavigate();
-
+export default function ForgetPassword() {
   const { onFetch, isSuccess, isLoading } = useOnFetch();
-
-  async function postData(data) {
-    return await request.post({ entity: 'forgetpassword', jsonData: data });
-  }
-
-  const onFinish = (values) => {
-    const callback = postData(values);
-    onFetch(callback);
-  };
-
-  const FormContainer = () => {
-    return (
-      <Loading isLoading={isLoading}>
-        <Form
-          name="signup"
-          className="login-form"
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={onFinish}
-        >
-          <ForgetPasswordForm />
-          <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button" size="large">
-              {translate('Request new Password')}
-            </Button>
-            {translate('Or')} <a href="/login"> {translate('already have account Login')} </a>
-          </Form.Item>
-        </Form>
-      </Loading>
-    );
-  };
-  if (!isSuccess) {
-    return <AuthModule authContent={<FormContainer />} AUTH_TITLE="Forget Password" />;
-  } else {
-    return (
-      <Result
-        status="success"
-        title={translate('Check your email address to reset your password')}
-        subTitle={translate('Password Reset in progress')}
-        style={{ maxWidth: '450px', margin: 'auto' }}
-        extra={
-          <Button
-            type="primary"
-            onClick={() => {
-              navigate(`/login`);
-            }}
+  return (
+    <AuthModule
+      AUTH_TITLE={isSuccess ? 'Check your email' : 'Forget Password'}
+      authContent={
+        isSuccess ? (
+          <div className="auth-success">
+            <span className="auth-success-icon">
+              <EnvelopeOpenIcon />
+            </span>
+            <p>
+              If an account exists for that address, you’ll receive instructions to reset your
+              password. Check your spam folder, too.
+            </p>
+            <Link className="auth-back-link" to="/login">
+              <ArrowLeftIcon /> Back to sign in
+            </Link>
+          </div>
+        ) : (
+          <Form
+            layout="vertical"
+            name="forgot_password"
+            className="login-form"
+            onFinish={(values) =>
+              onFetch(request.post({ entity: 'forgetpassword', jsonData: values }))
+            }
           >
-            {translate('Login')}
-          </Button>
-        }
-      ></Result>
-    );
-  }
-};
-
-export default ForgetPassword;
+            <ForgetPasswordForm />
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="login-form-button"
+                loading={isLoading}
+                size="large"
+              >
+                Send reset link
+              </Button>
+            </Form.Item>
+            <Link className="auth-back-link" to="/login">
+              <ArrowLeftIcon /> Back to sign in
+            </Link>
+          </Form>
+        )
+      }
+    />
+  );
+}

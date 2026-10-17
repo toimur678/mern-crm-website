@@ -1,58 +1,44 @@
-import React from 'react';
 import { Form, Input, Checkbox } from 'antd';
+import { Link } from 'react-router-dom';
 import { EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 
-import useLanguage from '@/locale/useLanguage';
-
 export default function LoginForm() {
-  const translate = useLanguage();
   return (
-    <div>
+    <>
       <Form.Item
-        label={translate('email')}
+        label="Email address"
         name="email"
         rules={[
-          {
-            required: true,
-          },
-          {
-            type: 'email',
-          },
+          { required: true, message: 'Enter your email address.' },
+          { type: 'email', message: 'Enter a valid email address.' },
         ]}
       >
         <Input
-          prefix={<EnvelopeIcon style={{ width: '18px', height: '18px', color: 'var(--text-tertiary)' }} />}
-          placeholder={'admin@admin.com'}
+          prefix={<EnvelopeIcon />}
+          placeholder="you@company.com"
           type="email"
+          autoComplete="username"
           size="large"
         />
       </Form.Item>
       <Form.Item
-        label={translate('password')}
+        label="Password"
         name="password"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
+        rules={[{ required: true, message: 'Enter your password.' }]}
       >
         <Input.Password
-          prefix={<LockClosedIcon style={{ width: '18px', height: '18px', color: 'var(--text-tertiary)' }} />}
-          placeholder={'••••••••'}
+          prefix={<LockClosedIcon />}
+          placeholder="Enter your password"
+          autoComplete="current-password"
           size="large"
         />
       </Form.Item>
-
-      <Form.Item>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>{translate('Remember me')}</Checkbox>
-          </Form.Item>
-          <a className="login-form-forgot" href="/forgetpassword">
-            {translate('Forgot password')}
-          </a>
-        </div>
-      </Form.Item>
-    </div>
+      <div className="auth-form-options">
+        <Form.Item name="remember" valuePropName="checked" noStyle>
+          <Checkbox>Remember me</Checkbox>
+        </Form.Item>
+        <Link to="/forgetpassword">Forgot password?</Link>
+      </div>
+    </>
   );
 }

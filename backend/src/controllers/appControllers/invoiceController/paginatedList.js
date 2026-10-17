@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const escapeSearch = require('@/utils/escapeSearch');
 
 const Model = mongoose.model('Invoice');
 
@@ -16,10 +17,9 @@ const paginatedList = async (req, res) => {
   fields = fieldsArray.length === 0 ? {} : { $or: [] };
 
   for (const field of fieldsArray) {
-    fields.$or.push({ [field]: { $regex: new RegExp(req.query.q, 'i') } });
+    fields.$or.push({ [field]: { $regex: new RegExp(escapeSearch(req.query.q), 'i') } });
   }
 
-  //  Query the database for a list of all results
   const resultsPromise = Model.find({
     removed: false,
 
@@ -32,7 +32,6 @@ const paginatedList = async (req, res) => {
     .populate('createdBy', 'name')
     .exec();
 
-  // Counting the total documents
   const countPromise = Model.countDocuments({
     removed: false,
 
@@ -40,12 +39,9 @@ const paginatedList = async (req, res) => {
     ...fields,
   });
 
-  // Resolving both promises
   const [result, count] = await Promise.all([resultsPromise, countPromise]);
-  // Calculating total pages
   const pages = Math.ceil(count / limit);
 
-  // Getting Pagination Object
   const pagination = { page, pages, count };
   if (count > 0) {
     return res.status(200).json({

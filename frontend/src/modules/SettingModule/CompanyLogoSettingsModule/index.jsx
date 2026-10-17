@@ -10,7 +10,7 @@ export default function CompanyLogoSettingsModule({ config }) {
     <UpdateSettingModule config={config} uploadSettingKey="company_logo" withUpload>
       <SetingsSection
         title={translate('Company Logo')}
-        description={translate('Update Company logo')}
+        description="Add your brand to invoices, quotes, and other documents."
       >
         <AppSettingForm />
       </SetingsSection>

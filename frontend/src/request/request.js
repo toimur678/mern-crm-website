@@ -5,14 +5,6 @@ import errorHandler from './errorHandler';
 import successHandler from './successHandler';
 import storePersist from '@/redux/storePersist';
 
-function findKeyByPrefix(object, prefix) {
-  for (var property in object) {
-    if (object.hasOwnProperty(property) && property.toString().startsWith(prefix)) {
-      return property;
-    }
-  }
-}
-
 function includeToken() {
   axios.defaults.baseURL = API_BASE_URL;
 
@@ -116,9 +108,7 @@ const request = {
   filter: async ({ entity, options = {} }) => {
     try {
       includeToken();
-      let filter = options.filter ? 'filter=' + options.filter : '';
-      let equal = options.equal ? '&equal=' + options.equal : '';
-      let query = `?${filter}${equal}`;
+      const query = '?' + new URLSearchParams(Object.entries(options).filter(([, value]) => value !== undefined && value !== null)).toString();
 
       const response = await axios.get(entity + '/filter' + query);
       successHandler(response, {
@@ -134,12 +124,7 @@ const request = {
   search: async ({ entity, options = {} }) => {
     try {
       includeToken();
-      let query = '?';
-      for (var key in options) {
-        query += key + '=' + options[key] + '&';
-      }
-      query = query.slice(0, -1);
-      // headersInstance.cancelToken = source.token;
+      const query = '?' + new URLSearchParams(Object.entries(options).filter(([, value]) => value !== undefined && value !== null)).toString();
       const response = await axios.get(entity + '/search' + query);
 
       successHandler(response, {
@@ -155,11 +140,7 @@ const request = {
   list: async ({ entity, options = {} }) => {
     try {
       includeToken();
-      let query = '?';
-      for (var key in options) {
-        query += key + '=' + options[key] + '&';
-      }
-      query = query.slice(0, -1);
+      const query = '?' + new URLSearchParams(Object.entries(options).filter(([, value]) => value !== undefined && value !== null)).toString();
 
       const response = await axios.get(entity + '/list' + query);
 
@@ -175,11 +156,7 @@ const request = {
   listAll: async ({ entity, options = {} }) => {
     try {
       includeToken();
-      let query = '?';
-      for (var key in options) {
-        query += key + '=' + options[key] + '&';
-      }
-      query = query.slice(0, -1);
+      const query = '?' + new URLSearchParams(Object.entries(options).filter(([, value]) => value !== undefined && value !== null)).toString();
 
       const response = await axios.get(entity + '/listAll' + query);
 
@@ -253,11 +230,7 @@ const request = {
   summary: async ({ entity, options = {} }) => {
     try {
       includeToken();
-      let query = '?';
-      for (var key in options) {
-        query += key + '=' + options[key] + '&';
-      }
-      query = query.slice(0, -1);
+      const query = '?' + new URLSearchParams(Object.entries(options).filter(([, value]) => value !== undefined && value !== null)).toString();
       const response = await axios.get(entity + '/summary' + query);
 
       successHandler(response, {

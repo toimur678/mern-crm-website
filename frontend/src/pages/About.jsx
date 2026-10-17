@@ -1,37 +1,56 @@
-import { Button, Result } from 'antd';
+import {
+  CubeTransparentIcon,
+  ArrowUpRightIcon,
+  CodeBracketIcon,
+  ChatBubbleLeftRightIcon,
+} from '@heroicons/react/24/outline';
 
-import useLanguage from '@/locale/useLanguage';
-
-const About = () => {
-  const translate = useLanguage();
+export default function About() {
   return (
-    <Result
-      status="info"
-      title={'IDURAR'}
-      subTitle={translate('Do you need help on customize of this app')}
-      extra={
-        <>
-          <p>
-            Website : <a href="https://www.idurarapp.com">www.idurarapp.com</a>{' '}
-          </p>
-          <p>
-            GitHub :{' '}
-            <a href="https://github.com/idurar/mern-crm-web">
-              https://github.com/idurar/mern-crm-web
-            </a>
-          </p>
-          <Button
-            type="primary"
-            onClick={() => {
-              window.open(`https://www.idurarapp.com/contact-us/`);
-            }}
-          >
-            {translate('Contact us')}
-          </Button>
-        </>
-      }
-    />
+    <main className="settings-shell">
+      <header className="settings-page-header">
+        <span className="settings-eyebrow">GET TO KNOW YOUR WORKSPACE</span>
+        <h1>About Nexus</h1>
+        <p>A clearer way to manage your business.</p>
+      </header>
+      <section className="settings-about-card">
+        <span className="settings-about-mark">
+          <CubeTransparentIcon />
+        </span>
+        <h2>
+          Everything connected.
+          <br />
+          More room to grow.
+        </h2>
+        <p>
+          Nexus brings your customers, quotes, invoices, and payments together in one thoughtfully
+          organized workspace.
+        </p>
+        <div className="settings-about-credit">Built on the open source IDURAR CRM platform.</div>
+        <div className="settings-about-links">
+          <a href="https://www.idurarapp.com" target="_blank" rel="noreferrer">
+            <span>
+              <CubeTransparentIcon />
+              Visit IDURAR
+            </span>
+            <ArrowUpRightIcon />
+          </a>
+          <a href="https://github.com/idurar/mern-crm-web" target="_blank" rel="noreferrer">
+            <span>
+              <CodeBracketIcon />
+              Explore the source
+            </span>
+            <ArrowUpRightIcon />
+          </a>
+          <a href="https://www.idurarapp.com/contact-us/" target="_blank" rel="noreferrer">
+            <span>
+              <ChatBubbleLeftRightIcon />
+              Get support
+            </span>
+            <ArrowUpRightIcon />
+          </a>
+        </div>
+      </section>
+    </main>
   );
-};
-
-export default About;
+}

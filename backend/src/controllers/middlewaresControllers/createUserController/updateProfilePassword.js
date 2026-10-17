@@ -21,8 +21,6 @@ const updateProfilePassword = async (userModel, req, res) => {
   if (password !== passwordCheck)
     return res.status(400).json({ msg: 'Enter the same password twice for verification.' });
 
-  // Find document by id and updates with the required fields
-
   const salt = uniqueId();
 
   const passwordHash = bcrypt.hashSync(salt + password);
@@ -43,7 +41,7 @@ const updateProfilePassword = async (userModel, req, res) => {
     { user: userProfile._id, removed: false },
     { $set: UserPasswordData },
     {
-      new: true, // return the new result instead of the old one
+      new: true,
     }
   ).exec();
 

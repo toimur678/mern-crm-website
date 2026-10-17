@@ -6,8 +6,6 @@ import { reducer as erpReducer } from './erp';
 import { reducer as adavancedCrudReducer } from './adavancedCrud';
 import { reducer as settingsReducer } from './settings';
 
-// Combine all reducers.
-
 const rootReducer = combineReducers({
   auth: authReducer,
   crud: crudReducer,

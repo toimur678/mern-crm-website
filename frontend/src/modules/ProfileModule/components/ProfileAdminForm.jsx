@@ -1,79 +1,61 @@
-import { Form, Input, Select } from 'antd';
-
-import { message, Upload, Button, Switch } from 'antd';
-
-import useLanguage from '@/locale/useLanguage';
-import { ArrowUpTrayIcon, XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
+import { Form, Input, Upload, Button, message } from 'antd';
+import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 import Icon from '@/components/Icon';
 
 const beforeUpload = (file) => {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
+  if (!['image/jpeg', 'image/png'].includes(file.type)) {
+    message.error('Choose a JPG or PNG image.');
+    return Upload.LIST_IGNORE;
   }
-  const isLt2M = file.size / 1024 / 1024 < 5;
-  if (!isLt2M) {
-    message.error('Image must smaller than 5MB!');
+  if (file.size / 1024 / 1024 >= 5) {
+    message.error('Choose an image smaller than 5 MB.');
+    return Upload.LIST_IGNORE;
   }
   return false;
 };
-
-export default function AdminForm({ isUpdateForm = false }) {
-  const translate = useLanguage();
+export default function ProfileAdminForm() {
   return (
-    <>
+    <div className="settings-fields-grid">
       <Form.Item
-        label={translate('first Name')}
+        label="First name"
         name="name"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
+        rules={[{ required: true, whitespace: true, message: 'Enter your first name.' }]}
       >
-        <Input autoComplete="off" />
+        <Input autoComplete="given-name" placeholder="First name" />
       </Form.Item>
       <Form.Item
-        label={translate('last Name')}
+        label="Last name"
         name="surname"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
+        rules={[{ required: true, whitespace: true, message: 'Enter your last name.' }]}
       >
-        <Input autoComplete="off" />
+        <Input autoComplete="family-name" placeholder="Last name" />
       </Form.Item>
       <Form.Item
-        label={translate('email')}
+        label="Email address"
         name="email"
         rules={[
-          {
-            required: true,
-          },
-          {
-            type: 'email',
-          },
+          { required: true, message: 'Enter your email address.' },
+          { type: 'email', message: 'Enter a valid email address.' },
         ]}
       >
-        <Input autoComplete="off" />
+        <Input autoComplete="email" type="email" placeholder="you@company.com" />
       </Form.Item>
-
       <Form.Item
         name="file"
-        label={translate('Photo')}
+        label="Profile photo"
         valuePropName="fileList"
-        getValueFromEvent={(e) => e.fileList}
+        getValueFromEvent={(event) => event?.fileList}
+        extra="JPG or PNG, up to 5 MB."
       >
         <Upload
           beforeUpload={beforeUpload}
           listType="picture"
-          accept="image/png, image/jpeg"
+          accept="image/png,image/jpeg"
           maxCount={1}
         >
-          <Button icon={<Icon component={ArrowUpTrayIcon} />}>{translate('click_to_upload')}</Button>
+          <Button icon={<Icon component={ArrowUpTrayIcon} />}>Upload photo</Button>
         </Upload>
       </Form.Item>
-    </>
+    </div>
   );
 }

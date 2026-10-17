@@ -10,12 +10,9 @@ module.exports = downloadPdf = async (req, res, { directory, id }) => {
         _id: id,
       }).exec();
 
-      // Throw error if no result
       if (!result) {
         throw { name: 'ValidationError' };
       }
-
-      // Continue process if result is returned
 
       const fileId = modelName.toLowerCase() + '-' + result._id + '.pdf';
       const folderPath = modelName.toLowerCase();
@@ -44,7 +41,6 @@ module.exports = downloadPdf = async (req, res, { directory, id }) => {
       });
     }
   } catch (error) {
-    // If error is thrown by Mongoose due to required validations
     if (error.name == 'ValidationError') {
       return res.status(400).json({
         success: false,
@@ -53,7 +49,6 @@ module.exports = downloadPdf = async (req, res, { directory, id }) => {
         message: 'Required fields are not supplied',
       });
     } else if (error.name == 'BSONTypeError') {
-      // If error is thrown by Mongoose due to invalid ID
       return res.status(400).json({
         success: false,
         result: null,
@@ -61,7 +56,6 @@ module.exports = downloadPdf = async (req, res, { directory, id }) => {
         message: 'Invalid ID',
       });
     } else {
-      // Server Error
       return res.status(500).json({
         success: false,
         result: null,

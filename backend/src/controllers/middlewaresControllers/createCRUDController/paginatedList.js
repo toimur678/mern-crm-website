@@ -1,3 +1,5 @@
+const escapeSearch = require('@/utils/escapeSearch');
+
 const paginatedList = async (Model, req, res) => {
   const page = req.query.page || 1;
   const limit = parseInt(req.query.items) || 10;
@@ -12,7 +14,7 @@ const paginatedList = async (Model, req, res) => {
   fields = fieldsArray.length === 0 ? {} : { $or: [] };
 
   for (const field of fieldsArray) {
-    fields.$or.push({ [field]: { $regex: new RegExp(req.query.q, 'i') } });
+    fields.$or.push({ [field]: { $regex: new RegExp(escapeSearch(req.query.q), 'i') } });
   }
 
   // Build filter condition safely: reject MongoDB operators in values
@@ -28,7 +30,6 @@ const paginatedList = async (Model, req, res) => {
     filterCondition = { [filter]: equal };
   }
 
-  //  Query the database for a list of all results
   const resultsPromise = Model.find({
     removed: false,
     ...filterCondition,
@@ -40,19 +41,16 @@ const paginatedList = async (Model, req, res) => {
     .populate()
     .exec();
 
-  // Counting the total documents
   const countPromise = Model.countDocuments({
     removed: false,
     ...filterCondition,
     ...fields,
   });
-  // Resolving both promises
+
   const [result, count] = await Promise.all([resultsPromise, countPromise]);
 
-  // Calculating total pages
   const pages = Math.ceil(count / limit);
 
-  // Getting Pagination Object
   const pagination = { page, pages, count };
   if (count > 0) {
     return res.status(200).json({

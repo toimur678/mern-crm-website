@@ -32,7 +32,6 @@ export default function CustomerPreviewCard({
             flex: 1,
           }}
         >
-          {/* Header */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -75,7 +74,6 @@ export default function CustomerPreviewCard({
                 flex: 1,
               }}
             >
-              {/* Circular progress */}
               <Progress
                 type="dashboard"
                 percent={newCustomer}

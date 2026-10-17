@@ -26,7 +26,7 @@ export default function RecordPayment({ config }) {
   const [maxAmount, setMaxAmount] = useState(0);
   useEffect(() => {
     if (currentInvoice) {
-      const { credit, total, discount } = currentInvoice;
+      const { credit = 0, total = 0, discount = 0 } = currentInvoice;
       setMaxAmount(calculate.sub(calculate.sub(total, discount), credit));
     }
   }, [currentInvoice]);
@@ -60,10 +60,10 @@ export default function RecordPayment({ config }) {
 
   return (
     <Loading isLoading={isLoading}>
-      <Form form={form} layout="vertical" onFinish={onSubmit}>
+      <Form form={form} disabled={isLoading} layout="vertical" onFinish={onSubmit}>
         <PaymentForm maxAmount={maxAmount} />
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={isLoading} disabled={maxAmount <= 0} block>
             {translate('Record Payment')}
           </Button>
         </Form.Item>

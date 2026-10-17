@@ -1,5 +1,3 @@
-import React from 'react';
-import { transactionsData } from '../seedMockData';
 import { CreditCardIcon, WalletIcon, ArrowsRightLeftIcon, BanknotesIcon, EllipsisVerticalIcon } from '@heroicons/react/24/outline';
 
 const TransactionsList = () => {
@@ -33,7 +31,7 @@ const TransactionsList = () => {
             </div>
             <div>
               <p style={{ margin: 0, fontWeight: 600, color: 'var(--text-primary)' }}>Wallet</p>
-              <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Mac'D</p>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Mac&apos;D</p>
             </div>
           </div>
           <span style={{ fontWeight: 600, color: 'var(--color-success)' }}>+270.69 USD</span>

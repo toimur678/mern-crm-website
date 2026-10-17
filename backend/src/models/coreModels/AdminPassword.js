@@ -33,13 +33,10 @@ const AdminPasswordSchema = new Schema({
   },
 });
 
-// AdminPasswordSchema.index({ user: 1 });
-// generating a hash
 AdminPasswordSchema.methods.generateHash = function (salt, password) {
   return bcrypt.hashSync(salt + password);
 };
 
-// checking if password is valid
 AdminPasswordSchema.methods.validPassword = function (salt, userpassword) {
   return bcrypt.compareSync(salt + userpassword, this.password);
 };

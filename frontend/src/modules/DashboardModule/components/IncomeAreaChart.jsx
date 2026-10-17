@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Chart from 'react-apexcharts';
-import { incomeData } from '../seedMockData';
 import { ChartBarIcon } from '@heroicons/react/24/outline';
 
 const IncomeAreaChart = () => {

@@ -1,50 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
-
-* {
-  font-family: var(--font-family) !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  background: var(--bg-body) !important;
-  min-height: 100vh;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Better scrollbars — Sneat blurple tint */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(105, 108, 255, 0.18);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(105, 108, 255, 0.32);
-}
-
-/* Selection color */
-::selection {
-  background: rgba(105, 108, 255, 0.2);
-  color: var(--text-primary);
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; scrollbar-gutter: stable; }
+body { margin: 0; padding: 0; min-width: 320px; min-height: 100dvh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body, button, input, textarea, select { font-family: var(--font-family); }
+button, a, [role='button'] { touch-action: manipulation; }
+button, [role='button'] { user-select: none; -webkit-user-select: none; }
+button { font-size: inherit; }
+a { text-decoration: none; }
+button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid #71b7a4; outline-offset: 3px; }
+::selection { background: #d5ede2; color: #182c2a; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #c5d2cb; border-radius: 6px; }
+@media (pointer: coarse) { input, textarea, select, .ant-input, .ant-select-selection-search-input, .ant-picker-input > input, .ant-input-number-input { font-size: 16px !important; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }

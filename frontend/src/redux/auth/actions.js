@@ -131,8 +131,6 @@ export const logout = () => async (dispatch) => {
       type: actionTypes.LOGOUT_FAILED,
       payload: data.result,
     });
-  } else {
-    // on lgout success
   }
 };
 

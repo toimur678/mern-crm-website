@@ -1,7 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Form, Input, Select } from 'antd';
-
-
 import useLanguage from '@/locale/useLanguage';
 import { countryList } from '@/utils/countryList';
 import { UserIcon, LockClosedIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
@@ -52,26 +49,6 @@ export default function RegisterForm({ userLocation }) {
       >
         <Input.Password prefix={<Icon component={LockClosedIcon} className="site-form-item-icon" />} size="large" />
       </Form.Item>
-      {/* <Form.Item
-        name="confirm_password"
-        label={translate('confirm_password')}
-        rules={[
-          {
-            required: true,
-          },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error('The two passwords that you entered do not match!'));
-            },
-          }),
-        ]}
-        hasFeedback
-      >
-        <Input.Password prefix={<Icon component={LockClosedIcon} className="site-form-item-icon" />} size="large" />
-      </Form.Item> */}
       <Form.Item
         label={translate('country')}
         name="country"

@@ -18,9 +18,9 @@ export default function Payment() {
   const deleteModalLabels = ['number'];
   const dataTableColumns = [
     {
-      title: translate('Number'),
-
+      title: 'Payment',
       dataIndex: 'number',
+      render: (number) => <span className="record-number">PAY-{String(number).padStart(3, '0')}</span>,
     },
     {
       title: translate('Client'),
@@ -49,8 +49,9 @@ export default function Payment() {
       },
     },
     {
-      title: translate('Number'),
+      title: 'Invoice',
       dataIndex: ['invoice', 'number'],
+      render: (number, record) => number ? `INV-${record.invoice?.year}-${String(number).padStart(3, '0')}` : '—',
     },
     {
       title: translate('year'),
@@ -66,7 +67,7 @@ export default function Payment() {
 
   const Labels = {
     PANEL_TITLE: translate('payment'),
-    DATATABLE_TITLE: translate('payment_list'),
+    DATATABLE_TITLE: 'Payments',
     ADD_NEW_ENTITY: translate('add_new_payment'),
     ENTITY_NAME: translate('payment'),
   };

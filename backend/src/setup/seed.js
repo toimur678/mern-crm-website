@@ -43,16 +43,14 @@ async function seedData() {
     let paymentsCreated = 0;
     
     for (const client of clients) {
-      // Create 1 to 3 invoices per client
       const numInvoices = Math.floor(Math.random() * 3) + 1;
       for (let i = 0; i < numInvoices; i++) {
         const itemPrice = Math.floor(Math.random() * 1000) + 100;
         const itemQuantity = Math.floor(Math.random() * 5) + 1;
         const totalAmount = itemPrice * itemQuantity;
         
-        // Random status
         const statuses = ['draft', 'pending', 'sent'];
-        const isPaid = Math.random() > 0.5; // 50% chance the invoice is paid
+        const isPaid = Math.random() > 0.5;
         const currentStatus = isPaid ? 'sent' : statuses[Math.floor(Math.random() * statuses.length)];
         
         const invoiceData = {
@@ -60,7 +58,7 @@ async function seedData() {
           number: invoiceNumber++,
           year,
           date: new Date(),
-          expiredDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // +30 days
+          expiredDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
           client: client._id,
           items: [{
             itemName: 'Consulting Services',
@@ -96,7 +94,6 @@ async function seedData() {
           };
           const payment = await new Payment(paymentData).save();
           
-          // update invoice with payment reference
           invoice.payment.push(payment._id);
           await invoice.save();
           paymentsCreated++;

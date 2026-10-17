@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function ProgressBar({ value, max = 100, color = 'var(--color-primary)' }) {
   const percentage = Math.min(100, Math.max(0, (value / max) * 100));
   return (

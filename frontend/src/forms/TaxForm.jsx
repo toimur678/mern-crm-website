@@ -1,11 +1,10 @@
-import React from 'react';
-import {Switch, Form, Input, InputNumber} from 'antd';
+import { Switch, Form, Input, InputNumber } from 'antd';
 
 import useLanguage from '@/locale/useLanguage';
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
 import Icon from '@/components/Icon';
 
-export default function TaxForm({isUpdateForm = false}) {
+export default function TaxForm() {
     const translate = useLanguage();
     return (
         <>

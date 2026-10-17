@@ -2,8 +2,6 @@ const listAll = async (Model, req, res) => {
   const sort = req.query.sort || 'desc';
   const enabled = req.query.enabled || undefined;
 
-  //  Query the database for a list of all results
-
   let result;
   if (enabled === undefined) {
     result = await Model.find({

@@ -1,4 +1,3 @@
-import React from 'react';
 import RevenueChart from './RevenueChart';
 import GrowthRadial from './GrowthRadial';
 

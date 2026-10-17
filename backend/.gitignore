@@ -1,28 +1,54 @@
+# Dependencies
 node_modules/
-admin/
-*.zip
-.DS_Store
-.idea
-notes.md
-.env.local
-.env
+.pnp
+.pnp.js
 
-# Catch-all for environment files (e.g. temp.env, .env.development)
+# Environment and secrets
+.env
 .env.*
 *.env
-
-# Keys and certificates
+.env.local
+.env.*.local
 *.pem
 *.key
 *.cert
 *.crt
-
-# Secrets directory
 secrets/
 
+# Runtime generated files & downloads
 *.pdf
+*.zip
+*.tar.gz
+*.rar
+src/public/download/
+src/public/uploads/admin/
+src/public/uploads/*/
+!src/public/uploads/setting/
 
 # Logs
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+
+# Testing & coverage
+coverage/
+.nyc_output/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+notes.md

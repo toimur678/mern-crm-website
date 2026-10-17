@@ -1,72 +1,73 @@
+import { useState } from 'react';
 import { useProfileContext } from '@/context/profileContext';
-import useOnFetch from '@/hooks/useOnFetch';
 import { request } from '@/request';
 import { Form, Input, Modal } from 'antd';
 
-import useLanguage from '@/locale/useLanguage';
-
-const PasswordModal = () => {
-  const translate = useLanguage();
-
+export default function PasswordModal() {
   const { state, profileContextAction } = useProfileContext();
   const { modal } = profileContextAction;
-  const { passwordModal } = state;
-  const modalTitle = translate('Update Password');
-
-  const [passForm] = Form.useForm();
-
-  const { onFetch } = useOnFetch();
-
-  const handelSubmit = (fieldsValue) => {
-    const entity = 'admin/profile/password/';
-    const updateFn = async () => {
-      return await request.patch({ entity, jsonData: fieldsValue });
-    };
-    const callback = updateFn();
-    onFetch(callback);
-    passForm.resetFields();
-    modal.close();
+  const [form] = Form.useForm();
+  const [isSaving, setIsSaving] = useState(false);
+  const onSubmit = async (values) => {
+    setIsSaving(true);
+    try {
+      const response = await request.patch({ entity: 'admin/profile/password', jsonData: values });
+      if (response?.success) {
+        form.resetFields();
+        modal.close();
+      }
+    } finally {
+      setIsSaving(false);
+    }
   };
   return (
     <Modal
-      title={modalTitle}
-      open={passwordModal.isOpen}
-      onCancel={modal.close}
-      okText="Update"
-      onOk={() => {
-        passForm.submit();
+      title="Update your password"
+      className="profile-password-modal"
+      open={state.passwordModal.isOpen}
+      onCancel={() => {
+        if (!isSaving) {
+          form.resetFields();
+          modal.close();
+        }
       }}
+      okText="Update password"
+      confirmLoading={isSaving}
+      cancelButtonProps={{ disabled: isSaving }}
+      closable={!isSaving}
+      maskClosable={!isSaving}
+      onOk={() => form.submit()}
     >
-      <Form form={passForm} layout="vertical" onFinish={handelSubmit}>
+      <p className="profile-modal-description">Choose a strong password you haven’t used before.</p>
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={onSubmit}
+        requiredMark={false}
+        disabled={isSaving}
+      >
         <Form.Item
-          label={translate('New Password')}
+          label="New password"
           name="password"
+          extra="Use at least 8 characters."
           rules={[
-            {
-              required: true,
-              min: 8,
-            },
+            { required: true, message: 'Enter a new password.' },
+            { min: 8, message: 'Use at least 8 characters.' },
           ]}
-          hasFeedback
         >
-          <Input.Password />
+          <Input.Password autoComplete="new-password" />
         </Form.Item>
         <Form.Item
-          label={translate('Confirm Password')}
+          label="Confirm password"
           name="passwordCheck"
-          hasFeedback
+          dependencies={['password']}
           rules={[
-            {
-              required: true,
-            },
+            { required: true, message: 'Confirm your new password.' },
             ({ getFieldValue }) => ({
               validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error('The two passwords that you entered do not match!')
-                );
+                return !value || getFieldValue('password') === value
+                  ? Promise.resolve()
+                  : Promise.reject(new Error('Your passwords do not match.'));
               },
             }),
           ]}
@@ -76,6 +77,4 @@ const PasswordModal = () => {
       </Form>
     </Modal>
   );
-};
-
-export default PasswordModal;
+}

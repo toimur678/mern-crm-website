@@ -1,62 +1,28 @@
-import { Form, Input, InputNumber, Select, Switch } from 'antd';
+import { Form, InputNumber } from 'antd';
 
-import useLanguage from '@/locale/useLanguage';
-import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
-import Icon from '@/components/Icon';
-
-const formItems = [
-  {
-    label: 'last_invoice_number',
-    settingKey: 'last_invoice_number',
-    valueType: 'number',
-  },
-  {
-    label: 'last_quote_number',
-    settingKey: 'last_quote_number',
-    valueType: 'number',
-  },
-  {
-    label: 'last_payment_number',
-    settingKey: 'last_payment_number',
-    valueType: 'number',
-  },
+const fields = [
+  ['last_invoice_number', 'Last invoice number'],
+  ['last_quote_number', 'Last quote number'],
+  ['last_payment_number', 'Last payment number'],
 ];
-
-export default function SettingForm() {
-  const translate = useLanguage();
-
+export default function SettingsForm() {
   return (
-    <div>
-      {formItems.map((item) => {
-        return (
+    <>
+      <div className="settings-inline-note">
+        New documents continue from these numbers. Existing documents keep their original numbers.
+      </div>
+      <div className="settings-fields-grid">
+        {fields.map(([name, label]) => (
           <Form.Item
-            key={item.settingKey}
-            label={item.label ? translate(item.label) : translate(item.settingKey)}
-            name={item.settingKey}
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-            valuePropName={item.valueType === 'boolean' ? 'checked' : 'value'}
+            key={name}
+            name={name}
+            label={label}
+            rules={[{ required: true, message: 'Enter a document number.' }]}
           >
-            {item.valueType === 'string' && <Input autoComplete="off" />}
-            {item.valueType === 'number' && <InputNumber min={0} style={{ width: '100%' }} />}
-            {item.valueType === 'boolean' && (
-              <Switch checkedChildren={<Icon component={CheckIcon} />} unCheckedChildren={<Icon component={XMarkIcon} />} />
-            )}
-            {item.valueType === 'array' && (
-              <Select
-                mode="tags"
-                style={{
-                  width: '100%',
-                }}
-                tokenSeparators={[',']}
-              />
-            )}
+            <InputNumber min={0} precision={0} style={{ width: '100%' }} />
           </Form.Item>
-        );
-      })}
-    </div>
+        ))}
+      </div>
+    </>
   );
 }

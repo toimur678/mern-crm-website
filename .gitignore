@@ -1,0 +1,71 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment and secrets
+.env
+.env.*
+*.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.cert
+*.crt
+secrets/
+
+# Production and build outputs
+dist/
+build/
+out/
+.cache/
+.vite/
+.eslintcache
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing and coverage
+coverage/
+.nyc_output/
+
+# Generated runtime documents & user uploads
+*.pdf
+*.zip
+*.tar.gz
+*.rar
+backend/src/public/download/
+backend/src/public/uploads/admin/
+backend/src/public/uploads/*/
+!backend/src/public/uploads/setting/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Agent & workspace artifacts
+.agent/
+.agents/
+.codestudio/
+skills-lock.json
+SKILL.md
+notes.md

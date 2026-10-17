@@ -1,79 +1,17 @@
 import { ConfigProvider } from 'antd';
+import enUS from 'antd/locale/en_US';
 
 export default function Localization({ children }) {
-  return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: '#696cff',
-          colorLink: '#696cff',
-          colorSuccess: '#71dd37',
-          colorWarning: '#ffab00',
-          colorError: '#ff3e1d',
-          colorInfo: '#03c3ec',
-          borderRadius: 10,
-          fontFamily: "'Public Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-          colorBgContainer: '#ffffff',
-          colorBgLayout: '#f5f5f9',
-          colorText: '#566a7f',
-          colorTextHeading: '#435971',
-          colorTextSecondary: '#a1acb8',
-          colorBorder: '#e7e7e8',
-          colorBorderSecondary: '#eeeef0',
-          boxShadow: '0 2px 6px 0 rgba(67, 89, 113, 0.12)',
-        },
-        components: {
-          Button: {
-            borderRadius: 8,
-            controlHeight: 38,
-          },
-          Input: {
-            borderRadius: 8,
-          },
-          Select: {
-            borderRadius: 8,
-          },
-          Card: {
-            borderRadiusLG: 10,
-          },
-          Table: {
-            borderRadius: 10,
-            headerBg: '#f5f5f9',
-          },
-          Descriptions: {
-            labelBg: 'transparent',
-            titleColor: '#435971',
-            colorTextSecondary: '#566a7f',
-          },
-          Statistic: {
-            titleFontSize: 13,
-            contentFontSize: 24,
-            titleColor: '#a1acb8',
-          },
-          Tag: {
-            borderRadiusSM: 4,
-            lineHeight: 1.5,
-          },
-          Result: {
-            iconFontSize: 72,
-            titleFontSize: 24,
-            subtitleFontSize: 15,
-          },
-          Dropdown: {
-            borderRadiusLG: 8,
-            paddingBlock: 8,
-          },
-          Pagination: {
-            borderRadius: 8,
-            itemActiveBg: '#696cff',
-            colorPrimary: '#ffffff',
-            colorPrimaryHover: '#ffffff',
-          },
-        },
-      }}
-    >
-      {children}
-    </ConfigProvider>
-  );
+  return <ConfigProvider locale={enUS} theme={{ token: {
+    colorPrimary: '#087f70', colorLink: '#087f70', colorSuccess: '#258455', colorWarning: '#b57a24', colorError: '#ca5353', colorInfo: '#3977a8',
+    borderRadius: 8, fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", fontSize: 13,
+    colorBgContainer: '#ffffff', colorBgLayout: '#f6f8f7', colorText: '#354b47', colorTextHeading: '#182c2a', colorTextSecondary: '#62756e', colorBorder: '#dce5e0', colorBorderSecondary: '#e9eeeb',
+    controlHeight: 40, boxShadow: '0 2px 8px rgba(24, 44, 42, 0.04)', boxShadowSecondary: '0 8px 32px rgba(24, 44, 42, 0.1)',
+  }, components: {
+    Button: { fontWeight: 500, primaryShadow: '0 1px 2px rgba(24, 44, 42, 0.08)' },
+    Card: { borderRadiusLG: 12 }, Table: { headerBg: '#f8faf9', headerColor: '#62756e', cellPaddingBlock: 17, cellPaddingInline: 20 },
+    Tag: { borderRadiusSM: 5 }, Dropdown: { borderRadiusLG: 10 }, Modal: { borderRadiusLG: 14 },
+    Tabs: { horizontalItemGutter: 28, titleFontSize: 13 }, Descriptions: { labelBg: '#f8faf9' },
+    Pagination: { itemActiveBg: '#eaf5f0' },
+  } }}>{children}</ConfigProvider>;
 }
-

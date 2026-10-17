@@ -1,6 +1,4 @@
-import React from 'react';
 import Chart from 'react-apexcharts';
-import { profileData } from '../seedMockData';
 
 const ProfileReport = () => {
   const chartOptions = {

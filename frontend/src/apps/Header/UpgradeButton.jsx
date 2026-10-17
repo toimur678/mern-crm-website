@@ -1,9 +1,4 @@
-import { Avatar, Popover, Button, Badge, Col, List } from 'antd';
-
-// import Notifications from '@/components/Notification';
-
-
-
+import { Button, Badge } from 'antd';
 import useLanguage from '@/locale/useLanguage';
 import { RocketLaunchIcon } from '@heroicons/react/24/outline';
 import Icon from '@/components/Icon';
@@ -32,7 +27,3 @@ export default function UpgradeButton() {
     </Badge>
   );
 }
-
-console.log(
-
-);

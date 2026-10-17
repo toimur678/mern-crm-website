@@ -35,7 +35,6 @@ const resetPassword = async (req, res, { userModel }) => {
       message: 'Invalid reset token',
     });
 
-  // validate
   const objectSchema = Joi.object({
     password: Joi.string().required(),
     userId: Joi.string().required(),
@@ -85,15 +84,6 @@ const resetPassword = async (req, res, { userModel }) => {
     databasePassword.resetToken !== undefined &&
     databasePassword.resetToken !== null
   )
-    //  .cookie(`token_${user.cloud}`, token, {
-    //       maxAge: 24 * 60 * 60 * 1000,
-    //       sameSite: 'None',
-    //       httpOnly: true,
-    //       secure: true,
-    //       domain: req.hostname,
-    //       path: '/',
-    //       Partitioned: true,
-    //     })
     return res.status(200).json({
       success: true,
       result: {

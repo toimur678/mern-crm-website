@@ -1,22 +1,7 @@
-import { Form, Input, Select } from 'antd';
-
-import { message, Upload, Button, Switch } from 'antd';
-
+import { Form, Input, Select, Switch } from 'antd';
 import useLanguage from '@/locale/useLanguage';
-import { ArrowUpTrayIcon, XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
 import Icon from '@/components/Icon';
-
-const beforeUpload = (file) => {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-};
 
 export default function AdminForm({ isUpdateForm = false, isForAdminOwner = false }) {
   const translate = useLanguage();
@@ -112,17 +97,6 @@ export default function AdminForm({ isUpdateForm = false, isForAdminOwner = fals
       >
         <Switch checkedChildren={<Icon component={CheckIcon} />} unCheckedChildren={<Icon component={XMarkIcon} />} />
       </Form.Item>
-
-      {/* <Form.Item
-        name="file"
-        label={translate('Photo')}
-        valuePropName="fileList"
-        getValueFromEvent={(e) => e.fileList}
-      >
-        <Upload beforeUpload={beforeUpload}>
-          <Button icon={<Icon component={ArrowUpTrayIcon} />}>{translate('click_to_upload')}</Button>
-        </Upload>
-      </Form.Item> */}
     </>
   );
 }

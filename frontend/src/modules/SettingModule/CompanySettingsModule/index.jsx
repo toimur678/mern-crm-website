@@ -9,7 +9,7 @@ export default function CompanySettingsModule({ config }) {
     <UpdateSettingModule config={config}>
       <SetingsSection
         title={translate('Company Settings')}
-        description={translate('Update your Company informations')}
+        description="The business details that appear on your invoices and quotes."
       >
         <SettingsForm />
       </SetingsSection>

@@ -1,10 +1,4 @@
-import React from 'react';
-
-/**
- * Wraps Heroicons to behave like Ant Design icons.
- * Automatically inherits font-size (1em) so it scales with text, 
- * just like @ant-design/icons did.
- */
+// Wraps Heroicons to inherit font-size (1em) like Ant Design icons.
 export default function Icon({ component: Component, className = '', style = {}, ...props }) {
   if (!Component) return null;
   return (

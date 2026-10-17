@@ -91,7 +91,7 @@ export default function EmployeeForm() {
             required: true,
           },
           {
-            pattern: validatePhoneNumber, // importing regex from helper.js utility file to validate
+            pattern: validatePhoneNumber,
           },
         ]}
       >

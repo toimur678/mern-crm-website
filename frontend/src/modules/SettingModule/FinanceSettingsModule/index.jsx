@@ -9,7 +9,7 @@ export default function MoneyFormatSettingsModule({ config }) {
     <UpdateSettingModule config={config}>
       <SetingsSection
         title={translate('Finance Settings')}
-        description={translate('Update Company Finance Settings')}
+        description="Keep your invoice, quote, and payment numbering in order."
       >
         <MoneyFormSettingForm />
       </SetingsSection>

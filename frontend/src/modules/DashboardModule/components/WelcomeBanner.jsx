@@ -1,4 +1,3 @@
-import React from 'react';
 import useLanguage from '@/locale/useLanguage';
 import { useSelector } from 'react-redux';
 import { selectCurrentAdmin } from '@/redux/auth/selectors';

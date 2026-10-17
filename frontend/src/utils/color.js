@@ -540,16 +540,6 @@ const color = [
   },
 ];
 
-// const rendercolor = () => {
-//   const colorList = [];
-//   color.map((x) => {
-//     colorList.push({ ...x, value: x.value.toLowerCase() });
-//   });
-//   return colorList;
-// };
-
-// console.log('🚀 ~ rendercolor();:', rendercolor());
-
 export const selectColor = {
   default: null,
   magenta: 'magenta',

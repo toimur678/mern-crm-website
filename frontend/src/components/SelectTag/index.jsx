@@ -1,7 +1,10 @@
-import { Select, Tag } from 'antd';
+import { Select } from 'antd';
 import { generate as uniqueId } from 'shortid';
+import useLanguage from '@/locale/useLanguage';
 
 export default function SelectTag({ options, defaultValue }) {
+  const translate = useLanguage();
+
   return (
     <Select
       defaultValue={defaultValue}
@@ -9,19 +12,19 @@ export default function SelectTag({ options, defaultValue }) {
         width: '100%',
       }}
     >
-      {options?.map((value) => {
-        if (option)
+      {options?.map((item) => {
+        if (item && typeof item === 'object') {
           return (
-            <Select.Option key={`${uniqueId()}`} value={option.value}>
-              {translate(option.label)}
+            <Select.Option key={`${uniqueId()}`} value={item.value}>
+              {translate ? translate(item.label) : item.label}
             </Select.Option>
           );
-        else
-          return (
-            <Select.Option key={`${uniqueId()}`} value={value}>
-              {value}
-            </Select.Option>
-          );
+        }
+        return (
+          <Select.Option key={`${uniqueId()}`} value={item}>
+            {item}
+          </Select.Option>
+        );
       })}
     </Select>
   );

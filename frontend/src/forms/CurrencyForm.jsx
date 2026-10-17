@@ -1,10 +1,8 @@
-import React from 'react';
 import { Switch, Form, Input } from 'antd';
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
 import Icon from '@/components/Icon';
 
-
-export default function CurrencyForm({ isUpdateForm = false }) {
+export default function CurrencyForm() {
   return (
     <>
       <Form.Item

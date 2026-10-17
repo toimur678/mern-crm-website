@@ -1,75 +1,40 @@
 import currency from 'currency.js';
-
 import { useSelector } from 'react-redux';
 import storePersist from '@/redux/storePersist';
-
 import { selectMoneyFormat } from '@/redux/settings/selectors';
 
-const useMoney = () => {
-  const money_format_settings = useSelector(selectMoneyFormat);
+export default function useMoney() {
+  const settings = useSelector(selectMoneyFormat);
+  const format = settings && Object.keys(settings).length ? settings : storePersist.get('settings')?.money_format_settings || {};
+  const defaultCode = format.default_currency_code || format.currency_code || 'USD';
 
-  const money_format_state = money_format_settings
-    ? money_format_settings
-    : storePersist.get('settings')?.money_format_settings;
-
-  function currencyFormat({ amount, currency_code = money_format_state?.currency_code }) {
-    return currency(amount).dollars() > 0 || !money_format_state?.zero_format
-      ? currency(amount, {
-          separator: money_format_state?.thousand_sep,
-          decimal: money_format_state?.decimal_sep,
-          symbol: '',
-          precision: money_format_state?.cent_precision,
-        }).format()
-      : 0 +
-          currency(amount, {
-            separator: money_format_state?.thousand_sep,
-            decimal: money_format_state?.decimal_sep,
-            symbol: '',
-            precision: money_format_state?.cent_precision,
-          }).format();
+  function currencyFormat({ amount = 0 }) {
+    return currency(amount, {
+      separator: format.thousand_sep ?? ',',
+      decimal: format.decimal_sep ?? '.',
+      symbol: '',
+      precision: format.cent_precision ?? 2,
+    }).format();
   }
 
-  function moneyFormatter({ amount = 0, currency_code = money_format_state?.currency_code }) {
-    return money_format_state?.currency_position === 'before'
-      ? money_format_state?.currency_symbol + ' ' + currencyFormat({ amount, currency_code })
-      : currencyFormat({ amount, currency_code }) + ' ' + money_format_state?.currency_symbol;
+  function moneyFormatter({ amount = 0, currency_code = defaultCode }) {
+    // Preserve the user's number formatting; never label another currency with
+    // the workspace's default symbol.
+    const symbol = currency_code === defaultCode ? format.currency_symbol || currency_code : currency_code;
+    const number = currencyFormat({ amount });
+    return format.currency_position === 'before' ? `${symbol} ${number}` : `${number} ${symbol}`;
   }
 
-  function amountFormatter({ amount = 0, currency_code = money_format_state?.currency_code }) {
-    return currencyFormat({ amount: amount, currency_code });
-  }
-
-  function moneyRowFormatter({ amount = 0, currency_code = money_format_state?.currency_code }) {
-    return {
-      props: {
-        style: {
-          textAlign: 'right',
-          whiteSpace: 'nowrap',
-          direction: 'ltr',
-        },
-      },
-      children: (
-        <>
-          {money_format_state?.currency_position === 'before'
-            ? money_format_state?.currency_symbol + ' ' + currencyFormat({ amount, currency_code })
-            : currencyFormat({ amount, currency_code }) + ' ' + money_format_state?.currency_symbol}
-        </>
-      ),
-    };
+  function moneyRowFormatter(value) {
+    return { props: { style: { textAlign: 'right', whiteSpace: 'nowrap', direction: 'ltr' } }, children: moneyFormatter(value) };
   }
 
   return {
-    moneyRowFormatter,
-    moneyFormatter,
-    amountFormatter,
-    currency_symbol: money_format_state?.currency_symbol,
-    currency_code: money_format_state?.currency_code,
-    currency_position: money_format_state?.currency_position,
-    decimal_sep: money_format_state?.decimal_sep,
-    thousand_sep: money_format_state?.thousand_sep,
-    cent_precision: money_format_state?.cent_precision,
-    zero_format: money_format_state?.zero_format,
+    moneyRowFormatter, moneyFormatter, amountFormatter: currencyFormat,
+    currency_symbol: format.currency_symbol || defaultCode,
+    currency_code: defaultCode,
+    currency_position: format.currency_position,
+    decimal_sep: format.decimal_sep, thousand_sep: format.thousand_sep,
+    cent_precision: format.cent_precision, zero_format: format.zero_format,
   };
-};
-
-export default useMoney;
+}

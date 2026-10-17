@@ -1,48 +1,44 @@
-import React from 'react';
 import { Form, Input } from 'antd';
-
-
-import useLanguage from '@/locale/useLanguage';
-import { UserIcon, LockClosedIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
-import Icon from '@/components/Icon';
+import { LockClosedIcon } from '@heroicons/react/24/outline';
 
 export default function ResetPasswordForm() {
   return (
     <>
       <Form.Item
+        label="New password"
         name="password"
+        extra="Use at least 8 characters."
         rules={[
-          {
-            required: true,
-          },
+          { required: true, message: 'Enter a new password.' },
+          { min: 8, message: 'Use at least 8 characters.' },
         ]}
       >
         <Input.Password
-          prefix={<Icon component={LockClosedIcon} className="site-form-item-icon" />}
-          placeholder="Password"
+          prefix={<LockClosedIcon />}
+          placeholder="Create a strong password"
+          autoComplete="new-password"
           size="large"
         />
       </Form.Item>
       <Form.Item
+        label="Confirm password"
         name="confirm_password"
+        dependencies={['password']}
         rules={[
-          {
-            required: true,
-          },
+          { required: true, message: 'Confirm your new password.' },
           ({ getFieldValue }) => ({
             validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error('The two passwords that you entered do not match!'));
+              return !value || getFieldValue('password') === value
+                ? Promise.resolve()
+                : Promise.reject(new Error('Your passwords do not match.'));
             },
           }),
         ]}
-        hasFeedback
       >
         <Input.Password
-          prefix={<Icon component={LockClosedIcon} className="site-form-item-icon" />}
-          placeholder="Confirm password"
+          prefix={<LockClosedIcon />}
+          placeholder="Enter your password again"
+          autoComplete="new-password"
           size="large"
         />
       </Form.Item>

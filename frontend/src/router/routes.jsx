@@ -6,6 +6,9 @@ const Logout = lazy(() => import('@/pages/Logout.jsx'));
 const NotFound = lazy(() => import('@/pages/NotFound.jsx'));
 
 const Customer = lazy(() => import('@/pages/Customer'));
+const Dashboard = lazy(() => import('@/modules/DashboardModule'));
+const PaymentMethods = lazy(() => import('@/pages/PaymentMethods'));
+const Taxes = lazy(() => import('@/pages/Taxes'));
 const CustomerProfile = lazy(() => import('@/pages/Customer/CustomerProfile'));
 const Invoice = lazy(() => import('@/pages/Invoice'));
 const InvoiceCreate = lazy(() => import('@/pages/Invoice/InvoiceCreate'));
@@ -22,8 +25,6 @@ const Settings = lazy(() => import('@/pages/Settings/Settings'));
 
 const Profile = lazy(() => import('@/pages/Profile'));
 
-const About = lazy(() => import('@/pages/About'));
-
 let routes = {
   expense: [],
   default: [
@@ -37,7 +38,7 @@ let routes = {
     },
     {
       path: '/',
-      element: <Invoice />,
+      element: <Dashboard />,
     },
     {
       path: '/customer',
@@ -70,6 +71,14 @@ let routes = {
     {
       path: '/payment',
       element: <Payment />,
+    },
+    {
+      path: '/payment/mode',
+      element: <PaymentMethods />,
+    },
+    {
+      path: '/taxes',
+      element: <Taxes />,
     },
     {
       path: '/payment/read/:id',

@@ -1,90 +1,39 @@
-/* ─── Sidebar Navigation ─── */
-.navigation {
-  position: sticky;
-  height: calc(100vh - 48px);
-  overflow-y: auto;
-  overflow-x: hidden;
-  top: 24px;
-  left: 24px;
-  z-index: 1000;
-  background: var(--bg-surface);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-  border: none;
-  width: var(--sidebar-width);
-}
-
-.logo {
-  height: 45px;
-  margin: 20px auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.sidebar-wraper {
-  background: transparent;
-  display: block;
-}
-
-.mobile-sidebar-wraper {
-  display: none;
-}
-
-.mobile-sidebar-wraper .ant-drawer-body {
-  padding: 12px 0px !important;
-}
-
-/* ─── Navigation Icon Buttons ─── */
-.nav-icon-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all var(--transition-base);
-  position: relative;
-}
-
-.nav-icon-btn:hover {
-  background: var(--bg-muted);
-}
-
-.nav-icon-btn.active {
-  background: var(--color-primary);
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(105, 108, 255, 0.3);
-}
-
-.nav-icon-btn.active:hover {
-  background: var(--color-primary-dark);
-}
-
-/* ─── Tab Navigation Style ─── */
-.tabsNavigation span {
-  background-color: transparent;
-}
-
-.tabsNavigation:hover span {
-  box-shadow: 0px 0px 20px 6px rgba(37, 99, 235, 0.12);
-  background-color: transparent;
-}
-
-@media only screen and (max-width: 768px) {
-  .sidebar-wraper {
-    display: none;
-  }
-
-  .navigation {
-    height: 100%;
-    top: 0;
-    left: 0;
-    border-radius: 0;
-  }
-
-  .mobile-sidebar-wraper {
-    display: block;
-  }
+.workspace-sidebar { position: fixed; inset: 0 auto 0 0; width: var(--sidebar-width); background: #fff; border-right: 1px solid var(--border-color-light); z-index: 50; }
+.sidebar-content { display: flex; flex-direction: column; height: 100dvh; padding: 27px 16px 12px; overflow-y: auto; overscroll-behavior: contain; }
+.workspace-brand { display: flex; align-items: center; gap: 10px; color: var(--text-primary); padding: 0 12px; font-size: 28px; font-weight: 700; letter-spacing: -1.5px; line-height: 36px; }
+.brand-mark { display: grid; place-items: center; width: 32px; height: 36px; color: var(--color-primary); }
+.brand-mark svg { width: 31px; height: 31px; stroke-width: 2; }
+.brand-dot { color: var(--color-primary); }
+.brand-caption { margin: 7px 0 0 2px; padding: 1px 5px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 9px; font-weight: 600; letter-spacing: .4px; line-height: 15px; color: var(--text-tertiary); }
+.workspace-switcher { display: flex; align-items: center; gap: 9px; border: 1px solid var(--border-color-light); border-radius: 9px; padding: 10px; margin: 27px 0 25px; color: var(--text-primary); background: #fafcfb; }
+.workspace-avatar { display: grid; place-items: center; width: 30px; height: 32px; flex-shrink: 0; border: 1px solid #e2e8e1; border-radius: 6px; background: #f0f1e9; font-size: 14px; font-weight: 650; color: #65754d; }
+.workspace-switcher > span:nth-child(2), .sidebar-profile > span:nth-child(2) { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.workspace-switcher strong { font-size: 11px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.workspace-switcher small { font-size: 10px; color: var(--text-tertiary); }
+.workspace-switcher > svg, .sidebar-profile > svg { width: 14px; height: 14px; flex-shrink: 0; color: var(--text-tertiary); }
+.nav-section-label { color: var(--text-tertiary); font-size: 9px; font-weight: 600; letter-spacing: 1.3px; margin: 0 12px 12px; }
+.nav-section-finance { margin-top: 29px; }
+.workspace-nav-link { min-height: 42px; margin: 3px 0; padding: 11px 13px; display: flex; align-items: center; gap: 11px; border-radius: 7px; color: var(--text-secondary); font-size: 12px; font-weight: 500; transition: background-color var(--transition-fast), color var(--transition-fast); }
+.workspace-nav-link > svg { width: 18px; height: 18px; flex-shrink: 0; stroke-width: 1.6; }
+.workspace-nav-link.is-active { color: var(--color-primary); background: #eaf5ef; font-weight: 600; }
+.nav-active-dot { display: none; width: 5px; height: 5px; background: var(--color-primary); border-radius: 50%; margin-left: auto; }
+.is-active .nav-active-dot { display: block; }
+.sidebar-bottom { margin-top: auto; padding-top: 44px; }
+.sidebar-tip { margin: 0 4px 20px; padding: 16px 14px; border: 1px solid #e7ede4; background: #f5f8f0; border-radius: 10px; }
+.tip-symbol { display: block; color: #6d8953; font-size: 23px; line-height: 28px; margin-bottom: 10px; }
+.sidebar-tip strong { display: block; font-size: 12px; line-height: 1.6; font-weight: 600; color: #3f5745; }
+.sidebar-tip p { margin: 8px 0 14px; color: #667a65; font-size: 10px; line-height: 1.7; }
+.sidebar-tip a { display: flex; align-items: center; gap: 8px; color: #466647; font-size: 10px; font-weight: 600; }
+.sidebar-tip a svg { width: 13px; height: 13px; }
+.sidebar-profile { display: flex; align-items: center; gap: 10px; padding: 18px 5px 3px; margin-top: 14px; border-top: 1px solid var(--border-color-light); color: var(--text-primary); }
+.sidebar-profile strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; font-weight: 600; }
+.sidebar-profile small { font-size: 10px; color: var(--text-tertiary); }
+.mobile-nav-trigger.ant-btn { position: absolute; top: calc(14px + env(safe-area-inset-top,0px)); left: 12px; height: 40px; width: 40px; z-index: 60; color: var(--text-primary); }
+.mobile-nav-trigger svg { width: 22px; height: 22px; }
+.workspace-mobile-drawer .sidebar-content { height: auto; min-height: calc(100dvh - 65px); }
+.workspace-mobile-drawer .ant-drawer-content { border-radius: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .workspace-nav-link:hover { color: var(--text-primary); background: var(--bg-muted); }
+  .workspace-nav-link.is-active:hover { color: var(--color-primary-dark); background: #e2f0e8; }
+  .workspace-brand:hover, .sidebar-profile:hover { color: var(--color-primary); }
 }

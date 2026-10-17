@@ -1,5 +1,4 @@
 const fileFilterMiddleware = ({ type = 'default', mimetype }) => {
-  // array containing all the possible file types
   const _fileType = [
     'image/jpeg',
     'image/png',

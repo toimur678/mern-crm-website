@@ -16,10 +16,15 @@ async function seedData() {
 
     const admin = await Admin.findOne();
     if (!admin) {
-      console.log('No admin found. Cannot proceed.');
+      console.log('No admin found. Run "npm run setup" first, then "npm run seed".');
       process.exit(1);
     }
     const adminId = admin._id;
+
+    console.log('Clearing existing clients, invoices and payments...');
+    await Payment.deleteMany({});
+    await Invoice.deleteMany({});
+    await Client.deleteMany({});
 
     console.log('Generating Clients...');
     const clients = [];

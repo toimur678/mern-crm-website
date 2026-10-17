@@ -8,7 +8,7 @@ export default function SettingsForm() {
   const translate = useLanguage();
 
   return (
-    <div>
+    <div className="settings-fields-grid">
       <Form.Item
         label={translate('Currency')}
         name="default_currency_code"
@@ -24,7 +24,7 @@ export default function SettingsForm() {
             (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
           }
           filterSort={(optionA, optionB) =>
-            (optionA?.label ?? '').toLowerCase().startsWith((optionB?.label ?? '').toLowerCase())
+            (optionA?.label ?? '').localeCompare(optionB?.label ?? '')
           }
           options={currencyOptions()}
         ></Select>
@@ -86,7 +86,7 @@ export default function SettingsForm() {
           },
         ]}
       >
-        <InputNumber min={0} />
+        <InputNumber min={0} max={6} precision={0} style={{ width: '100%' }} />
       </Form.Item>
       <Form.Item
         label={translate('Zero Format')}

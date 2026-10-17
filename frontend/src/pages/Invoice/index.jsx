@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import { Tag } from 'antd';
 import useLanguage from '@/locale/useLanguage';
-import { tagColor } from '@/utils/statusTagColor';
 
 import { useMoney, useDate } from '@/settings';
 import InvoiceDataTableModule from '@/modules/InvoiceModule/InvoiceDataTableModule';
@@ -20,8 +19,9 @@ export default function Invoice() {
   const deleteModalLabels = ['number', 'client.name'];
   const dataTableColumns = [
     {
-      title: translate('Number'),
+      title: 'Invoice',
       dataIndex: 'number',
+      render: (number, record) => <span className="record-number">INV-{record.year}-{String(number).padStart(3, '0')}</span>,
     },
     {
       title: translate('Client'),
@@ -35,7 +35,7 @@ export default function Invoice() {
       },
     },
     {
-      title: translate('expired Date'),
+      title: 'Due date',
       dataIndex: 'expiredDate',
       render: (date) => {
         return dayjs(date).format(dateFormat);
@@ -74,17 +74,19 @@ export default function Invoice() {
     {
       title: translate('Status'),
       dataIndex: 'status',
+      render: (status) => <Tag color={status === 'sent' ? 'blue' : 'default'} bordered={false}>{status ? status.charAt(0).toUpperCase() + status.slice(1) : 'Draft'}</Tag>,
     },
     {
       title: translate('Payment'),
       dataIndex: 'paymentStatus',
+      render: (status) => <Tag color={status === 'paid' ? 'green' : status === 'partially' ? 'gold' : 'orange'} bordered={false}>{status === 'partially' ? 'Partially paid' : status === 'paid' ? 'Paid' : 'Unpaid'}</Tag>,
     },
   ];
 
   const Labels = {
     PANEL_TITLE: translate('invoice'),
-    DATATABLE_TITLE: translate('invoice_list'),
-    ADD_NEW_ENTITY: translate('add_new_invoice'),
+    DATATABLE_TITLE: 'Invoices',
+    ADD_NEW_ENTITY: 'Create invoice',
     ENTITY_NAME: translate('invoice'),
 
     RECORD_ENTITY: translate('record_payment'),

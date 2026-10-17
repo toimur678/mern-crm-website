@@ -15,8 +15,6 @@ const updatePassword = async (userModel, req, res) => {
       msg: 'The password needs to be at least 8 characters long.',
     });
 
-  // Find document by id and updates with the required fields
-
   if (userProfile.email === 'admin@admin.com') {
     return res.status(403).json({
       success: false,
@@ -38,11 +36,9 @@ const updatePassword = async (userModel, req, res) => {
     { user: req.params.id, removed: false },
     { $set: UserPasswordData },
     {
-      new: true, // return the new result instead of the old one
+      new: true,
     }
   ).exec();
-
-  // Code to handle the successful response
 
   if (!resultPassword) {
     return res.status(403).json({

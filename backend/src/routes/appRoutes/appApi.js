@@ -4,6 +4,9 @@ const router = express.Router();
 
 const appControllers = require('@/controllers/appControllers');
 const { routesList } = require('@/models/utils');
+const dashboardController = require('@/controllers/appControllers/dashboardController');
+
+router.get('/dashboard/summary', catchErrors(dashboardController.summary));
 
 const routerApp = (entity, controller) => {
   router.route(`/${entity}/create`).post(catchErrors(controller['create']));

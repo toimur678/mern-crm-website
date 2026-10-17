@@ -1,6 +1,4 @@
-import React from 'react';
 import Chart from 'react-apexcharts';
-import { orderData } from '../seedMockData';
 import { ComputerDesktopIcon, ShoppingBagIcon, HomeIcon, PuzzlePieceIcon } from '@heroicons/react/24/outline';
 
 const OrderStatistics = () => {

@@ -1,144 +1,20 @@
-import { useState, useEffect } from 'react';
-
-import { Button, Row, Col, Descriptions, Tag, Divider } from 'antd';
+import { Button, Tag } from 'antd';
 import PageHeader from '@/components/PageHeader';
-
-
-import { generate as uniqueId } from 'shortid';
-
 import { useMoney } from '@/settings';
-
 import RecordPayment from './RecordPayment';
-import useLanguage from '@/locale/useLanguage';
-
 import { useNavigate } from 'react-router-dom';
-import { DocumentTextIcon, XCircleIcon } from '@heroicons/react/24/outline';
-import Icon from '@/components/Icon';
 
 export default function Payment({ config, currentItem }) {
-  const translate = useLanguage();
-  const { entity, ENTITY_NAME } = config;
-
-  const money = useMoney();
   const navigate = useNavigate();
-
-  const [itemslist, setItemsList] = useState([]);
-  const [currentErp, setCurrentErp] = useState(currentItem);
-
-  const [client, setClient] = useState({});
-  useEffect(() => {
-    if (currentErp?.client) {
-      setClient(currentErp.client);
-    }
-  }, [currentErp]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    if (currentItem) {
-      const { items } = currentItem;
-
-      setItemsList(items);
-      setCurrentErp(currentItem);
-    }
-    return () => controller.abort();
-  }, [currentItem]);
-
-  return (
-    <>
-      <Row gutter={[12, 12]}>
-        <Col
-          className="gutter-row"
-          xs={{ span: 24 }}
-          sm={{ span: 24 }}
-          md={{ span: 24 }}
-          lg={{ span: 20, push: 2 }}
-        >
-          <PageHeader
-            onBack={() => navigate(`/${entity.toLowerCase()}`)}
-            title={`Record Payment for ${ENTITY_NAME} # ${currentErp.number}/${
-              currentErp.year || ''
-            }`}
-            ghost={false}
-            tags={<span>{currentErp.paymentStatus && translate(currentErp.paymentStatus)}</span>}
-            // subTitle="This is cuurent erp page"
-            extra={[
-              <Button
-                key={`${uniqueId()}`}
-                onClick={() => {
-                  navigate(`/${entity.toLowerCase()}`);
-                }}
-                icon={<Icon component={XCircleIcon} />}
-              >
-                {translate('Cancel')}
-              </Button>,
-              <Button
-                key={`${uniqueId()}`}
-                onClick={() => navigate(`/invoice/read/${currentErp._id}`)}
-                icon={<Icon component={DocumentTextIcon} />}
-              >
-                {translate('Show Invoice')}
-              </Button>,
-            ]}
-            style={{
-              padding: '20px 0px',
-            }}
-          ></PageHeader>
-          <Divider dashed />
-        </Col>
-      </Row>
-      <Row gutter={[12, 12]}>
-        <Col
-          className="gutter-row"
-          xs={{ span: 24, order: 2 }}
-          sm={{ span: 24, order: 2 }}
-          md={{ span: 10, order: 2, push: 2 }}
-          lg={{ span: 10, order: 2, push: 4 }}
-        >
-          <div className="space50"></div>
-          <Descriptions title={`${translate('Client')}  : ${currentErp.client.name}`} column={1}>
-            <Descriptions.Item label={translate('email')}>{client.email}</Descriptions.Item>
-            <Descriptions.Item label={translate('phone')}>{client.phone}</Descriptions.Item>
-            <Divider dashed />
-            <Descriptions.Item label={translate('payment status')}>
-              <span>{currentErp.paymentStatus && translate(currentErp.paymentStatus)}</span>
-            </Descriptions.Item>
-            <Descriptions.Item label={translate('sub total')}>
-              {money.moneyFormatter({
-                amount: currentErp.subTotal,
-                currency_code: currentErp.currency,
-              })}
-            </Descriptions.Item>
-            <Descriptions.Item label={translate('total')}>
-              {money.moneyFormatter({
-                amount: currentErp.total,
-                currency_code: currentErp.currency,
-              })}
-            </Descriptions.Item>
-            <Descriptions.Item label={translate('discount')}>
-              {money.moneyFormatter({
-                amount: currentErp.discount,
-                currency_code: currentErp.currency,
-              })}
-            </Descriptions.Item>
-            <Descriptions.Item label={translate('Paid')}>
-              {money.moneyFormatter({
-                amount: currentErp.credit,
-                currency_code: currentErp.currency,
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-        </Col>
-
-        <Col
-          className="gutter-row"
-          xs={{ span: 24, order: 1 }}
-          sm={{ span: 24, order: 1 }}
-          md={{ span: 12, order: 1 }}
-          lg={{ span: 10, order: 1, push: 2 }}
-        >
-          <RecordPayment config={config} />
-        </Col>
-      </Row>
-    </>
-  );
+  const { moneyFormatter } = useMoney();
+  const invoice = currentItem || {};
+  const format = (amount) => moneyFormatter({ amount: amount || 0, currency_code: invoice.currency });
+  const balance = Math.max(0, Number(invoice.total || 0) - Number(invoice.discount || 0) - Number(invoice.credit || 0));
+  return <>
+    <PageHeader onBack={() => navigate(`/invoice/read/${invoice._id}`)} title="Record a payment" description={`Invoice #${invoice.number} · ${invoice.client?.name || 'Customer'}`} extra={[<Button key="invoice" onClick={() => navigate(`/invoice/read/${invoice._id}`)}>View invoice</Button>]} />
+    <div className="record-two-columns">
+      <section className="record-form-card"><h2 className="record-section-heading">Payment details</h2><p className="record-section-description">Add the amount received and how it was paid.</p><RecordPayment config={config} /></section>
+      <aside className="record-detail-card"><span className="record-eyebrow">Invoice summary</span><h2 className="record-section-heading">{invoice.client?.name}</h2><p className="record-section-description">{invoice.client?.email}</p><Tag bordered={false} color={balance ? 'orange' : 'green'}>{invoice.paymentStatus === 'partially' ? 'Partially paid' : balance ? 'Unpaid' : 'Paid'}</Tag><div className="record-total-row"><span>Invoice total</span><strong>{format(invoice.total)}</strong></div><div className="record-total-row"><span>Already paid</span><strong>{format(invoice.credit)}</strong></div><div className="record-total-row is-total"><span>Balance due</span><strong>{format(balance)}</strong></div></aside>
+    </div>
+  </>;
 }

@@ -1,23 +1,21 @@
 import CrudModule from '@/modules/CrudModule/CrudModule';
-import DynamicForm from '@/forms/DynamicForm';
+import CustomerForm from './CustomerForm';
 import { fields } from './config';
 
-import useLanguage from '@/locale/useLanguage';
 
 export default function Customer() {
-  const translate = useLanguage();
   const entity = 'client';
   const searchConfig = {
     displayLabels: ['name'],
-    searchFields: 'name',
+    searchFields: 'name,email,phone',
   };
   const deleteModalLabels = ['name'];
 
   const Labels = {
-    PANEL_TITLE: translate('client'),
-    DATATABLE_TITLE: translate('client_list'),
-    ADD_NEW_ENTITY: translate('add_new_client'),
-    ENTITY_NAME: translate('client'),
+    PANEL_TITLE: 'Customer',
+    DATATABLE_TITLE: 'Customers',
+    ADD_NEW_ENTITY: 'Add customer',
+    ENTITY_NAME: 'Customer',
   };
   const configPage = {
     entity,
@@ -28,11 +26,12 @@ export default function Customer() {
     fields,
     searchConfig,
     deleteModalLabels,
+    PAGE_DESCRIPTION: 'Good relationships start with the details. Keep your customers close.',
   };
   return (
     <CrudModule
-      createForm={<DynamicForm fields={fields} />}
-      updateForm={<DynamicForm fields={fields} />}
+      createForm={<CustomerForm />}
+      updateForm={<CustomerForm />}
       config={config}
     />
   );

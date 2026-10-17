@@ -1,12 +1,11 @@
 import { useLayoutEffect, useEffect, useState } from 'react';
-import { Row, Col, Button } from 'antd';
+import { Button } from 'antd';
 
 
 import CreateForm from '@/components/CreateForm';
 import UpdateForm from '@/components/UpdateForm';
 import DeleteModal from '@/components/DeleteModal';
 import ReadItem from '@/components/ReadItem';
-import SearchItem from '@/components/SearchItem';
 import DataTable from '@/components/DataTable/DataTable';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +16,7 @@ import { crud } from '@/redux/crud/actions';
 import { useCrudContext } from '@/context/crud';
 
 import { CrudLayout } from '@/layout';
-import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Icon from '@/components/Icon';
 
 function SidePanelTopContent({ config, formElements, withUpload }) {
@@ -48,63 +47,19 @@ function SidePanelTopContent({ config, formElements, withUpload }) {
     editBox.open();
   };
 
-  const show = isReadBoxOpen || isEditBoxOpen ? { opacity: 1 } : { opacity: 0 };
+  if (!isReadBoxOpen && !isEditBoxOpen) return null;
   return (
     <>
-      <Row style={show} gutter={(24, 24)}>
-        <Col span={10}>
-          <p style={{ marginBottom: '10px' }}>{labels}</p>
-        </Col>
-        <Col span={14}>
-          <Button
-            onClick={removeItem}
-            type="text"
-            icon={<Icon component={TrashIcon} />}
-            size="small"
-            style={{ float: 'right', marginLeft: '5px', marginTop: '10px' }}
-          >
-            {translate('remove')}
-          </Button>
-          <Button
-            onClick={editItem}
-            type="text"
-            icon={<Icon component={PencilIcon} />}
-            size="small"
-            style={{ float: 'right', marginLeft: '0px', marginTop: '10px' }}
-          >
-            {translate('edit')}
-          </Button>
-        </Col>
-
-        <Col span={24}>
-          <div className="line"></div>
-        </Col>
-        <div className="space10"></div>
-      </Row>
+      <div className="record-drawer-actions">
+        <strong>{labels}</strong>
+        <div>
+          <Button onClick={editItem} type="text" icon={<Icon component={PencilIcon} />}>{translate('edit')}</Button>
+          <Button onClick={removeItem} danger type="text" aria-label="Delete record" icon={<Icon component={TrashIcon} />} />
+        </div>
+      </div>
       <ReadItem config={config} />
       <UpdateForm config={config} formElements={formElements} withUpload={withUpload} />
     </>
-  );
-}
-
-function FixHeaderPanel({ config }) {
-  const { crudContextAction } = useCrudContext();
-
-  const { collapsedBox } = crudContextAction;
-
-  const addNewItem = () => {
-    collapsedBox.close();
-  };
-
-  return (
-    <Row gutter={8}>
-      <Col className="gutter-row" span={21}>
-        <SearchItem config={config} />
-      </Col>
-      <Col className="gutter-row" span={3}>
-        <Button onClick={addNewItem} block={true} icon={<Icon component={PlusIcon} />}></Button>
-      </Col>
-    </Row>
   );
 }
 
@@ -118,7 +73,6 @@ function CrudModule({ config, createForm, updateForm, withUpload = false }) {
   return (
     <CrudLayout
       config={config}
-      fixHeaderPanel={<FixHeaderPanel config={config} />}
       sidePanelBottomContent={
         <CreateForm config={config} formElements={createForm} withUpload={withUpload} />
       }

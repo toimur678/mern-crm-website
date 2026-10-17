@@ -4,7 +4,6 @@ const Model = mongoose.model('Setting');
 
 const listAllSettings = async () => {
   try {
-    //  Query the database for a list of all results
     const result = await Model.find({
       removed: false,
     }).exec();

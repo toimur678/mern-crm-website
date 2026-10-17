@@ -1,99 +1,116 @@
-import { useEffect, useState } from 'react';
 import { useProfileContext } from '@/context/profileContext';
-import { generate as uniqueId } from 'shortid';
-
-import { Avatar, Button, Col, Descriptions, Divider, Row } from 'antd';
-import PageHeader from '@/components/PageHeader';
+import { Avatar, Button } from 'antd';
 import { useSelector } from 'react-redux';
-
 import { useNavigate } from 'react-router-dom';
-
 import { selectCurrentAdmin } from '@/redux/auth/selectors';
-
-import useLanguage from '@/locale/useLanguage';
 import { FILE_BASE_URL } from '@/config/serverApiConfig';
-import { PencilIcon, LockClosedIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
+import {
+  PencilSquareIcon,
+  LockClosedIcon,
+  ArrowRightOnRectangleIcon,
+  UserCircleIcon,
+  EnvelopeIcon,
+  ShieldCheckIcon,
+} from '@heroicons/react/24/outline';
 import Icon from '@/components/Icon';
 
-const AdminInfo = ({ config }) => {
-  const translate = useLanguage();
+export default function AdminInfo() {
   const navigate = useNavigate();
   const { profileContextAction } = useProfileContext();
   const { modal, updatePanel } = profileContextAction;
-  const { ENTITY_NAME } = config;
-  const currentAdmin = useSelector(selectCurrentAdmin);
-
+  const admin = useSelector(selectCurrentAdmin);
+  const fullName = [admin?.name, admin?.surname].filter(Boolean).join(' ') || 'Your account';
+  const initials =
+    `${admin?.name?.charAt(0) || ''}${admin?.surname?.charAt(0) || ''}`.toUpperCase() || 'N';
   return (
     <>
-      <PageHeader
-        onBack={() => window.history.back()}
-        title={ENTITY_NAME}
-        ghost={false}
-        extra={[
-          <Button
-            key={`${uniqueId()}`}
-            onClick={() => {
-              updatePanel.open();
-            }}
-            type="primary"
-            icon={<Icon component={PencilIcon} />}
-          >
-            {translate('Edit')}
-          </Button>,
-          <Button
-            key={`${uniqueId()}`}
-            icon={<Icon component={LockClosedIcon} />}
-            onClick={() => {
-              modal.open();
-            }}
-          >
-            {translate('Update Password')}
-          </Button>,
-        ]}
-        style={{
-          padding: '20px 0px',
-        }}
-      ></PageHeader>
-      <Row align="middle">
-        <Col xs={{ span: 24 }} sm={{ span: 7 }} md={{ span: 5 }}>
+      <header className="profile-page-header">
+        <div>
+          <span className="settings-eyebrow">PERSONAL WORKSPACE</span>
+          <h1>Your profile</h1>
+          <p>A few details that make this workspace yours.</p>
+        </div>
+        <Button
+          type="primary"
+          icon={<Icon component={PencilSquareIcon} />}
+          onClick={updatePanel.open}
+        >
+          Edit profile
+        </Button>
+      </header>
+      <div className="profile-overview-grid">
+        <section className="profile-identity-card">
+          <div className="profile-cover" />
           <Avatar
-            className="last left"
-            src={currentAdmin?.photo ? FILE_BASE_URL + currentAdmin?.photo : undefined}
-            size={96}
-            style={{
-              color: '#f56a00',
-              backgroundColor: currentAdmin?.photo ? 'none' : '#fde3cf',
-              boxShadow: 'rgba(150, 190, 238, 0.35) 0px 0px 15px 3px',
-              fontSize: '48px',
-            }}
-            alt={`${currentAdmin?.name}`}
+            className="profile-avatar"
+            src={admin?.photo ? (FILE_BASE_URL || '') + admin.photo : undefined}
+            size={88}
+            alt={fullName}
           >
-            {currentAdmin?.name.charAt(0).toUpperCase()}
+            {initials}
           </Avatar>
-        </Col>
-        <Col xs={{ span: 24 }} sm={{ span: 18 }}>
-          <Descriptions column={1} size="middle">
-            <Descriptions.Item label={translate('first name')}>
-              {currentAdmin?.name}
-            </Descriptions.Item>
-            <Descriptions.Item label={translate('last name')}>
-              {currentAdmin?.surname}
-            </Descriptions.Item>
-            <Descriptions.Item label={translate('email')}>{currentAdmin?.email}</Descriptions.Item>
-            <Descriptions.Item label={translate('role')}>{currentAdmin?.role}</Descriptions.Item>
-          </Descriptions>
-        </Col>
-      </Row>
-      <Divider />
-      <Button
-        key={`${uniqueId()}`}
-        icon={<Icon component={ArrowRightOnRectangleIcon} />}
-        className="right"
-        onClick={() => navigate('/logout')}
-      >
-        {translate('Logout')}
-      </Button>
+          <h2>{fullName}</h2>
+          <p>{admin?.email || 'No email address added'}</p>
+          <span className="profile-role">
+            <ShieldCheckIcon />
+            {admin?.role || 'Team member'}
+          </span>
+          <div className="profile-identity-caption">Your Nexus workspace account</div>
+        </section>
+        <section className="profile-details-card">
+          <div className="profile-card-heading">
+            <span className="profile-section-icon">
+              <UserCircleIcon />
+            </span>
+            <div>
+              <h2>Account details</h2>
+              <p>How you appear across your workspace.</p>
+            </div>
+          </div>
+          <dl className="profile-details-list">
+            <div>
+              <dt>First name</dt>
+              <dd>{admin?.name || '—'}</dd>
+            </div>
+            <div>
+              <dt>Last name</dt>
+              <dd>{admin?.surname || '—'}</dd>
+            </div>
+            <div>
+              <dt>
+                <EnvelopeIcon />
+                Email address
+              </dt>
+              <dd>{admin?.email || '—'}</dd>
+            </div>
+            <div>
+              <dt>Account role</dt>
+              <dd className="profile-role-value">{admin?.role || '—'}</dd>
+            </div>
+          </dl>
+        </section>
+      </div>
+      <section className="profile-security-card">
+        <div className="profile-card-heading">
+          <span className="profile-section-icon">
+            <LockClosedIcon />
+          </span>
+          <div>
+            <h2>Password and security</h2>
+            <p>A strong password helps protect your business.</p>
+          </div>
+        </div>
+        <Button onClick={modal.open}>Update password</Button>
+      </section>
+      <footer className="profile-footer">
+        <span>Finished for now? You can safely sign out.</span>
+        <Button
+          icon={<Icon component={ArrowRightOnRectangleIcon} />}
+          onClick={() => navigate('/logout')}
+        >
+          Sign out
+        </Button>
+      </footer>
     </>
   );
-};
-export default AdminInfo;
+}

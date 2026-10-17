@@ -1,10 +1,3 @@
-import React from 'react';
-import { Layout } from 'antd';
-
-const { Footer } = Layout;
-
-const FooterContent = () => (
-  <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-);
-
-export default FooterContent;
+export default function FooterContent() {
+  return <footer className="workspace-footer"><span>Nexus CRM</span><span>Your business, in focus.</span></footer>;
+}

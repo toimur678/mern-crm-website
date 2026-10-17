@@ -1,4 +1,3 @@
-import React from 'react';
 import { Pagination, Spin } from 'antd';
 
 export default function CustomTable({

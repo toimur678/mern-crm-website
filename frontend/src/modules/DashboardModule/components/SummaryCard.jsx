@@ -50,7 +50,6 @@ export default function SummaryCard({
 
   return (
     <div className="crm-dashboard-card" style={{ padding: '20px 24px', height: '100%' }}>
-      {/* Top: Icon + More */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '16px' }}>
         <div
           style={{
@@ -67,11 +66,9 @@ export default function SummaryCard({
           <IconComponent style={{ width: '22px', height: '22px', color: colors.icon }} />
         </div>
 
-        {/* Three-dot menu placeholder */}
         <span style={{ color: 'var(--text-tertiary)', cursor: 'pointer', fontSize: '18px', lineHeight: 1 }}>⋮</span>
       </div>
 
-      {/* Title */}
       <p
         style={{
           color: 'var(--text-secondary)',
@@ -84,7 +81,6 @@ export default function SummaryCard({
         {title}
       </p>
 
-      {/* Value */}
       {isLoading ? (
         <Spin size="small" />
       ) : (
@@ -112,7 +108,6 @@ export default function SummaryCard({
         </Tooltip>
       )}
 
-      {/* Growth indicator */}
       {growth && (
         <div className={`stat-growth ${isPositive ? 'positive' : 'negative'}`}>
           <span style={{ fontSize: '12px', marginRight: '2px' }}>
@@ -124,7 +119,6 @@ export default function SummaryCard({
         </div>
       )}
 
-      {/* Prefix/subtitle */}
       {prefix && !growth && (
         <span
           style={{

@@ -36,20 +36,18 @@ const DoSingleStorage = ({
 
       try {
         if (!fileFilterMiddleware({ type: fileType, mimetype: req.files.file.mimetype })) {
-          // skip upload if File type not supported
           throw new Error('Uploaded file type not supported');
-          // next();
         }
         let fileExtension = path.extname(req.files.file.name);
         const fileNameWithoutExt = path.parse(req.files.file.name).name;
 
-        let uniqueFileID = Math.random().toString(36).slice(2, 7); // generates unique ID of length 5
+        let uniqueFileID = Math.random().toString(36).slice(2, 7);
 
         let originalname = '';
         if (req.body.seotitle) {
-          originalname = slugify(req.body.seotitle.toLocaleLowerCase()); // convert any language to English characters
+          originalname = slugify(req.body.seotitle.toLocaleLowerCase());
         } else {
-          originalname = slugify(fileNameWithoutExt.toLocaleLowerCase()); // convert any language to English characters
+          originalname = slugify(fileNameWithoutExt.toLocaleLowerCase());
         }
 
         let _fileName = `${originalname}-${uniqueFileID}${fileExtension}`;
@@ -66,7 +64,6 @@ const DoSingleStorage = ({
         const s3response = await s3Client.send(command);
 
         if (s3response.$metadata.httpStatusCode === 200) {
-          // saving file name and extension in request upload object
           req.upload = {
             fileName: _fileName,
             fieldExt: fileExtension,

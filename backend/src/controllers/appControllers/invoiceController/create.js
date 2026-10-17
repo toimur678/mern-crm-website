@@ -21,17 +21,13 @@ const create = async (req, res) => {
 
   const { items = [], taxRate = 0, discount = 0 } = value;
 
-  // default
   let subTotal = 0;
   let taxTotal = 0;
   let total = 0;
 
-  //Calculate the items array with subTotal, total, taxTotal
   items.map((item) => {
     let total = calculate.multiply(item['quantity'], item['price']);
-    //sub total
     subTotal = calculate.add(subTotal, total);
-    //item total
     item['total'] = total;
   });
   taxTotal = calculate.multiply(subTotal, taxRate / 100);
@@ -47,7 +43,6 @@ const create = async (req, res) => {
   body['paymentStatus'] = paymentStatus;
   body['createdBy'] = req.admin._id;
 
-  // Creating a new document in the collection
   const result = await new Model(body).save();
   const fileId = 'invoice-' + result._id + '.pdf';
   const updateResult = await Model.findOneAndUpdate(
@@ -57,13 +52,11 @@ const create = async (req, res) => {
       new: true,
     }
   ).exec();
-  // Returning successfull response
 
   increaseBySettingKey({
     settingKey: 'last_invoice_number',
   });
 
-  // Returning successfull response
   return res.status(200).json({
     success: true,
     result: updateResult,

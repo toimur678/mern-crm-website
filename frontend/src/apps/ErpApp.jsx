@@ -1,86 +1,45 @@
-import { useLayoutEffect, Suspense } from 'react';
-import { useEffect } from 'react';
-import { selectAppSettings } from '@/redux/settings/selectors';
+import { Suspense, useEffect, useState } from 'react';
+import { Button, Result } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Layout } from 'antd';
-
-import { useAppContext } from '@/context/appContext';
-
 import Navigation from '@/apps/Navigation/NavigationContainer';
-
 import HeaderContent from '@/apps/Header/HeaderContainer';
 import PageLoader from '@/components/PageLoader';
 import ContentLoader from '@/components/ContentLoader';
-import PageTransition from '@/components/PageTransition';
-
 import { settingsAction } from '@/redux/settings/actions';
-
 import { selectSettings } from '@/redux/settings/selectors';
-
 import AppRouter from '@/router/AppRouter';
 
-import useResponsive from '@/hooks/useResponsive';
-
-import storePersist from '@/redux/storePersist';
-
 export default function ErpCrmApp() {
-  const { Content } = Layout;
-
-  const { isMobile } = useResponsive();
-
   const dispatch = useDispatch();
+  const { isSuccess, isLoading } = useSelector(selectSettings);
+  const [requested, setRequested] = useState(false);
+  const [hasLoadedSettings, setHasLoadedSettings] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    if (isSuccess) setHasLoadedSettings(true);
+  }, [isSuccess]);
+
+  useEffect(() => {
     dispatch(settingsAction.list({ entity: 'setting' }));
-  }, []);
+    setRequested(true);
+  }, [dispatch]);
 
-  const { isSuccess: settingIsloaded } = useSelector(selectSettings);
+  if (!isSuccess && !hasLoadedSettings) {
+    if (!requested || isLoading) return <PageLoader />;
+    return <div className="workspace-error"><Result status="warning" title="Your workspace couldn’t load" subTitle="Check your connection and try again." extra={<Button type="primary" onClick={() => dispatch(settingsAction.list({ entity: 'setting' }))}>Try again</Button>} /></div>;
+  }
 
-  if (settingIsloaded)
-    return (
-      <Layout
-        hasSider
-        style={{
-          background: 'transparent',
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '0px',
-          paddingRight: '24px',
-        }}
-      >
-        <Navigation />
-
-        <Layout
-          style={{
-            background: 'transparent',
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0px',
-            paddingLeft: '24px',
-          }}
-        >
-          <HeaderContent />
-          <Content
-            className="content-stable"
-            style={{
-              overflow: 'auto',
-              width: '100%',
-              maxWidth: 'none',
-              paddingBottom: '24px',
-            }}
-          >
-            <Suspense fallback={<ContentLoader />}>
-              <PageTransition>
-                <AppRouter />
-              </PageTransition>
-            </Suspense>
-          </Content>
-        </Layout>
-      </Layout>
-    );
-  else return <PageLoader />;
+  return (
+    <div className="workspace-shell">
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <Navigation />
+      <div className="workspace-main">
+        <HeaderContent />
+        <main id="main-content" className="workspace-content" tabIndex={-1}>
+          <Suspense fallback={<ContentLoader />}><AppRouter /></Suspense>
+        </main>
+        <footer className="workspace-footer"><span>Nexus CRM</span><span>A little more clarity. A lot more possibility.</span></footer>
+      </div>
+    </div>
+  );
 }
-

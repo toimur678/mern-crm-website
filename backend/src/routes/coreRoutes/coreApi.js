@@ -9,13 +9,9 @@ const settingController = require('@/controllers/coreControllers/settingControll
 
 const { singleStorageUpload } = require('@/middlewares/uploadMiddleware');
 
-// //_______________________________ Admin management_______________________________
-
 router.route('/admin/read/:id').get(catchErrors(adminController.read));
 
 router.route('/admin/password-update/:id').patch(catchErrors(adminController.updatePassword));
-
-//_______________________________ Admin Profile _______________________________
 
 router.route('/admin/profile/password').patch(catchErrors(adminController.updateProfilePassword));
 router
@@ -25,12 +21,9 @@ router
     catchErrors(adminController.updateProfile)
   );
 
-// //____________________________________________ API for Global Setting _________________
-
 router.route('/setting/create').post(catchErrors(settingController.create));
 router.route('/setting/read/:id').get(catchErrors(settingController.read));
 router.route('/setting/update/:id').patch(catchErrors(settingController.update));
-//router.route('/setting/delete/:id).delete(catchErrors(settingController.delete));
 router.route('/setting/search').get(catchErrors(settingController.search));
 router.route('/setting/list').get(catchErrors(settingController.list));
 router.route('/setting/listAll').get(catchErrors(settingController.listAll));

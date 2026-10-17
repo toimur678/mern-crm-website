@@ -18,7 +18,6 @@ function useAppContext() {
   }
   const [state, dispatch] = context;
   const appContextAction = contextActions(dispatch);
-  // const appContextSelector = contextSelectors(state);
   return { state, appContextAction };
 }
 

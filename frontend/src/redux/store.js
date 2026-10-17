@@ -1,11 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-
-import lang from '@/locale/translation/en_us';
-
 import rootReducer from './rootReducer';
 import storePersist from './storePersist';
-
-// localStorageHealthCheck();
 
 const AUTH_INITIAL_STATE = {
   current: {},
@@ -21,11 +16,7 @@ const initialState = { auth: auth_state };
 const store = configureStore({
   reducer: rootReducer,
   preloadedState: initialState,
-  devTools: import.meta.env.PROD === false, // Enable Redux DevTools in development mode
+  devTools: import.meta.env.PROD === false,
 });
-
-console.log(
-
-);
 
 export default store;

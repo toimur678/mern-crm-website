@@ -8,8 +8,8 @@ export default function GeneralSettingsModule({ config }) {
   return (
     <UpdateSettingModule config={config}>
       <SetingsSection
-        title={translate('App Settings')}
-        description={translate('Update your app configuration')}
+        title={translate('General preferences')}
+        description="Set the defaults for your everyday work."
       >
         <GeneralSettingForm />
       </SetingsSection>

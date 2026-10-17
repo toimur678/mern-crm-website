@@ -1,17 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Input, Form, Select, Switch } from 'antd';
-
+import { Input, Form, Select } from 'antd';
 
 import useLanguage from '@/locale/useLanguage';
-import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
-import Icon from '@/components/Icon';
 
 export default function GeneralSettingForm() {
   const translate = useLanguage();
-  const dispatch = useDispatch();
 
   return (
-    <div>
+    <div className="settings-fields-grid">
       <Form.Item
         label={translate('Date Format')}
         name="idurar_app_date_format"
@@ -84,7 +79,7 @@ export default function GeneralSettingForm() {
           },
         ]}
       >
-        <Input />
+        <Input type="email" autoComplete="email" placeholder="hello@company.com" />
       </Form.Item>
     </div>
   );

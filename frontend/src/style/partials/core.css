@@ -12,15 +12,13 @@
   margin-top: -19px;
 }
 
-/* ─── White Card ─── */
 .whiteBox {
   background: var(--bg-surface);
   width: 100%;
   min-height: 100px;
   overflow: hidden;
-  transition: all var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
   border-radius: var(--radius-card);
-  border: none;
+  border: 1px solid var(--border-color-light);
   box-shadow: var(--shadow-card);
 }
 
@@ -28,21 +26,12 @@
   background: var(--bg-surface) !important;
   border-radius: var(--radius-card) !important;
   box-shadow: var(--shadow-card) !important;
-  border: none !important;
+  border: 1px solid var(--border-color-light);
 }
 
-.whiteBox:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-/* ─── Card Shadow ─── */
 .shadow {
   box-shadow: var(--shadow-card);
   border: none;
-}
-.shadow:hover {
-  box-shadow: var(--shadow-md);
 }
 
 .line {

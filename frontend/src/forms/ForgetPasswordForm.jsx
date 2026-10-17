@@ -1,30 +1,21 @@
-import React from 'react';
 import { Form, Input } from 'antd';
-
-import useLanguage from '@/locale/useLanguage';
-
-// import useLanguage from '@/locale/useLanguage';
 import { EnvelopeIcon } from '@heroicons/react/24/outline';
-import Icon from '@/components/Icon';
 
 export default function ForgetPasswordForm() {
-  const translate=useLanguage()
   return (
     <Form.Item
+      label="Email address"
       name="email"
       rules={[
-        {
-          required: true,
-        },
-        {
-          type: 'email',
-        },
+        { required: true, message: 'Enter your email address.' },
+        { type: 'email', message: 'Enter a valid email address.' },
       ]}
     >
       <Input
-        prefix={<Icon component={EnvelopeIcon} className="site-form-item-icon" />}
+        prefix={<EnvelopeIcon />}
         type="email"
-        placeholder={translate('email')}
+        autoComplete="email"
+        placeholder="you@company.com"
         size="large"
       />
     </Form.Item>

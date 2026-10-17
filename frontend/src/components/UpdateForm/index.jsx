@@ -18,16 +18,12 @@ export default function UpdateForm({ config, formElements, withUpload = false })
   const { current, isLoading, isSuccess } = useSelector(selectUpdatedItem);
 
   const { state, crudContextAction } = useCrudContext();
-
-  /////
-
   const { panel, collapsedBox, readBox } = crudContextAction;
 
   const showCurrentRecord = () => {
     readBox.open();
   };
 
-  /////
   const [form] = Form.useForm();
 
   const onSubmit = (fieldsValue) => {
@@ -36,10 +32,6 @@ export default function UpdateForm({ config, formElements, withUpload = false })
     if (fieldsValue.file && withUpload) {
       fieldsValue.file = fieldsValue.file[0].originFileObj;
     }
-    // const trimmedValues = Object.keys(fieldsValue).reduce((acc, key) => {
-    //   acc[key] = typeof fieldsValue[key] === 'string' ? fieldsValue[key].trim() : fieldsValue[key];
-    //   return acc;
-    // }, {});
     dispatch(crud.update({ entity, id, jsonData: fieldsValue, withUpload }));
   };
   useEffect(() => {
@@ -87,7 +79,6 @@ export default function UpdateForm({ config, formElements, withUpload = false })
       panel.open();
       form.resetFields();
       dispatch(crud.resetAction({ actionType: 'update' }));
-      dispatch(crud.list({ entity }));
     }
   }, [isSuccess]);
 
@@ -97,7 +88,7 @@ export default function UpdateForm({ config, formElements, withUpload = false })
   return (
     <div style={show}>
       <Loading isLoading={isLoading}>
-        <Form form={form} layout="vertical" onFinish={onSubmit}>
+        <Form form={form} disabled={isLoading} layout="vertical" onFinish={onSubmit}>
           {formElements}
           <Form.Item
             style={{
@@ -105,7 +96,7 @@ export default function UpdateForm({ config, formElements, withUpload = false })
               paddingRight: '5px',
             }}
           >
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={isLoading}>
               {translate('Save')}
             </Button>
           </Form.Item>
